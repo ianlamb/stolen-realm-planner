@@ -1,0 +1,18 @@
+{
+  "Bleeding": "Target takes physical damage for each hex they move.",
+  "Poisoned": "Target takes shadow damage each turn.",
+  "Crippled": "Movement costs doubled.",
+  "Stealth": "Invisible. Attacking from Stealth has 100% critical hit chance.",
+  "Disabled": "Cannot perform actions.",
+  "Blind": "Skill range is reduced to 1 hex.",
+  "Immobilized": "Cannot move.",
+  "Stunned": "Cannot move or perform actions.",
+  "Marked Prey": "Damage taken increased by 10% per stack.",
+  "Salvation": "Maximum health increased by 5% per stack.",
+  "Chilled":
+      "Movement points reduced by one per stack. Lasts 2 turns. Five stacks of Chilled freezes the target.",
+  "Frozen": "Cannot move or perform actions",
+  "Shocked":
+      "Incoming critical strike damage increased by 10% per stack. Lasts 3 turns. Can stack up to 10 times.",
+  "Heat": "Elemental resistance reduced by 5% per stack. Lasts 3 turns. Can stack up to 10 times."
+}

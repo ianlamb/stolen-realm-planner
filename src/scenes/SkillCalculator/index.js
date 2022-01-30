@@ -1,13 +1,7 @@
-import { useContext } from 'react'
+import React from 'react'
 import { Outlet, Link } from 'react-router-dom'
 
-import { store } from '../../store'
-
 export function SkillCalculator({ skillTrees }) {
-    const globalState = useContext(store)
-    const { dispatch, state } = globalState
-    const { skills } = state
-
     return (
         <div>
             <div>

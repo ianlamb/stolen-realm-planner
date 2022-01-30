@@ -1,0 +1,19 @@
+[
+  {
+    "id": "immolate",
+    "title": "Immolate",
+    "tier": 1,
+    "skillTree": "fire",
+    "skillPointCost": 1,
+    "type": "active",
+    "description": "Burns the target for X fire damage each turn. All fire damage applies Heat.",
+    "requires": null,
+    "replaces": null,
+    "exclusiveWith": null,
+    "actionPointCost": 1,
+    "duration": 3,
+    "range": 8,
+    "manaCost": 40,
+    "cooldown": 3
+  }
+]
