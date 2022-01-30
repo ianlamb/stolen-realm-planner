@@ -30,6 +30,7 @@ const Icon = styled.img(({ theme, grayscale }) => ({
 }))
 
 const TooltipContainer = styled.div(({ theme }) => ({
+    maxWidth: 400,
     backgroundColor: 'rgba(0, 0, 0, 0.75)',
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
 }))
@@ -54,6 +55,10 @@ const HightlightText = styled.span(({ theme }) => ({
     color: theme.palette.text.highlight,
 }))
 
+const ErrorText = styled.span(({ theme }) => ({
+    color: theme.palette.text.error,
+}))
+
 const GlossaryItemTitle = styled.div(({ theme }) => ({
     color: theme.palette.text.highlight,
     fontStyle: 'italic',
@@ -70,6 +75,7 @@ export default function Skill({
     top = 0,
     toggleSkill,
     isLearned,
+    learnability,
 }) {
     let decoratedDescription = skill.description
     let glossaryItems = []
@@ -79,7 +85,7 @@ export default function Skill({
             decoratedDescription = replaceJSX(
                 decoratedDescription,
                 new RegExp(word, 'g'),
-                <HightlightText>{word}</HightlightText>
+                <HightlightText key={word}>{word}</HightlightText>
             )
 
             glossaryItems.push({
@@ -122,8 +128,10 @@ export default function Skill({
                             <Section>
                                 {isLearned ? (
                                     <HightlightText>Learned</HightlightText>
-                                ) : (
+                                ) : learnability.canLearn ? (
                                     'Click To Learn'
+                                ) : (
+                                    <ErrorText>{learnability.reason}</ErrorText>
                                 )}
                             </Section>
                             <Section>{decoratedDescription}</Section>

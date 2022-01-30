@@ -2,6 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 import { useDispatch, useAppState } from '../../store'
+import { isLearned, getPointsSpentInTree } from './index'
 import Skill from './Skill'
 
 const OFFSET_MULTIPLIER = 42
@@ -96,15 +97,38 @@ export default function SkillTree({ id, title }) {
     const activeSkills = relevantSkills.filter((s) => s.type === 'active')
     const passiveSkills = relevantSkills.filter((s) => s.type === 'passive')
 
-    const isLearned = (skill) => {
-        return !!character.learnedSkills.find((ls) => ls === skill.id)
+    const pointsSpentInThisTree = getPointsSpentInTree(
+        relevantSkills,
+        character.learnedSkills
+    )
+
+    const requiredPointsForTier = (tier) => {
+        return (tier - 1) * 2
+    }
+
+    const getLearnability = (skill) => {
+        let learnability = {
+            canLearn: true,
+            reason: '',
+        }
+        if (character.skillPointsRemaining - skill.skillPointCost < 0) {
+            learnability.canLearn = false
+            learnability.reason = 'Not enough skill points'
+        }
+        if (requiredPointsForTier(skill.tier) > pointsSpentInThisTree) {
+            learnability.canLearn = false
+            learnability.reason = 'Not enough points spent in skill tree'
+        }
+        return learnability
     }
 
     const toggleSkill = (skill) => {
-        if (isLearned(skill)) {
-            dispatch({ type: 'unlearnSkill', payload: { ...skill } })
+        if (!isLearned(skill, character.learnedSkills)) {
+            if (getLearnability(skill).canLearn) {
+                dispatch({ type: 'learnSkill', payload: { ...skill } })
+            }
         } else {
-            dispatch({ type: 'learnSkill', payload: { ...skill } })
+            dispatch({ type: 'unlearnSkill', payload: { ...skill } })
         }
     }
 
@@ -119,7 +143,8 @@ export default function SkillTree({ id, title }) {
                         left={getSkillPosition(skill).x}
                         top={getSkillPosition(skill).y}
                         toggleSkill={toggleSkill}
-                        isLearned={isLearned(skill)}
+                        isLearned={isLearned(skill, character.learnedSkills)}
+                        learnability={getLearnability(skill)}
                     />
                 ))}
             </ActiveSkills>
@@ -132,7 +157,8 @@ export default function SkillTree({ id, title }) {
                         left={getSkillPosition(skill).x}
                         top={getSkillPosition(skill).y}
                         toggleSkill={toggleSkill}
-                        isLearned={isLearned(skill)}
+                        isLearned={isLearned(skill, character.learnedSkills)}
+                        learnability={getLearnability(skill)}
                     />
                 ))}
             </PassiveSkills>

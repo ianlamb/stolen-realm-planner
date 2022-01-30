@@ -41,8 +41,25 @@ const SkillPointCounter = styled.div(({ theme }) => ({
     color: theme.palette.text.highlight,
 }))
 
+export const isLearned = (skill, learnedSkills) => {
+    return !!learnedSkills.find((ls) => ls === skill.id)
+}
+
+export const getPointsSpentInTree = (skillTreeSkills, learnedSkills) => {
+    if (!skillTreeSkills) {
+        return 0
+    }
+
+    return skillTreeSkills.reduce((acc, skill) => {
+        if (isLearned(skill, learnedSkills)) {
+            acc += skill.skillPointCost
+        }
+        return acc
+    }, 0)
+}
+
 export function SkillCalculator({ skillTrees }) {
-    const { character } = useAppState()
+    const { character, skills } = useAppState()
 
     return (
         <Root>
@@ -54,7 +71,14 @@ export function SkillCalculator({ skillTrees }) {
             <SkillTreeNav>
                 {skillTrees.map((skillTree) => (
                     <NavItem key={skillTree.id}>
-                        <NavLink to={skillTree.id}>{skillTree.title}</NavLink>
+                        <NavLink to={skillTree.id}>
+                            {skillTree.title} (
+                            {getPointsSpentInTree(
+                                skills[skillTree.id],
+                                character.learnedSkills
+                            )}
+                            )
+                        </NavLink>
                     </NavItem>
                 ))}
             </SkillTreeNav>
