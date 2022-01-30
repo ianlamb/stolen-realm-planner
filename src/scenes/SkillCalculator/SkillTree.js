@@ -11,13 +11,46 @@ const skillLeftOffsetMap = {
     // fire
     immolate: 2,
 
-    // warrior
+    // warrior active
     fracture: 2,
     rage: 6,
     'double-edge': 12,
     'elemental-fracture': 1,
     'threatening-fracture': 3,
+    'tempered-rage': 5,
+    'beserkers-rage': 7,
+    cleave: 9,
+    bloodlet: 12,
+    slam: 2,
+    'warriors-boon': 4,
+    howl: 6,
+    'bleeding-cleave': 8,
+    'life-cleave': 10,
+    'stunning-slam': 1,
+    'crushing-slam': 3,
+    'vitality-break': 12,
+    'unyielding-contender': 3,
+    sunder: 6,
+
+    // warrior passive
     wanderer: 1,
+    'warmonger-1': 3,
+    'guardian-1': 5,
+    challenger: 7,
+    opportunist: 1,
+    'warmonger-2': 3,
+    'guardian-2': 5,
+    'into-the-fray': 7,
+    'furious-george': 1,
+    'shield-mastery': 3,
+    'two-handed-mastery': 5,
+    'dual-wield-mastery': 7,
+    'beserkers-blood': 9,
+    'bone-collector': 1,
+    'blood-drinker': 3,
+    executioner: 5,
+    colossus: 1,
+    indestructible: 3,
 }
 
 const getSkillPosition = (skill) => {
@@ -30,9 +63,8 @@ const getSkillPosition = (skill) => {
 const Root = styled.div(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
-    width: 1200,
-    height: 400,
-    margin: '0 auto',
+    width: '100%',
+    height: 440,
 }))
 
 const ActiveSkills = styled.div(({ theme }) => ({

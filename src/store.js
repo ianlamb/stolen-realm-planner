@@ -5,7 +5,7 @@ import warrior from './data/skills/warrior.json'
 const initialState = {
     character: {
         level: 30,
-        skillPoints: 30,
+        skillPointsRemaining: 30,
         learnedSkills: [],
     },
     skills: {
@@ -27,6 +27,9 @@ export const StateProvider = ({ children }) => {
                     ...state,
                     character: {
                         ...state.character,
+                        skillPointsRemaining:
+                            state.character.skillPointsRemaining -
+                            action.payload.skillPointCost,
                         learnedSkills: [
                             ...state.character.learnedSkills,
                             action.payload.id,
@@ -49,6 +52,9 @@ export const StateProvider = ({ children }) => {
                     ...state,
                     character: {
                         ...state.character,
+                        skillPointsRemaining:
+                            state.character.skillPointsRemaining +
+                            action.payload.skillPointCost,
                         learnedSkills: modifiedLearnedSkills,
                     },
                 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { isNil } from 'lodash-es'
 
 import effectsGlossary from '../../data/effectsGlossary.json'
 import { replaceJSX } from '../../lib/helpers'
@@ -94,6 +95,8 @@ export default function Skill({
 
     const getRangeText = (range) => {
         switch (range) {
+            case -1:
+                return 'Special'
             case 0:
                 return 'Self'
             case 1:
@@ -124,35 +127,48 @@ export default function Skill({
                                 )}
                             </Section>
                             <Section>{decoratedDescription}</Section>
+                            {skill.replaces && (
+                                <Section>
+                                    Replaces{' '}
+                                    <HightlightText>
+                                        {skill.replaces}
+                                    </HightlightText>
+                                </Section>
+                            )}
                             {skill.type === 'active' && (
                                 <Section>
-                                    {skill.actionPointCost !== undefined && (
+                                    {!isNil(skill.actionPointCost) && (
                                         <div>
                                             AP Cost:{' '}
                                             {skill.actionPointCost || 'None'}
                                         </div>
                                     )}
-                                    {skill.duration !== undefined && (
+                                    {!isNil(skill.duration) && (
                                         <div>
                                             Duration:{' '}
                                             {getDurationText(skill.duration)}
                                         </div>
                                     )}
-                                    {skill.range !== undefined && (
+                                    {!isNil(skill.range) && (
                                         <div>
                                             Range: {getRangeText(skill.range)}
                                         </div>
                                     )}
-                                    {skill.manaCost !== undefined && (
+                                    {!isNil(skill.blastRadius) && (
+                                        <div>
+                                            Range: {getRangeText(skill.range)}
+                                        </div>
+                                    )}
+                                    {!isNil(skill.manaCost) && (
                                         <div>Mana Cost: {skill.manaCost}</div>
                                     )}
-                                    {skill.cooldown !== undefined && (
+                                    {!isNil(skill.cooldown) && (
                                         <div>Cooldown: {skill.cooldown}</div>
                                     )}
                                 </Section>
                             )}
                             {glossaryItems.map((item) => (
-                                <Section>
+                                <Section key={item.title}>
                                     <GlossaryItemTitle>
                                         {item.title}
                                     </GlossaryItemTitle>
