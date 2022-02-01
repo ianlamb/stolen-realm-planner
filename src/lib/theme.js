@@ -14,7 +14,7 @@ export const theme = {
     sizing: {
         skillIcon: 56,
         skillTreeIcon: 78,
-        iconBorderWidth: 4,
+        iconBorderWidth: 3,
     },
     spacing: (amount) => amount * spacingMultiplier,
 }

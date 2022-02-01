@@ -5,6 +5,11 @@ import { isNil } from 'lodash-es'
 import effectsGlossary from '../../data/effectsGlossary.json'
 import { replaceJSX } from '../../lib/helpers'
 import { Tooltip, HightlightText, ErrorText } from '../../components'
+import {
+    SkillTreeIcon,
+    SkillTreeIconImg,
+    SkillTreeIconAnnotation,
+} from './index'
 
 const Root = styled.div(({ theme, left, top }) => ({
     position: 'absolute',
@@ -12,24 +17,25 @@ const Root = styled.div(({ theme, left, top }) => ({
     top,
 }))
 
-const Icon = styled.img(({ theme, grayscale }) => ({
-    boxSizing: 'content-box',
+const SkillIcon = styled(SkillTreeIcon)(({ theme }) => ({
     width: theme.sizing.skillIcon,
     height: theme.sizing.skillIcon,
     maxWidth: theme.sizing.skillIcon,
     maxHeight: theme.sizing.skillIcon,
-    overflow: 'hidden',
-    border: `${theme.sizing.iconBorderWidth}px solid transparent`,
-    '&:hover': {
-        borderColor: 'rgba(255, 255, 255, 0.75)',
-    },
     cursor: 'pointer',
+}))
+
+const SkillIconImg = styled(SkillTreeIconImg)(({ theme, grayscale }) => ({
     filter: grayscale && `grayscale(1)`,
 }))
 
+const SkillIconAnnotation = styled(SkillTreeIconAnnotation)(({ theme }) => ({
+    background: 'none',
+}))
+
 const TooltipContainer = styled.div(({ theme }) => ({
-    maxWidth: 400,
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    width: 300,
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
 }))
 
@@ -44,6 +50,7 @@ const Title = styled.div(({ theme }) => ({
 const Content = styled.div(({ theme }) => ({}))
 
 const Section = styled.div(({ theme }) => ({
+    width: '100%',
     '&:not(:last-of-type)': {
         marginBottom: theme.spacing(1),
     },
@@ -65,8 +72,14 @@ export default function Skill({
     top = 0,
     toggleSkill,
     isLearned,
+    hasRequirement,
     learnability,
 }) {
+    // right now skills that require/replace other skills have the same icon
+    const iconUrl = `/skill-icons/${skill.skillTree}/${
+        skill.requires || skill.id
+    }.png`
+
     let decoratedDescription = skill.description
     let glossaryItems = []
 
@@ -179,12 +192,19 @@ export default function Skill({
                     </TooltipContainer>
                 }
             >
-                <Icon
-                    src={`/skill-icons/${skill.id}.jpg`}
-                    alt={`skill icon: ${skill.id}`}
-                    grayscale={!isLearned}
-                    onClick={handleClick}
-                />
+                <SkillIcon onClick={handleClick}>
+                    <SkillIconImg
+                        src={iconUrl}
+                        alt={skill.title}
+                        grayscale={!isLearned}
+                    />
+                    {hasRequirement && (
+                        <SkillIconAnnotation>I</SkillIconAnnotation>
+                    )}
+                    {skill.requires && (
+                        <SkillIconAnnotation>II</SkillIconAnnotation>
+                    )}
+                </SkillIcon>
             </Tooltip>
         </Root>
     )

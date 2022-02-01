@@ -111,6 +111,19 @@ export default function SkillTree({ id, title }) {
         return (tier - 1) * 2
     }
 
+    const hasReplacement = (skill) => {
+        return !!relevantSkills.find(
+            (s) => s.replaces && s.replaces === skill.id
+        )
+    }
+
+    const hasRequirement = (skill) => {
+        return !!relevantSkills.find((s) => {
+            console.log('wat', skill.id, s.requires)
+            return s.requires && s.requires === skill.id
+        })
+    }
+
     const getLearnability = (skill) => {
         let learnability = {
             canLearn: true,
@@ -149,6 +162,7 @@ export default function SkillTree({ id, title }) {
                         top={getSkillPosition(skill).y}
                         toggleSkill={toggleSkill}
                         isLearned={isLearned(skill, character.learnedSkills)}
+                        hasRequirement={hasRequirement(skill)}
                         learnability={getLearnability(skill)}
                     />
                 ))}
@@ -163,6 +177,7 @@ export default function SkillTree({ id, title }) {
                         top={getSkillPosition(skill).y}
                         toggleSkill={toggleSkill}
                         isLearned={isLearned(skill, character.learnedSkills)}
+                        hasRequirement={hasRequirement(skill)}
                         learnability={getLearnability(skill)}
                     />
                 ))}

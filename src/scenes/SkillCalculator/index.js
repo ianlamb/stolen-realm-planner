@@ -27,7 +27,7 @@ const NavItem = styled.div(({ theme }) => ({
 
 const NavLink = styled(Link)(({ theme }) => ({}))
 
-const SkillTreeIcon = styled.div(({ theme, isActive }) => ({
+export const SkillTreeIcon = styled.div(({ theme, isActive }) => ({
     position: 'relative',
     width: theme.sizing.skillTreeIcon,
     height: theme.sizing.skillTreeIcon,
@@ -37,10 +37,10 @@ const SkillTreeIcon = styled.div(({ theme, isActive }) => ({
         display: 'block',
         content: '""',
         position: 'absolute',
-        top: -theme.sizing.iconBorderWidth / 2,
-        left: -theme.sizing.iconBorderWidth / 2,
-        right: -theme.sizing.iconBorderWidth / 2,
-        bottom: -theme.sizing.iconBorderWidth / 2,
+        top: -2,
+        left: -2,
+        right: -2,
+        bottom: -2,
         border: `${theme.sizing.iconBorderWidth}px solid ${
             isActive ? 'rgba(255, 255, 255, 0.5)' : 'transparent'
         }`,
@@ -52,19 +52,20 @@ const SkillTreeIcon = styled.div(({ theme, isActive }) => ({
     },
 }))
 
-const SkillTreeIconImg = styled.img(({ theme }) => ({
+export const SkillTreeIconImg = styled.img(({ theme }) => ({
     width: '100%',
     height: '100%',
 }))
 
-const SkillTreeCounter = styled.div(({ theme }) => ({
+export const SkillTreeIconAnnotation = styled.div(({ theme }) => ({
     position: 'absolute',
     bottom: 0,
     right: 0,
     padding: `0 4px`,
     fontSize: '70%',
+    textAlign: 'right',
     color: theme.palette.text.highlight,
-    background: 'rgba(0, 0, 0, 0.5)',
+    // background: 'rgba(0, 0, 0, 0.5)',
 }))
 
 const Heading = styled.div(({ theme }) => ({
@@ -104,7 +105,9 @@ export const SkillTreeNavItem = ({ skillTree, pointsSpent }) => {
                         src={`/skill-tree-icons/${skillTree.id}.png`}
                         alt={skillTree.title}
                     />
-                    <SkillTreeCounter>{pointsSpent}</SkillTreeCounter>
+                    <SkillTreeIconAnnotation>
+                        {pointsSpent}
+                    </SkillTreeIconAnnotation>
                 </SkillTreeIcon>
             </NavLink>
         </NavItem>
@@ -124,6 +127,7 @@ export const SkillCalculator = ({ skillTrees }) => {
             <SkillTreeNav>
                 {skillTrees.map((skillTree) => (
                     <SkillTreeNavItem
+                        key={skillTree.id}
                         skillTree={skillTree}
                         pointsSpent={getPointsSpentInTree(
                             skills[skillTree.id],

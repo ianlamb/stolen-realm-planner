@@ -22,6 +22,7 @@ Future ideas:
 
 ### Skill Calculator
 
+-   add locked overlay to icons that can't be learned
 -   add character level picker
 -   add ability to share builds
 -   add icons for skills
