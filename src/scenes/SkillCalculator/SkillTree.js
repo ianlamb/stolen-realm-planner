@@ -94,6 +94,11 @@ export default function SkillTree({ id, title }) {
     const dispatch = useDispatch()
     const { skills, character } = useAppState()
     const relevantSkills = skills[id]
+
+    if (!relevantSkills) {
+        return null
+    }
+
     const activeSkills = relevantSkills.filter((s) => s.type === 'active')
     const passiveSkills = relevantSkills.filter((s) => s.type === 'passive')
 

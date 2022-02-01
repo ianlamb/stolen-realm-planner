@@ -4,9 +4,7 @@ import { isNil } from 'lodash-es'
 
 import effectsGlossary from '../../data/effectsGlossary.json'
 import { replaceJSX } from '../../lib/helpers'
-import Tooltip from '../../components/Tooltip'
-
-const BORDER_WIDTH = 4
+import { Tooltip, HightlightText, ErrorText } from '../../components'
 
 const Root = styled.div(({ theme, left, top }) => ({
     position: 'absolute',
@@ -21,7 +19,7 @@ const Icon = styled.img(({ theme, grayscale }) => ({
     maxWidth: theme.sizing.skillIcon,
     maxHeight: theme.sizing.skillIcon,
     overflow: 'hidden',
-    border: `${BORDER_WIDTH}px solid transparent`,
+    border: `${theme.sizing.iconBorderWidth}px solid transparent`,
     '&:hover': {
         borderColor: 'rgba(255, 255, 255, 0.75)',
     },
@@ -49,14 +47,6 @@ const Section = styled.div(({ theme }) => ({
     '&:not(:last-of-type)': {
         marginBottom: theme.spacing(1),
     },
-}))
-
-const HightlightText = styled.span(({ theme }) => ({
-    color: theme.palette.text.highlight,
-}))
-
-const ErrorText = styled.span(({ theme }) => ({
-    color: theme.palette.text.error,
 }))
 
 const GlossaryItemTitle = styled.div(({ theme }) => ({
