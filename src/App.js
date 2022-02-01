@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import { ThemeProvider, Global } from '@emotion/react'
 import styled from '@emotion/styled'
+import Helmet from 'react-helmet'
 
 import { theme } from './lib/theme'
 import { StateProvider } from './store'
@@ -74,6 +75,15 @@ function App() {
                     },
                 }}
             />
+            <Helmet>
+                <meta
+                    property="og:title"
+                    content="Stolen Realm Character Planner"
+                />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="" />
+                <meta property="og:image" content="" />
+            </Helmet>
             <BrowserRouter>
                 <StateProvider>
                     <AppRoot>

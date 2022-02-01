@@ -16,7 +16,6 @@ Future ideas:
 
 ### General
 
--   add top nav
 -   style the shell of the app better
 -   use a better font
 -   add note about what game version the data is from
@@ -37,6 +36,7 @@ Future ideas:
 -   add locked overlay to icons that can't be learned
 -   add character level picker
 -   add ability to share builds
+    -   should be able to name your build as well
 -   add icons for skills
 -   add tooltip data for other skill trees
     -   fire
