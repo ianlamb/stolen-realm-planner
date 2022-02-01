@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { isNil } from 'lodash-es'
 
 import { useDispatch, useAppState } from '../../store'
 import { isLearned, getPointsSpentInTree } from './index'
@@ -118,10 +119,9 @@ export default function SkillTree({ id, title }) {
     }
 
     const hasRequirement = (skill) => {
-        return !!relevantSkills.find((s) => {
-            console.log('wat', skill.id, s.requires)
-            return s.requires && s.requires === skill.id
-        })
+        return !!relevantSkills.find(
+            (s) => s.requires && s.requires === skill.id
+        )
     }
 
     const getLearnability = (skill) => {
@@ -132,10 +132,25 @@ export default function SkillTree({ id, title }) {
         if (character.skillPointsRemaining - skill.skillPointCost < 0) {
             learnability.canLearn = false
             learnability.reason = 'Not enough skill points'
-        }
-        if (requiredPointsForTier(skill.tier) > pointsSpentInThisTree) {
+        } else if (requiredPointsForTier(skill.tier) > pointsSpentInThisTree) {
             learnability.canLearn = false
             learnability.reason = 'Not enough points spent in skill tree'
+        } else if (!isNil(skill.requires)) {
+            const requiredSkill = relevantSkills.find(
+                (s) => s.id === skill.requires
+            )
+            if (!isLearned(requiredSkill, character.learnedSkills)) {
+                learnability.canLearn = false
+                learnability.reason = 'Requires another skill to unlock'
+            }
+        } else if (!isNil(skill.exclusiveWith)) {
+            const exclusiveSkill = relevantSkills.find(
+                (s) => s.id === skill.exclusiveWith
+            )
+            if (isLearned(exclusiveSkill, character.learnedSkills)) {
+                learnability.canLearn = false
+                learnability.reason = `You have already learned ${exclusiveSkill.title}`
+            }
         }
         return learnability
     }

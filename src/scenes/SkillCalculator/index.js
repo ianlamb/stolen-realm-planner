@@ -76,6 +76,7 @@ const Heading = styled.div(({ theme }) => ({
 
 const SkillPointCounter = styled.div(({ theme }) => ({
     color: theme.palette.text.highlight,
+    padding: theme.spacing(1),
 }))
 
 export const isLearned = (skill, learnedSkills) => {

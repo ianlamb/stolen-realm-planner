@@ -21,11 +21,13 @@ Future ideas:
 -   add link and credit to dev https://burst2flame.com/
 -   add link to Discord community
 -   add link to Github issues
+-   use a better font
 -   optimize images
 -   add google analytics
 
 ### Skill Calculator
 
+-   fix exclusive skill logic
 -   add locked overlay to icons that can't be learned
 -   add character level picker
 -   add ability to share builds
