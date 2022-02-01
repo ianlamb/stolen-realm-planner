@@ -72,13 +72,13 @@ const Root = styled.div(({ theme }) => ({
 const ActiveSkills = styled.div(({ theme }) => ({
     position: 'relative',
     flex: 1,
-    border: '1px solid black',
+    borderRight: '1px solid rgba(0, 0, 0, 0.5)',
 }))
 
 const PassiveSkills = styled.div(({ theme }) => ({
     position: 'relative',
     flex: 1,
-    border: '1px solid black',
+    borderLeft: '1px solid rgba(0, 0, 0, 0.5)',
 }))
 
 const SectionTitle = styled.div(({ theme, align = 'left' }) => ({
@@ -110,12 +110,6 @@ export default function SkillTree({ id, title }) {
 
     const requiredPointsForTier = (tier) => {
         return (tier - 1) * 2
-    }
-
-    const hasReplacement = (skill) => {
-        return !!relevantSkills.find(
-            (s) => s.replaces && s.replaces === skill.id
-        )
     }
 
     const hasRequirement = (skill) => {

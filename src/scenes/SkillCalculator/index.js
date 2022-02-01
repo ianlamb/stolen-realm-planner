@@ -3,11 +3,11 @@ import { Outlet, Link, useMatch } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 import { useAppState } from '../../store'
+import { Container } from '../../components'
 
-const Root = styled.div(({ theme }) => ({
-    width: 1200,
-    margin: '0 auto',
-    border: '1px solid black',
+const Root = styled(Container)(({ theme }) => ({
+    border: '2px solid rgba(0, 0, 0, 0.5)',
+    backgroundColor: theme.palette.background.paper,
 }))
 
 const SkillTreeNav = styled.div(({ theme }) => ({
@@ -15,7 +15,8 @@ const SkillTreeNav = styled.div(({ theme }) => ({
     flexDirection: 'row',
     height: 100,
     padding: theme.spacing(1),
-    border: '1px solid black',
+    borderTop: '2px solid rgba(0, 0, 0, 0.5)',
+    borderBottom: '2px solid rgba(0, 0, 0, 0.5)',
 }))
 
 const NavItem = styled.div(({ theme }) => ({

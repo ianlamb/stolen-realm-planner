@@ -9,10 +9,13 @@ export const theme = {
         },
         background: {
             default: '#2c2724',
+            paper: 'rgba(255, 255, 255, 0.1)',
             appBar: '#121110',
         },
     },
     sizing: {
+        appBarHeight: 64,
+        containerMaxWidth: 1200,
         skillIcon: 56,
         skillTreeIcon: 78,
         iconBorderWidth: 3,

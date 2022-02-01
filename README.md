@@ -16,14 +16,20 @@ Future ideas:
 
 ### General
 
+-   add top nav
 -   style the shell of the app better
+-   use a better font
 -   add note about what game version the data is from
 -   add link and credit to dev https://burst2flame.com/
 -   add link to Discord community
 -   add link to Github issues
--   use a better font
+
+### Production Readiness
+
+-   setup gh pages/ci
 -   optimize images
 -   add google analytics
+-   add open graph
 
 ### Skill Calculator
 
