@@ -33,7 +33,6 @@ Future ideas:
 ### Skill Calculator
 
 -   fix exclusive skill logic
--   add locked overlay to icons that can't be learned
 -   add character level picker
 -   add ability to share builds
     -   should be able to name your build as well

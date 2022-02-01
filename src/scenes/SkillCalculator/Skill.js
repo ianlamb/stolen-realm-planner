@@ -10,6 +10,7 @@ import {
     SkillTreeIconImg,
     SkillTreeIconAnnotation,
 } from './index'
+import { ReactComponent as LockIcon } from '../../icons/lock.svg'
 
 const Root = styled.div(({ theme, left, top }) => ({
     position: 'absolute',
@@ -31,6 +32,24 @@ const SkillIconImg = styled(SkillTreeIconImg)(({ theme, grayscale }) => ({
 
 const SkillIconAnnotation = styled(SkillTreeIconAnnotation)(({ theme }) => ({
     background: 'none',
+}))
+
+const SkillIconOverlay = styled.div(({ theme }) => ({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'rgba(80, 80, 80, 0.5)',
+    '& > svg': {
+        height: 24,
+        width: 24,
+        fill: 'rgba(10, 10, 10, 0.75)',
+    },
 }))
 
 const TooltipContainer = styled.div(({ theme }) => ({
@@ -203,6 +222,11 @@ export default function Skill({
                     )}
                     {skill.requires && (
                         <SkillIconAnnotation>II</SkillIconAnnotation>
+                    )}
+                    {!isLearned && (
+                        <SkillIconOverlay>
+                            <LockIcon />
+                        </SkillIconOverlay>
                     )}
                 </SkillIcon>
             </Tooltip>
