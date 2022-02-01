@@ -9,6 +9,7 @@ export const theme = {
         },
         background: {
             default: '#2c2724',
+            appBar: '#121110',
         },
     },
     sizing: {
