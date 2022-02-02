@@ -96,7 +96,7 @@ export default function Skill({
     learnability,
 }) {
     // right now skills that require/replace other skills have the same icon
-    const iconUrl = `/skill-icons/${skill.skillTree}/${
+    const iconUrl = `skill-icons/${skill.skillTree}/${
         skill.requires || skill.id
     }.png`
 

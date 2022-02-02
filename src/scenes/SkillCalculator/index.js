@@ -113,7 +113,7 @@ export const SkillTreeNavItem = ({ skillTree, pointsSpent }) => {
             <NavLink to={skillTree.id}>
                 <SkillTreeIcon isActive={isActive}>
                     <SkillTreeIconImg
-                        src={`/skill-tree-icons/${skillTree.id}.png`}
+                        src={`skill-tree-icons/${skillTree.id}.png`}
                         alt={skillTree.title}
                     />
                     <SkillTreeIconAnnotation>

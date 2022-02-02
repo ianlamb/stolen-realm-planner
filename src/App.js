@@ -129,7 +129,7 @@ function App() {
                 <StateProvider>
                     <AppRoot>
                         <AppBar>
-                            <Logo src="/logo.png" alt="Stolen Realm Logo" />
+                            <Logo src="logo.png" alt="Stolen Realm Logo" />
                             <Title>Character Planner</Title>
                             <Nav>
                                 <NavItem to="skill-calculator" isActive={true}>
