@@ -2,8 +2,6 @@ import React, { createContext, useReducer, useContext } from 'react'
 import fire from './data/skills/fire.json'
 import warrior from './data/skills/warrior.json'
 
-import { getPointsSpentInTree } from './scenes/SkillCalculator'
-
 const initialState = {
     character: {
         name: '',

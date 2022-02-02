@@ -125,7 +125,7 @@ function App() {
                 <meta property="og:url" content="" />
                 <meta property="og:image" content="" />
             </Helmet>
-            <BrowserRouter>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <StateProvider>
                     <AppRoot>
                         <AppBar>
