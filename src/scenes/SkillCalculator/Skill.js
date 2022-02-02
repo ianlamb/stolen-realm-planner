@@ -10,7 +10,7 @@ import {
     SkillTreeIconImg,
     SkillTreeIconAnnotation,
 } from './index'
-import { ReactComponent as LockIcon } from '../../icons/lock.svg'
+import { ReactComponent as LockIconRaw } from '../../icons/lock.svg'
 
 const Root = styled.div(({ theme, left, top }) => ({
     position: 'absolute',
@@ -45,11 +45,12 @@ const SkillIconOverlay = styled.div(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     background: 'rgba(80, 80, 80, 0.5)',
-    '& > svg': {
-        height: 24,
-        width: 24,
-        fill: 'rgba(10, 10, 10, 0.75)',
-    },
+}))
+
+const LockIcon = styled(LockIconRaw)(({ theme }) => ({
+    height: 24,
+    width: 24,
+    fill: 'rgba(10, 10, 10, 0.75)',
 }))
 
 const TooltipContainer = styled.div(({ theme }) => ({

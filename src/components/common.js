@@ -5,6 +5,14 @@ export const Container = styled.div(({ theme }) => ({
     margin: `0 auto`,
 }))
 
+export const Link = styled.a(({ theme }) => ({
+    textDecoration: 'none',
+    color: theme.palette.text.highlight,
+    '&:hover': {
+        color: theme.palette.text.default,
+    },
+}))
+
 export const HightlightText = styled.span(({ theme }) => ({
     color: theme.palette.text.highlight,
 }))

@@ -12,8 +12,9 @@ import Helmet from 'react-helmet'
 import { theme } from './lib/theme'
 import { StateProvider } from './store'
 import { SkillCalculator } from './scenes'
-import { Feedback } from './components'
+import { Link, Feedback } from './components'
 import SkillTree from './scenes/SkillCalculator/SkillTree'
+import { ReactComponent as DiscordIconRaw } from './icons/discord.svg'
 
 const skillTrees = [
     { id: 'fire', title: 'Fire' },
@@ -68,7 +69,7 @@ const NavItem = styled(NavLink)(({ theme, isActive }) => ({
     padding: `0 ${theme.spacing(2)}px`,
     color: theme.palette.text.default,
     textDecoration: 'none',
-    backgroundColor: isActive && 'rgba(255, 255, 255, 0.2)',
+    borderBottom: isActive && `4px solid ${theme.palette.primary}`,
     '&:hover': {
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
     },
@@ -84,6 +85,23 @@ const ExternalNavItem = styled.a(({ theme }) => ({
     '&:hover': {
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
     },
+}))
+
+const DiscordIcon = styled(DiscordIconRaw)(({ theme }) => ({
+    height: '100%',
+    width: 'auto',
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+}))
+
+const Footer = styled.div(({ theme }) => ({
+    width: '100%',
+    height: 30,
+    lineHeight: '30px',
+    fontFamily: 'Helvetica, sans-serif',
+    fontSize: '12px',
+    textAlign: 'center',
+    color: theme.palette.text.subdued,
 }))
 
 function App() {
@@ -114,30 +132,17 @@ function App() {
                             <Logo src="/logo.png" alt="Stolen Realm Logo" />
                             <Title>Character Planner</Title>
                             <Nav>
-                                <NavItem to="skill-calculator">
+                                <NavItem to="skill-calculator" isActive={true}>
                                     Skill Calculator
                                 </NavItem>
                                 <NavSplitter />
                                 <ExternalNavItem
-                                    href="https://burst2flame.com/"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-                                    Official Game Site
-                                </ExternalNavItem>
-                                <ExternalNavItem
                                     href="https://discord.com/invite/SbEPwMfXCJ"
                                     target="_blank"
                                     rel="noopener"
+                                    title="Stolen Realm Discord Community"
                                 >
-                                    Discord Community
-                                </ExternalNavItem>
-                                <ExternalNavItem
-                                    href="https://github.com/ianlamb/stolen-realm-planner"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-                                    GitHub
+                                    <DiscordIcon />
                                 </ExternalNavItem>
                             </Nav>
                         </AppBar>
@@ -171,6 +176,17 @@ function App() {
                                 />
                             </Routes>
                         </AppContent>
+                        <Footer>
+                            This is a fan site. All game art credit belongs to{' '}
+                            <Link
+                                href="https://burst2flame.com/"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                Burst2Flame
+                            </Link>
+                            .
+                        </Footer>
                         <Feedback />
                     </AppRoot>
                     <div id="tooltip-portal"></div>

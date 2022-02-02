@@ -2,8 +2,10 @@ const spacingMultiplier = 8
 
 export const theme = {
     palette: {
+        primary: '#eb9944',
         text: {
             default: '#f9f9f9',
+            subdued: '#878787',
             highlight: '#eb9944',
             error: '#bb3314',
         },

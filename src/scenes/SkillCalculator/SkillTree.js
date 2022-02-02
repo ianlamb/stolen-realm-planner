@@ -67,18 +67,21 @@ const Root = styled.div(({ theme }) => ({
     flexDirection: 'row',
     width: '100%',
     height: 440,
+    overflowX: 'auto',
 }))
 
 const ActiveSkills = styled.div(({ theme }) => ({
     position: 'relative',
     flex: 1,
     borderRight: '1px solid rgba(0, 0, 0, 0.5)',
+    minWidth: 600,
 }))
 
 const PassiveSkills = styled.div(({ theme }) => ({
     position: 'relative',
     flex: 1,
     borderLeft: '1px solid rgba(0, 0, 0, 0.5)',
+    minWidth: 580,
 }))
 
 const SectionTitle = styled.div(({ theme, align = 'left' }) => ({
@@ -90,13 +93,24 @@ const SectionTitle = styled.div(({ theme, align = 'left' }) => ({
     color: theme.palette.text.highlight,
 }))
 
+const ErrorMessage = styled.div(({ theme }) => ({
+    width: '100%',
+    textAlign: 'center',
+    color: theme.palette.text.error,
+    padding: theme.spacing(1),
+}))
+
 export default function SkillTree({ id, title }) {
     const dispatch = useDispatch()
     const { skills, character } = useAppState()
     const relevantSkills = skills[id]
 
     if (!relevantSkills) {
-        return null
+        return (
+            <ErrorMessage>
+                Sorry, still working on this skill tree!
+            </ErrorMessage>
+        )
     }
 
     const activeSkills = relevantSkills.filter((s) => s.type === 'active')
