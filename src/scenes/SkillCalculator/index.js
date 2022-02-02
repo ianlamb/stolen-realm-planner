@@ -75,8 +75,8 @@ const Heading = styled.div(({ theme }) => ({
     justifyContent: 'flex-end',
 }))
 
-const SkillPointCounter = styled.div(({ theme }) => ({
-    color: theme.palette.text.highlight,
+const SkillPointCounter = styled.div(({ theme, isEmpty }) => ({
+    color: isEmpty ? theme.palette.text.error : theme.palette.text.highlight,
     padding: theme.spacing(1),
 }))
 
@@ -122,7 +122,9 @@ export const SkillCalculator = ({ skillTrees }) => {
     return (
         <Root>
             <Heading>
-                <SkillPointCounter>
+                <SkillPointCounter
+                    isEmpty={character.skillPointsRemaining <= 0}
+                >
                     Points Remaining: {character.skillPointsRemaining}
                 </SkillPointCounter>
             </Heading>

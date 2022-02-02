@@ -32,7 +32,6 @@ Future ideas:
 
 ### Skill Calculator
 
--   fix exclusive skill logic
 -   add character level picker
 -   add ability to share builds
     -   should be able to name your build as well
