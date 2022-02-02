@@ -87,7 +87,6 @@ const SectionTitle = styled.div(({ theme, align = 'left' }) => ({
     left: align === 'left' ? 0 : 'auto',
     right: align === 'right' ? 0 : 'auto',
     padding: theme.spacing(1),
-    fontWeight: 'bold',
     color: theme.palette.text.highlight,
 }))
 

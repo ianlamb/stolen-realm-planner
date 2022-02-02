@@ -1,3 +1,29 @@
+@font-face {
+    font-family: 'Minion Pro';
+    src: url('fonts/MinionPro-Regular.eot');
+    src: url('fonts/MinionPro-Regular.eot?#iefix') format('embedded-opentype'),
+        url('fonts/MinionPro-Regular.woff2') format('woff2'),
+        url('fonts/MinionPro-Regular.woff') format('woff'),
+        url('fonts/MinionPro-Regular.ttf') format('truetype'),
+        url('fonts/MinionPro-Regular.svg#MinionPro-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Trajan Pro';
+    src: url('fonts/TrajanPro-Regular.eot');
+    src: url('fonts/TrajanPro-Regular.eot?#iefix') format('embedded-opentype'),
+        url('fonts/TrajanPro-Regular.woff2') format('woff2'),
+        url('fonts/TrajanPro-Regular.woff') format('woff'),
+        url('fonts/TrajanPro-Regular.ttf') format('truetype'),
+        url('fonts/TrajanPro-Regular.svg#TrajanPro-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     box-sizing: border-box;
 }

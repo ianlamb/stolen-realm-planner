@@ -13,6 +13,10 @@ export const theme = {
             appBar: '#121110',
         },
     },
+    fonts: {
+        bodyText: 'Minion Pro, sans-serif',
+        titleText: 'Trajan Pro, serif',
+    },
     sizing: {
         appBarHeight: 64,
         containerMaxWidth: 1200,
