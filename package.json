@@ -19,7 +19,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
+    "copy404": "@powershell copy build/index.html build/404.html",
+    "predeploy": "npm run build && npm run copy404",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -45,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "gh-pages": "^3.2.3"
   }
 }

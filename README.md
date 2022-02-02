@@ -21,7 +21,7 @@ Future ideas:
 
 ### Production Readiness
 
--   setup gh pages/ci
+-   fix ci
 -   optimize images
 -   add google analytics
 -   add open graph
