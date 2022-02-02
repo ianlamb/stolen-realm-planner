@@ -28,9 +28,7 @@ Future ideas:
 
 ### Skill Calculator
 
--   add character level picker
 -   add ability to share builds
-    -   should be able to name your build as well
 -   add icons for skills
 -   add tooltip data for other skill trees
     -   fire
@@ -41,3 +39,4 @@ Future ideas:
     -   shadow
     -   thief
 -   audit pass to ensure tooltip data is accurate
+-   refactor Tooltip component

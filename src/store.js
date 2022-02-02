@@ -2,8 +2,11 @@ import React, { createContext, useReducer, useContext } from 'react'
 import fire from './data/skills/fire.json'
 import warrior from './data/skills/warrior.json'
 
+import { getPointsSpentInTree } from './scenes/SkillCalculator'
+
 const initialState = {
     character: {
+        name: '',
         level: 30,
         skillPointsRemaining: 30,
         learnedSkills: [],
@@ -21,8 +24,29 @@ export const StateProvider = ({ children }) => {
     const [state, dispatch] = useReducer((state, action) => {
         let newState
         switch (action.type) {
+            case 'setName':
+                newState = {
+                    ...state,
+                    character: {
+                        ...state.character,
+                        name: action.payload,
+                    },
+                }
+                break
+            case 'setLevel':
+                newState = {
+                    ...state,
+                    character: {
+                        ...state.character,
+                        level: action.payload,
+                        skillPointsRemaining:
+                            parseInt(action.payload, 10) -
+                            (state.character.level -
+                                state.character.skillPointsRemaining),
+                    },
+                }
+                break
             case 'learnSkill':
-                console.log('Learned Skill', action.payload.id)
                 newState = {
                     ...state,
                     character: {
@@ -43,11 +67,7 @@ export const StateProvider = ({ children }) => {
                         (ls) => ls === action.payload.id
                     )
                 let modifiedLearnedSkills = [...state.character.learnedSkills]
-                let deletedElements = modifiedLearnedSkills.splice(
-                    learnedSkillIndex,
-                    1
-                )
-                console.log('Unlearned Skill', deletedElements)
+                modifiedLearnedSkills.splice(learnedSkillIndex, 1)
                 newState = {
                     ...state,
                     character: {

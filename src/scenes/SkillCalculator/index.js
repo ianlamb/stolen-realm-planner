@@ -4,6 +4,8 @@ import styled from '@emotion/styled'
 
 import { useAppState } from '../../store'
 import { Container } from '../../components'
+import NameInput from './NameInput'
+import LevelSelect from './LevelSelect'
 
 const Root = styled(Container)(({ theme }) => ({
     border: '2px solid rgba(0, 0, 0, 0.5)',
@@ -72,12 +74,19 @@ export const SkillTreeIconAnnotation = styled.div(({ theme }) => ({
 const Heading = styled.div(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+}))
+
+const Options = styled.div(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
 }))
 
 const SkillPointCounter = styled.div(({ theme, isEmpty }) => ({
     color: isEmpty ? theme.palette.text.error : theme.palette.text.highlight,
     padding: theme.spacing(1),
+    display: 'flex',
+    alignItems: 'flex-end',
 }))
 
 export const isLearned = (skill, learnedSkills) => {
@@ -122,6 +131,10 @@ export const SkillCalculator = ({ skillTrees }) => {
     return (
         <Root>
             <Heading>
+                <Options>
+                    <NameInput />
+                    <LevelSelect />
+                </Options>
                 <SkillPointCounter
                     isEmpty={character.skillPointsRemaining <= 0}
                 >

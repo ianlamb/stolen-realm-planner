@@ -67,21 +67,18 @@ const Root = styled.div(({ theme }) => ({
     flexDirection: 'row',
     width: '100%',
     height: 440,
-    overflowX: 'auto',
 }))
 
 const ActiveSkills = styled.div(({ theme }) => ({
     position: 'relative',
     flex: 1,
     borderRight: '1px solid rgba(0, 0, 0, 0.5)',
-    minWidth: 600,
 }))
 
 const PassiveSkills = styled.div(({ theme }) => ({
     position: 'relative',
     flex: 1,
     borderLeft: '1px solid rgba(0, 0, 0, 0.5)',
-    minWidth: 580,
 }))
 
 const SectionTitle = styled.div(({ theme, align = 'left' }) => ({
@@ -163,16 +160,10 @@ export default function SkillTree({ id, title }) {
             }
             // exclusion check
             const excludedBy = getSkillThatExcludesThisOne(skill)
-            if (skill.id === 'elemental-fracture') {
-                console.log('excludedBy', excludedBy)
-            }
             if (excludedBy && isLearned(excludedBy, character.learnedSkills)) {
                 learnability.canLearn = false
                 learnability.reason = `You have already learned ${excludedBy.title}`
             }
-        }
-        if (skill.id === 'elemental-fracture') {
-            console.log('getLearnability', learnability)
         }
         return learnability
     }
@@ -180,10 +171,10 @@ export default function SkillTree({ id, title }) {
     const toggleSkill = (skill) => {
         if (!isLearned(skill, character.learnedSkills)) {
             if (getLearnability(skill).canLearn) {
-                dispatch({ type: 'learnSkill', payload: { ...skill } })
+                dispatch({ type: 'learnSkill', payload: skill })
             }
         } else {
-            dispatch({ type: 'unlearnSkill', payload: { ...skill } })
+            dispatch({ type: 'unlearnSkill', payload: skill })
         }
     }
 

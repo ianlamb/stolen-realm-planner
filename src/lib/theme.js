@@ -5,7 +5,7 @@ export const theme = {
         primary: '#eb9944',
         text: {
             default: '#f9f9f9',
-            subdued: '#878787',
+            subdued: 'rgba(200, 200, 200, 0.85)',
             highlight: '#eb9944',
             error: '#bb3314',
         },

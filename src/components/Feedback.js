@@ -46,7 +46,7 @@ const FeedbackIcon = styled(FeedbackIconRaw)(({ theme }) => ({
     top: 4,
 }))
 
-export const Feedback = ({}) => {
+export const Feedback = () => {
     return (
         <Root>
             <Link
