@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { capitalize, isNil } from 'lodash-es'
+import { capitalize, isEmpty } from 'lodash-es'
 
 import effectsGlossary from '../../data/effectsGlossary.json'
 import { replaceJSX } from '../../lib/helpers'
@@ -119,7 +119,9 @@ export default function Skill({
     }
 
     const getDurationText = (duration) => {
-        return `${duration} turn${duration > 1 ? 's' : ''}`
+        return typeof duration === 'number'
+            ? `${duration} turn${duration > 1 ? 's' : ''}`
+            : duration
     }
 
     const getRangeText = (range) => {
@@ -168,33 +170,33 @@ export default function Skill({
                             )}
                             {skill.type === 'active' && (
                                 <Section>
-                                    {!isNil(skill.actionPointCost) && (
+                                    {!isEmpty(skill.actionPointCost) && (
                                         <div>
                                             AP Cost:{' '}
                                             {skill.actionPointCost || 'None'}
                                         </div>
                                     )}
-                                    {!isNil(skill.duration) && (
+                                    {!isEmpty(skill.duration) && (
                                         <div>
                                             Duration:{' '}
                                             {getDurationText(skill.duration)}
                                         </div>
                                     )}
-                                    {!isNil(skill.range) && (
+                                    {!isEmpty(skill.range) && (
                                         <div>
                                             Range: {getRangeText(skill.range)}
                                         </div>
                                     )}
-                                    {!isNil(skill.blastRadius) && (
+                                    {!isEmpty(skill.blastRadius) && (
                                         <div>
                                             Blast Radius:{' '}
-                                            {getRangeText(skill.range)}
+                                            {getRangeText(skill.blastRadius)}
                                         </div>
                                     )}
-                                    {!isNil(skill.manaCost) && (
+                                    {!isEmpty(skill.manaCost) && (
                                         <div>Mana Cost: {skill.manaCost}</div>
                                     )}
-                                    {!isNil(skill.cooldown) && (
+                                    {!isEmpty(skill.cooldown) && (
                                         <div>Cooldown: {skill.cooldown}</div>
                                     )}
                                 </Section>

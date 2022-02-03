@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { isNil, orderBy } from 'lodash-es'
+import { isEmpty, orderBy } from 'lodash-es'
 
 import { useDispatch, useAppState } from '../../store'
 import { isLearned, getPointsSpentInTree } from './index'
@@ -155,7 +155,7 @@ export default function SkillTree({ id, title }) {
             learnability.reason = 'Not enough points spent in skill tree'
         } else {
             // requirements check
-            if (!isNil(skill.requires)) {
+            if (!isEmpty(skill.requires)) {
                 const requiredSkill = relevantSkills.find(
                     (s) => s.id === skill.requires
                 )
