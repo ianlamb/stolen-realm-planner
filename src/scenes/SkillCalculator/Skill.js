@@ -12,9 +12,10 @@ import {
 } from './index'
 import { ReactComponent as LockIconRaw } from '../../icons/lock.svg'
 
-const Root = styled.div(({ theme, left, top }) => ({
+const Root = styled.div(({ theme, left, right, top }) => ({
     position: 'absolute',
     left,
+    right,
     top,
 }))
 
@@ -88,8 +89,7 @@ const GlossaryItemDescription = styled.div(({ theme }) => ({
 
 export default function Skill({
     skill,
-    left = 0,
-    top = 0,
+    pos,
     toggleSkill,
     isLearned,
     hasRequirement,
@@ -140,7 +140,7 @@ export default function Skill({
     }
 
     return (
-        <Root left={left} top={top}>
+        <Root left={pos.left} right={pos.right} top={pos.top}>
             <Tooltip
                 content={
                     <TooltipContainer>
@@ -187,7 +187,8 @@ export default function Skill({
                                     )}
                                     {!isNil(skill.blastRadius) && (
                                         <div>
-                                            Range: {getRangeText(skill.range)}
+                                            Blast Radius:{' '}
+                                            {getRangeText(skill.range)}
                                         </div>
                                     )}
                                     {!isNil(skill.manaCost) && (

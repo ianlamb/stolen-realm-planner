@@ -1,65 +1,43 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { isNil } from 'lodash-es'
+import { isNil, orderBy } from 'lodash-es'
 
 import { useDispatch, useAppState } from '../../store'
 import { isLearned, getPointsSpentInTree } from './index'
 import Skill from './Skill'
 
-const OFFSET_MULTIPLIER = 42
+const SPACING_OFFSET = 16
+const SKILL_OFFSET = 64
 
-// 1-12 columns
-const skillLeftOffsetMap = {
-    // fire
-    immolate: 2,
-
-    // warrior active
-    fracture: 2,
-    rage: 6,
-    'double-edge': 12,
-    'elemental-fracture': 1,
-    'threatening-fracture': 3,
-    'tempered-rage': 5,
-    'beserkers-rage': 7,
-    cleave: 9,
-    bloodlet: 12,
-    slam: 2,
-    'warriors-boon': 4,
-    howl: 6,
-    'bleeding-cleave': 8,
-    'life-cleave': 10,
-    'stunning-slam': 1,
-    'crushing-slam': 3,
-    'vitality-break': 12,
-    'unyielding-contender': 3,
-    sunder: 6,
-
-    // warrior passive
-    wanderer: 1,
-    'warmonger-1': 3,
-    'guardian-1': 5,
-    challenger: 7,
-    opportunist: 1,
-    'warmonger-2': 3,
-    'guardian-2': 5,
-    'into-the-fray': 7,
-    'furious-george': 1,
-    'shield-mastery': 3,
-    'two-handed-mastery': 5,
-    'dual-wield-mastery': 7,
-    'beserkers-blood': 9,
-    'bone-collector': 1,
-    'blood-drinker': 3,
-    executioner: 5,
-    colossus: 1,
-    indestructible: 3,
+const skillOffsetBumps = {
+    // warrior
+    fracture: SPACING_OFFSET * 6,
+    rage: SPACING_OFFSET * 8,
+    'life-cleave': SPACING_OFFSET * 4,
 }
 
-const getSkillPosition = (skill) => {
-    return {
-        x: (skillLeftOffsetMap[skill.id] || 0) * OFFSET_MULTIPLIER,
-        y: Math.max(skill.tier - 1, 0) * 80 + 40,
-    }
+const getSkillOffsets = (skills) => {
+    let lastTier = 0
+    let offset = SPACING_OFFSET
+    return skills.reduce((acc, skill, i) => {
+        if (lastTier !== skill.tier) {
+            offset = SPACING_OFFSET
+            lastTier = skill.tier
+        } else if (skill.requires && skill.exclusiveWith) {
+            if (acc[skill.exclusiveWith]) {
+                offset = acc[skill.requires] + SKILL_OFFSET / 2
+            } else {
+                offset = acc[skill.requires] - SKILL_OFFSET / 2
+            }
+        } else {
+            offset += SKILL_OFFSET + SPACING_OFFSET * 2
+        }
+        if (skillOffsetBumps[skill.id]) {
+            offset += skillOffsetBumps[skill.id]
+        }
+        acc[skill.id] = offset
+        return acc
+    }, {})
 }
 
 const Root = styled.div(({ theme }) => ({
@@ -112,6 +90,25 @@ export default function SkillTree({ id, title }) {
 
     const activeSkills = relevantSkills.filter((s) => s.type === 'active')
     const passiveSkills = relevantSkills.filter((s) => s.type === 'passive')
+
+    const activeSkillOffsetMap = getSkillOffsets(
+        orderBy(activeSkills, ['tier', 'skillNum'], ['asc', 'desc'])
+    )
+    const passiveSkillOffsetMap = getSkillOffsets(
+        orderBy(passiveSkills, ['tier', 'skillNum'], ['asc', 'asc'])
+    )
+
+    const getSkillPosition = (skill) => {
+        return {
+            right:
+                skill.type === 'active' &&
+                (activeSkillOffsetMap[skill.id] || 0),
+            left:
+                skill.type === 'passive' &&
+                (passiveSkillOffsetMap[skill.id] || 0),
+            top: Math.max(skill.tier - 1, 0) * 80 + 40,
+        }
+    }
 
     const pointsSpentInThisTree = getPointsSpentInTree(
         relevantSkills,
@@ -186,8 +183,7 @@ export default function SkillTree({ id, title }) {
                     <Skill
                         key={skill.id}
                         skill={skill}
-                        left={getSkillPosition(skill).x}
-                        top={getSkillPosition(skill).y}
+                        pos={getSkillPosition(skill)}
                         toggleSkill={toggleSkill}
                         isLearned={isLearned(skill, character.learnedSkills)}
                         hasRequirement={hasRequirement(skill)}
@@ -201,8 +197,7 @@ export default function SkillTree({ id, title }) {
                     <Skill
                         key={skill.id}
                         skill={skill}
-                        left={getSkillPosition(skill).x}
-                        top={getSkillPosition(skill).y}
+                        pos={getSkillPosition(skill)}
                         toggleSkill={toggleSkill}
                         isLearned={isLearned(skill, character.learnedSkills)}
                         hasRequirement={hasRequirement(skill)}

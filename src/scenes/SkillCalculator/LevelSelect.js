@@ -49,10 +49,14 @@ export default function LevelSelect() {
 
     return (
         <Root>
-            <Label for="level-select">Character Level</Label>
-            <Select id="level-select" onChange={handleChange}>
+            <Label htmlFor="level-select">Character Level</Label>
+            <Select
+                id="level-select"
+                onChange={handleChange}
+                value={character.level}
+            >
                 {availableLevels.map((lvl) => (
-                    <Option selected={lvl === character.level}>{lvl}</Option>
+                    <Option key={lvl}>{lvl}</Option>
                 ))}
             </Select>
         </Root>

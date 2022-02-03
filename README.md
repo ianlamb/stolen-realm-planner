@@ -32,11 +32,13 @@ Future ideas:
 -   add icons for skills
 -   add tooltip data for other skill trees
     -   fire
-    -   cold
-    -   lightning
     -   light
     -   ranger
     -   shadow
     -   thief
--   audit pass to ensure tooltip data is accurate
+-   migrate data to sheetdb
+    -   fire
+    -   warrior
+-   add connectors between related skills
 -   refactor Tooltip component
+-   audit pass to ensure tooltip data is accurate

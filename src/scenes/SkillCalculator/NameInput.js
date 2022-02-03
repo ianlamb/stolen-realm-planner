@@ -36,7 +36,7 @@ export default function NameInput() {
 
     return (
         <Root>
-            <Label for="name-input">Build Name</Label>
+            <Label htmlFor="name-input">Build Name</Label>
             <Input
                 id="name-input"
                 type="text"
