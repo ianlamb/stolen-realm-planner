@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { isNil } from 'lodash-es'
+import { capitalize, isNil } from 'lodash-es'
 
 import effectsGlossary from '../../data/effectsGlossary.json'
 import { replaceJSX } from '../../lib/helpers'
@@ -95,10 +95,10 @@ export default function Skill({
     hasRequirement,
     learnability,
 }) {
-    // right now skills that require/replace other skills have the same icon
-    const iconUrl = `skill-icons/${skill.skillTree}/${
-        skill.requires || skill.id
-    }.png`
+    const iconName = `${capitalize(skill.skillTree)} T${skill.tier},${
+        skill.skillNum
+    } ${skill.title} Icon`
+    const iconUrl = `skill-icons/${skill.skillTree}/${iconName}.png`
 
     let decoratedDescription = skill.description
     let glossaryItems = []

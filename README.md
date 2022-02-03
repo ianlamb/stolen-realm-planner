@@ -29,13 +29,6 @@ Future ideas:
 ### Skill Calculator
 
 -   add ability to share builds
--   add icons for skills
--   add tooltip data for other skill trees
-    -   fire
-    -   light
-    -   ranger
-    -   shadow
-    -   thief
 -   migrate data to sheetdb
     -   fire
     -   warrior

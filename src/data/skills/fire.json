@@ -19,7 +19,7 @@
   },
   {
     "id": "fireblast",
-    "title": "Immolate",
+    "title": "Fireblast",
     "tier": 1,
     "skillNum": 2,
     "skillTree": "fire",

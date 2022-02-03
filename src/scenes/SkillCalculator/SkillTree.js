@@ -11,9 +11,18 @@ const SKILL_OFFSET = 64
 
 const skillOffsetBumps = {
     // warrior
-    fracture: SPACING_OFFSET * 6,
-    rage: SPACING_OFFSET * 8,
-    'life-cleave': SPACING_OFFSET * 4,
+    fracture: 6,
+    rage: 8,
+    'bleeding-cleave': 4,
+    // ranger
+    'trackers-mark': 4,
+    'long-shot': 1,
+    'piercing-shot': 1,
+    // shadow
+    'necromancer-1': 12,
+    // thief
+    'dagger-throw': 5,
+    escape: 2,
 }
 
 const getSkillOffsets = (skills) => {
@@ -33,7 +42,7 @@ const getSkillOffsets = (skills) => {
             offset += SKILL_OFFSET + SPACING_OFFSET * 2
         }
         if (skillOffsetBumps[skill.id]) {
-            offset += skillOffsetBumps[skill.id]
+            offset += SPACING_OFFSET * skillOffsetBumps[skill.id]
         }
         acc[skill.id] = offset
         return acc

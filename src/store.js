@@ -17,6 +17,10 @@ const initialState = {
         lightning: getSkills('lightning'),
         cold: getSkills('cold'),
         warrior,
+        light: getSkills('light'),
+        ranger: getSkills('ranger'),
+        shadow: getSkills('shadow'),
+        thief: getSkills('thief'),
     },
 }
 
