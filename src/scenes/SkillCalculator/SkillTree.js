@@ -125,7 +125,7 @@ export default function SkillTree({ id, title }) {
     )
 
     const requiredPointsForTier = (tier) => {
-        return (tier - 1) * 2
+        return tier === 5 ? 10 : (tier - 1) * 2
     }
 
     const hasRequirement = (skill) => {
@@ -133,10 +133,15 @@ export default function SkillTree({ id, title }) {
             (s) => s.requires && s.requires === skill.id
         )
     }
+
     const getSkillThatExcludesThisOne = (skill) => {
         return relevantSkills.find(
             (s) => s.exclusiveWith && s.exclusiveWith === skill.id
         )
+    }
+
+    const getRequiredSkill = (skill) => {
+        return relevantSkills.find((s) => s.id === skill.requires)
     }
 
     const getLearnability = (skill) => {
@@ -145,30 +150,29 @@ export default function SkillTree({ id, title }) {
             reason: '',
         }
 
-        if (character.skillPointsRemaining - skill.skillPointCost < 0) {
-            // available skill points check
-            learnability.canLearn = false
-            learnability.reason = 'Not enough skill points'
-        } else if (requiredPointsForTier(skill.tier) > pointsSpentInThisTree) {
+        const requiredPoints = requiredPointsForTier(skill.tier)
+        if (requiredPoints > pointsSpentInThisTree) {
             // spent points required by tier check
             learnability.canLearn = false
-            learnability.reason = 'Not enough points spent in skill tree'
+            learnability.reason = `Requires ${requiredPoints} points in previous tiers.`
+        } else if (character.skillPointsRemaining - skill.skillPointCost < 0) {
+            // available skill points check
+            learnability.canLearn = false
+            learnability.reason = 'Not enough skill points.'
         } else {
             // requirements check
             if (!isEmpty(skill.requires)) {
-                const requiredSkill = relevantSkills.find(
-                    (s) => s.id === skill.requires
-                )
+                const requiredSkill = getRequiredSkill(skill)
                 if (!isLearned(requiredSkill, character.learnedSkills)) {
                     learnability.canLearn = false
-                    learnability.reason = 'Requires another skill to unlock'
+                    learnability.reason = `Requires ${requiredSkill.title}.`
                 }
             }
             // exclusion check
             const excludedBy = getSkillThatExcludesThisOne(skill)
             if (excludedBy && isLearned(excludedBy, character.learnedSkills)) {
                 learnability.canLearn = false
-                learnability.reason = `You have already learned ${excludedBy.title}`
+                learnability.reason = `Disabled by ${excludedBy.title}.`
             }
         }
         return learnability

@@ -163,6 +163,11 @@ export default function Skill({
                                     <ErrorText>{learnability.reason}</ErrorText>
                                 )}
                             </Section>
+                            <Section>
+                                <HightlightText>
+                                    Skill Point Cost: {skill.skillPointCost}
+                                </HightlightText>
+                            </Section>
                             <Section>{decoratedDescription}</Section>
                             {skill.replaces && (
                                 <Section>
@@ -198,7 +203,9 @@ export default function Skill({
                                         </div>
                                     )}
                                     {checkValue(skill.manaCost) && (
-                                        <div>Mana Cost: {skill.manaCost}</div>
+                                        <div>
+                                            Mana Cost (base): {skill.manaCost}
+                                        </div>
                                     )}
                                     {checkValue(skill.cooldown) && (
                                         <div>Cooldown: {skill.cooldown}</div>
