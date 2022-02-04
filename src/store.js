@@ -1,7 +1,5 @@
 import React, { createContext, useReducer, useContext } from 'react'
 import skills from './data/skills.json'
-import fire from './data/skills/fire.json'
-import warrior from './data/skills/warrior.json'
 
 const getSkills = (skillTree) => skills.filter((s) => s.skillTree === skillTree)
 
@@ -13,10 +11,10 @@ const initialState = {
         learnedSkills: [],
     },
     skills: {
-        fire,
+        fire: getSkills('fire'),
         lightning: getSkills('lightning'),
         cold: getSkills('cold'),
-        warrior,
+        warrior: getSkills('warrior'),
         light: getSkills('light'),
         ranger: getSkills('ranger'),
         shadow: getSkills('shadow'),

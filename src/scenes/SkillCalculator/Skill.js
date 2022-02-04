@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { capitalize, isEmpty } from 'lodash-es'
+import { capitalize, isNil } from 'lodash-es'
 
 import effectsGlossary from '../../data/effectsGlossary.json'
 import { replaceJSX } from '../../lib/helpers'
@@ -141,6 +141,10 @@ export default function Skill({
         toggleSkill(skill)
     }
 
+    const checkValue = (value) => {
+        return value !== '' && !isNil(value)
+    }
+
     return (
         <Root left={pos.left} right={pos.right} top={pos.top}>
             <Tooltip
@@ -170,33 +174,33 @@ export default function Skill({
                             )}
                             {skill.type === 'active' && (
                                 <Section>
-                                    {!isEmpty(skill.actionPointCost) && (
+                                    {checkValue(skill.actionPointCost) && (
                                         <div>
                                             AP Cost:{' '}
                                             {skill.actionPointCost || 'None'}
                                         </div>
                                     )}
-                                    {!isEmpty(skill.duration) && (
+                                    {checkValue(skill.duration) && (
                                         <div>
                                             Duration:{' '}
                                             {getDurationText(skill.duration)}
                                         </div>
                                     )}
-                                    {!isEmpty(skill.range) && (
+                                    {checkValue(skill.range) && (
                                         <div>
                                             Range: {getRangeText(skill.range)}
                                         </div>
                                     )}
-                                    {!isEmpty(skill.blastRadius) && (
+                                    {checkValue(skill.blastRadius) && (
                                         <div>
                                             Blast Radius:{' '}
                                             {getRangeText(skill.blastRadius)}
                                         </div>
                                     )}
-                                    {!isEmpty(skill.manaCost) && (
+                                    {checkValue(skill.manaCost) && (
                                         <div>Mana Cost: {skill.manaCost}</div>
                                     )}
-                                    {!isEmpty(skill.cooldown) && (
+                                    {checkValue(skill.cooldown) && (
                                         <div>Cooldown: {skill.cooldown}</div>
                                     )}
                                 </Section>

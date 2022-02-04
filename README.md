@@ -29,9 +29,6 @@ Future ideas:
 ### Skill Calculator
 
 -   add ability to share builds
--   migrate data to sheetdb
-    -   fire
-    -   warrior
 -   add connectors between related skills
 -   refactor Tooltip component
 -   audit pass to ensure tooltip data is accurate
