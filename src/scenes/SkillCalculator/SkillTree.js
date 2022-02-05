@@ -14,6 +14,7 @@ const skillOffsetBumps = {
     fracture: 6,
     rage: 8,
     'life-cleave': 4,
+    'bleeding-cleave': -2,
     // ranger
     'trackers-mark': 4,
     'long-shot': 1,
@@ -23,6 +24,7 @@ const skillOffsetBumps = {
     // thief
     'dagger-throw': 5,
     escape: 2,
+    'enduring-evasion': 4,
 }
 
 const getSkillOffsets = (skills) => {
@@ -32,11 +34,14 @@ const getSkillOffsets = (skills) => {
         if (lastTier !== skill.tier) {
             offset = SPACING_OFFSET
             lastTier = skill.tier
-        } else if (skill.requires && skill.exclusiveWith) {
-            if (acc[skill.exclusiveWith]) {
-                offset = acc[skill.requires] + SKILL_OFFSET / 2
-            } else {
-                offset = acc[skill.requires] - SKILL_OFFSET / 2
+        } else if (skill.requires) {
+            offset = acc[skill.requires]
+            if (skill.exclusiveWith) {
+                if (acc[skill.exclusiveWith]) {
+                    offset += SKILL_OFFSET / 2
+                } else {
+                    offset -= SKILL_OFFSET / 2
+                }
             }
         } else {
             offset += SKILL_OFFSET + SPACING_OFFSET * 2
@@ -144,6 +149,10 @@ export default function SkillTree({ id, title }) {
         return relevantSkills.find((s) => s.id === skill.requires)
     }
 
+    const getReplacesSkill = (skill) => {
+        return relevantSkills.find((s) => s.id === skill.replaces)
+    }
+
     const getLearnability = (skill) => {
         let learnability = {
             canLearn: true,
@@ -201,6 +210,7 @@ export default function SkillTree({ id, title }) {
                         isLearned={isLearned(skill, character.learnedSkills)}
                         hasRequirement={hasRequirement(skill)}
                         learnability={getLearnability(skill)}
+                        replaces={getReplacesSkill(skill)}
                     />
                 ))}
             </ActiveSkills>
@@ -215,6 +225,7 @@ export default function SkillTree({ id, title }) {
                         isLearned={isLearned(skill, character.learnedSkills)}
                         hasRequirement={hasRequirement(skill)}
                         learnability={getLearnability(skill)}
+                        replaces={getReplacesSkill(skill)}
                     />
                 ))}
             </PassiveSkills>

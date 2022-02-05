@@ -2,7 +2,8 @@ import React from 'react'
 import { Outlet, Link, useMatch } from 'react-router-dom'
 import styled from '@emotion/styled'
 
-import { useAppState } from '../../store'
+import { decodeBuildData } from './helpers'
+import { useDispatch, useAppState } from '../../store'
 import { Container } from '../../components'
 import NameInput from './NameInput'
 import LevelSelect from './LevelSelect'
@@ -82,6 +83,19 @@ const Options = styled.div(({ theme }) => ({
     flexDirection: 'row',
 }))
 
+const Share = styled.div(({ theme }) => ({
+    flex: 1,
+    margin: theme.spacing(2),
+    fontSize: '12px',
+    color: theme.palette.text.default,
+}))
+
+const BuildDataString = styled.div(({ theme }) => ({
+    wordBreak: 'break-all',
+    fontSize: '12px',
+    color: theme.palette.text.subdued,
+}))
+
 const SkillPointCounter = styled.div(({ theme, isEmpty }) => ({
     color: isEmpty ? theme.palette.text.error : theme.palette.text.highlight,
     padding: theme.spacing(1),
@@ -126,7 +140,24 @@ export const SkillTreeNavItem = ({ skillTree, pointsSpent }) => {
 }
 
 export const SkillCalculator = ({ skillTrees }) => {
-    const { character, skills } = useAppState()
+    const dispatch = useDispatch()
+    const { character, skills, buildDataBase64 } = useAppState()
+
+    const query = new URLSearchParams(window.location.search)
+    const buildDataBase64FromUrl = query.get('build')
+
+    React.useEffect(() => {
+        // on initial load, see if we have build data to import
+        const buildData = decodeBuildData(buildDataBase64FromUrl, skills)
+        dispatch({
+            type: 'loadBuildData',
+            payload: {
+                character: buildData,
+                buildDataBase64: buildDataBase64FromUrl,
+            },
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <Root>
@@ -135,6 +166,10 @@ export const SkillCalculator = ({ skillTrees }) => {
                     <NameInput />
                     <LevelSelect />
                 </Options>
+                <Share>
+                    Build Data:{' '}
+                    <BuildDataString>{buildDataBase64}</BuildDataString>
+                </Share>
                 <SkillPointCounter
                     isEmpty={character.skillPointsRemaining <= 0}
                 >

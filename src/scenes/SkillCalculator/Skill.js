@@ -94,6 +94,7 @@ export default function Skill({
     isLearned,
     hasRequirement,
     learnability,
+    replaces,
 }) {
     const iconName = `${capitalize(skill.skillTree)} T${skill.tier},${
         skill.skillNum
@@ -108,7 +109,7 @@ export default function Skill({
             decoratedDescription = replaceJSX(
                 decoratedDescription,
                 new RegExp(word, 'g'),
-                <HightlightText key={word}>{word}</HightlightText>
+                <HightlightText>{word}</HightlightText>
             )
 
             glossaryItems.push({
@@ -169,11 +170,11 @@ export default function Skill({
                                 </HightlightText>
                             </Section>
                             <Section>{decoratedDescription}</Section>
-                            {skill.replaces && (
+                            {replaces && (
                                 <Section>
                                     Replaces{' '}
                                     <HightlightText>
-                                        {skill.replaces}
+                                        {replaces.title}
                                     </HightlightText>
                                 </Section>
                             )}

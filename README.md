@@ -32,3 +32,7 @@ Future ideas:
 -   add connectors between related skills
 -   refactor Tooltip component
 -   audit pass to ensure tooltip data is accurate
+
+## BUGS
+
+-   can unlearn skills that would otherwise unlock other learned skills (should recalc all skill requirements before unlearning)

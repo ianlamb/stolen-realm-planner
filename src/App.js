@@ -11,7 +11,7 @@ import Helmet from 'react-helmet'
 
 import { theme } from './lib/theme'
 import { StateProvider } from './store'
-import { SkillCalculator } from './scenes'
+import { SkillCalculator } from './scenes/SkillCalculator'
 import { Link, Feedback } from './components'
 import SkillTree from './scenes/SkillCalculator/SkillTree'
 import { ReactComponent as DiscordIconRaw } from './icons/discord.svg'
