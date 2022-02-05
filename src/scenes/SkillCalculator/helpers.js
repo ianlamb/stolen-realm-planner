@@ -16,7 +16,13 @@ export const getSkillTreeByID = (skillTreeID) => {
 }
 
 export const encodeBuildData = (character, skills) => {
-    console.log('learnedSKills', character.learnedSkills)
+    console.log(
+        `[encodeBuildData] SUID is a proprietary "Special Unique ID" for skills.\nIt's a 3-character string where\nchar[0] = decimal numeric skill tree id\nchar[1] = decimal numeric skill tier id\nchar[2] = hexadecimal skill number/column\neg. Warrior - Beserker's Blood (Tier 3, Number 10) = "33a"`
+    )
+    console.log(
+        '[encodeBuildData] Encoding... learnedSKills=',
+        character.learnedSkills
+    )
     const suidArray = character.learnedSkills.map((ls) => {
         const s = skills.all.find((x) => x.id === ls)
         const sUID = `${getSkillTreeID(s.skillTree)}${
@@ -27,13 +33,22 @@ export const encodeBuildData = (character, skills) => {
     if (suidArray.length <= 0) {
         return
     }
-    console.log('suidArray', suidArray)
+    console.log(
+        '[encodeBuildData] Convert skills into SUIDs, suidArray=',
+        suidArray
+    )
 
-    const dataString = suidArray.join('')
-    console.log('dataString', dataString)
+    const skillData = suidArray.join('')
+    console.log('[encodeBuildData] skillData=', skillData)
+
+    const dataString = `n=${character.name};l=${character.level};s=${skillData}`
+    console.log(
+        '[encodeBuildData] Compile build data into key-value pairs, dataString=',
+        dataString
+    )
 
     const dataBase64 = btoa(dataString)
-    console.log('dataBase64', dataBase64)
+    console.log('[encodeBuildData] string to Base64, dataBase64=', dataBase64)
 
     return dataBase64
 }
@@ -43,16 +58,42 @@ export const decodeBuildData = (dataBase64, skills) => {
         return
     }
 
-    console.log('dataBase64', dataBase64)
+    console.log('[decodeBuildData] Decoding... dataBase64=', dataBase64)
 
     const dataString = atob(dataBase64)
-    console.log('dataString', dataString)
+    console.log('[decodeBuildData] Base64 to string, dataString=', dataString)
+
+    const kvPairs = dataString.split(';')
+    let name, level, skillData
+    kvPairs.forEach((kvp) => {
+        const kvArray = kvp.split('=')
+        if (kvArray[0] === 'n') {
+            name = kvArray[1]
+        }
+        if (kvArray[0] === 'l') {
+            level = kvArray[1]
+        }
+        if (kvArray[0] === 's') {
+            skillData = kvArray[1]
+        }
+    })
+    console.log(
+        '[decodeBuildData] Build data from key-value pairs, name=',
+        name,
+        'level=',
+        level,
+        'skillData=',
+        skillData
+    )
 
     let suidArray = []
-    for (let i = 0; i < dataString.length; i += 3) {
-        suidArray.push(dataString.slice(i, i + 3))
+    for (let i = 0; i < skillData.length; i += 3) {
+        suidArray.push(skillData.slice(i, i + 3))
     }
-    console.log('suidArray', suidArray)
+    console.log(
+        '[decodeBuildData] Split skillData into SUIDs, suidArray=',
+        suidArray
+    )
 
     const learnedSkills = suidArray.map((suid) => {
         const skillTree = getSkillTreeByID(suid[0])
@@ -64,9 +105,12 @@ export const decodeBuildData = (dataBase64, skills) => {
         )
         return skill?.id
     })
-    console.log('learnedSkills', learnedSkills)
+    console.log(
+        '[decodeBuildData] Read skills from SUIDs, learnedSkills=',
+        learnedSkills
+    )
 
-    return { learnedSkills }
+    return { name, level, learnedSkills }
 }
 
 export const calculateSkillPointsRemaining = (character, skills) => {
