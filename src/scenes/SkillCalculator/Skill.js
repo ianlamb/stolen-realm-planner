@@ -12,6 +12,12 @@ import {
 } from './index'
 import { ReactComponent as LockIconRaw } from '../../icons/lock.svg'
 
+const damageTypeEffects = {
+    fire: 'Heat',
+    lightning: 'Shocked',
+    cold: 'Chilled',
+}
+
 const Root = styled.div(({ theme, left, right, top }) => ({
     position: 'absolute',
     left,
@@ -87,6 +93,10 @@ const GlossaryItemDescription = styled.div(({ theme }) => ({
     color: theme.palette.text.highlight,
 }))
 
+const checkValue = (value) => {
+    return value !== '' && !isNil(value)
+}
+
 export default function Skill({
     skill,
     pos,
@@ -101,22 +111,47 @@ export default function Skill({
     } ${skill.title} Icon`
     const iconUrl = `skill-icons/${skill.skillTree}/${iconName}.png`
 
-    let decoratedDescription = skill.description
+    let decoratedDescriptionWords = skill.description.split(' ')
     let glossaryItems = []
+    let damageEffectDescription
 
-    for (let word in effectsGlossary) {
-        if (decoratedDescription.includes(word)) {
-            decoratedDescription = replaceJSX(
-                decoratedDescription,
-                new RegExp(word, 'g'),
-                <HightlightText>{word}</HightlightText>
+    decoratedDescriptionWords = decoratedDescriptionWords.map((word) => {
+        const isLastWordInSentence = word.endsWith('.')
+        if (isLastWordInSentence) {
+            word = word.replace('.', '')
+        }
+        if (effectsGlossary[word]) {
+            glossaryItems.push({
+                title: word,
+                description: effectsGlossary[word],
+            })
+            return (
+                <>
+                    <HightlightText>{word}</HightlightText>
+                    {isLastWordInSentence ? '. ' : ' '}
+                </>
             )
+        }
+        if (typeof word === 'string') {
+            return `${word}${isLastWordInSentence ? '. ' : ' '}`
+        }
+        return word
+    })
 
+    if (checkValue(skill.damageType)) {
+        const word = damageTypeEffects[skill.damageType]
+        if (!glossaryItems.find((x) => x.title === word)) {
             glossaryItems.push({
                 title: word,
                 description: effectsGlossary[word],
             })
         }
+        damageEffectDescription = (
+            <>
+                All {skill.damageType} damage applies{' '}
+                <HightlightText>{word}</HightlightText>.
+            </>
+        )
     }
 
     const getDurationText = (duration) => {
@@ -142,10 +177,6 @@ export default function Skill({
         toggleSkill(skill)
     }
 
-    const checkValue = (value) => {
-        return value !== '' && !isNil(value)
-    }
-
     return (
         <Root left={pos.left} right={pos.right} top={pos.top}>
             <Tooltip
@@ -169,7 +200,8 @@ export default function Skill({
                                     Skill Point Cost: {skill.skillPointCost}
                                 </HightlightText>
                             </Section>
-                            <Section>{decoratedDescription}</Section>
+                            <Section>{decoratedDescriptionWords}</Section>
+                            <Section>{damageEffectDescription}</Section>
                             {replaces && (
                                 <Section>
                                     Replaces{' '}
