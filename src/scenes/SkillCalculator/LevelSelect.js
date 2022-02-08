@@ -39,7 +39,7 @@ export default function LevelSelect() {
     const { character } = useAppState()
 
     let availableLevels = []
-    for (let i = MAX_LEVEL; i > MIN_LEVEL; i--) {
+    for (let i = MAX_LEVEL; i >= MIN_LEVEL; i--) {
         availableLevels.push(i)
     }
 
