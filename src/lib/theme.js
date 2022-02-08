@@ -13,6 +13,7 @@ export const theme = {
             default: '#2c2724',
             paper: 'rgba(255, 255, 255, 0.1)',
             appBar: '#121110',
+            button: '',
         },
     },
     fonts: {

@@ -71,7 +71,7 @@ export const decodeBuildData = (dataBase64, skills) => {
             name = kvArray[1]
         }
         if (kvArray[0] === 'l') {
-            level = kvArray[1]
+            level = parseInt(kvArray[1], 10)
         }
         if (kvArray[0] === 's') {
             skillData = kvArray[1]
@@ -113,11 +113,16 @@ export const decodeBuildData = (dataBase64, skills) => {
     return { name, level, learnedSkills }
 }
 
+export const getMaxSkillPoints = (characterLevel) => {
+    // start with 3 skill points at level 1 then earn 1 for each level
+    return characterLevel + 2
+}
+
 export const calculateSkillPointsRemaining = (character, skills) => {
     return character.learnedSkills
         .map((ls) => skills.all.find((s) => s.id === ls))
         .reduce((skillPoints, skill) => {
             skillPoints -= skill.skillPointCost
             return skillPoints
-        }, character.level)
+        }, getMaxSkillPoints(character.level))
 }

@@ -3,16 +3,19 @@ import skills from './data/skills.json'
 import {
     encodeBuildData,
     calculateSkillPointsRemaining,
+    getMaxSkillPoints,
 } from './scenes/SkillCalculator/helpers'
 
 const getSkills = (skillTree) => skills.filter((s) => s.skillTree === skillTree)
+
+const DEFAULT_LEVEL = 30
 
 const initialState = {
     buildDataBase64: null,
     character: {
         name: '',
-        level: 30,
-        skillPointsRemaining: 30,
+        level: DEFAULT_LEVEL,
+        skillPointsRemaining: getMaxSkillPoints(DEFAULT_LEVEL),
         learnedSkills: [],
     },
     skills: {

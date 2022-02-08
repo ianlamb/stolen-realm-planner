@@ -7,6 +7,7 @@ import { useDispatch, useAppState } from '../../store'
 import { Container } from '../../components'
 import NameInput from './NameInput'
 import LevelSelect from './LevelSelect'
+import ShareBuild from './ShareBuild'
 
 const Root = styled(Container)(({ theme }) => ({
     border: '2px solid rgba(0, 0, 0, 0.5)',
@@ -84,19 +85,6 @@ const Options = styled.div(({ theme }) => ({
     flexDirection: 'row',
 }))
 
-const Share = styled.div(({ theme }) => ({
-    flex: 1,
-    margin: theme.spacing(2),
-    fontSize: '12px',
-    color: theme.palette.text.default,
-}))
-
-const BuildDataString = styled.div(({ theme }) => ({
-    wordBreak: 'break-all',
-    fontSize: '12px',
-    color: theme.palette.text.subdued,
-}))
-
 const SkillPointCounter = styled.div(({ theme, isEmpty }) => ({
     color: isEmpty ? theme.palette.text.error : theme.palette.text.highlight,
     padding: theme.spacing(1),
@@ -142,7 +130,7 @@ export const SkillTreeNavItem = ({ skillTree, pointsSpent }) => {
 
 export const SkillCalculator = ({ skillTrees }) => {
     const dispatch = useDispatch()
-    const { character, skills, buildDataBase64 } = useAppState()
+    const { character, skills } = useAppState()
 
     const query = new URLSearchParams(window.location.search)
     const buildDataBase64FromUrl = query.get('build')
@@ -166,11 +154,8 @@ export const SkillCalculator = ({ skillTrees }) => {
                 <Options>
                     <NameInput />
                     <LevelSelect />
+                    <ShareBuild />
                 </Options>
-                <Share>
-                    Build Data:{' '}
-                    <BuildDataString>{buildDataBase64}</BuildDataString>
-                </Share>
                 <SkillPointCounter
                     isEmpty={character.skillPointsRemaining <= 0}
                 >

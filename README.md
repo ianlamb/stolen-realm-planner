@@ -16,7 +16,6 @@ Future ideas:
 
 ### General
 
--   style the shell of the app better
 -   add note about what game version the data is from
 
 ### Production Readiness
@@ -28,7 +27,6 @@ Future ideas:
 
 ### Skill Calculator
 
--   add ability to share builds
 -   refactor Tooltip component
 -   audit pass to ensure tooltip data is accurate
 
