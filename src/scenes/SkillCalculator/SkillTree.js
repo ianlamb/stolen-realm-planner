@@ -197,37 +197,46 @@ export default function SkillTree({ id, title }) {
         }
     }
 
+    const mapSkills = (skills) => {
+        let lastSkill
+        return skills.map((skill) => {
+            const isLeftSibling =
+                skill.requires &&
+                skill.exclusiveWith &&
+                lastSkill?.exclusiveWith !== skill.id
+            const isRightSibling =
+                skill.requires &&
+                skill.exclusiveWith &&
+                lastSkill?.exclusiveWith === skill.id
+            const result = (
+                <Skill
+                    key={skill.id}
+                    skill={skill}
+                    pos={getSkillPosition(skill)}
+                    toggleSkill={toggleSkill}
+                    isLearned={isLearned(skill, character.learnedSkills)}
+                    hasRequirement={hasRequirement(skill)}
+                    learnability={getLearnability(skill)}
+                    replaces={getReplacesSkill(skill)}
+                    isOnlyChild={skill.requires && !skill.exclusiveWith}
+                    isLeftSibling={isLeftSibling}
+                    isRightSibling={isRightSibling}
+                />
+            )
+            lastSkill = skill
+            return result
+        })
+    }
+
     return (
         <Root>
             <ActiveSkills>
                 <SectionTitle align="right">Active Skills</SectionTitle>
-                {activeSkills.map((skill) => (
-                    <Skill
-                        key={skill.id}
-                        skill={skill}
-                        pos={getSkillPosition(skill)}
-                        toggleSkill={toggleSkill}
-                        isLearned={isLearned(skill, character.learnedSkills)}
-                        hasRequirement={hasRequirement(skill)}
-                        learnability={getLearnability(skill)}
-                        replaces={getReplacesSkill(skill)}
-                    />
-                ))}
+                {mapSkills(activeSkills)}
             </ActiveSkills>
             <PassiveSkills>
                 <SectionTitle>Passive Skills</SectionTitle>
-                {passiveSkills.map((skill) => (
-                    <Skill
-                        key={skill.id}
-                        skill={skill}
-                        pos={getSkillPosition(skill)}
-                        toggleSkill={toggleSkill}
-                        isLearned={isLearned(skill, character.learnedSkills)}
-                        hasRequirement={hasRequirement(skill)}
-                        learnability={getLearnability(skill)}
-                        replaces={getReplacesSkill(skill)}
-                    />
-                ))}
+                {mapSkills(passiveSkills)}
             </PassiveSkills>
         </Root>
     )

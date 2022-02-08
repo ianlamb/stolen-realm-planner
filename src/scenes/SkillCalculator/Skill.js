@@ -3,7 +3,6 @@ import styled from '@emotion/styled'
 import { capitalize, isNil } from 'lodash-es'
 
 import effectsGlossary from '../../data/effectsGlossary.json'
-import { replaceJSX } from '../../lib/helpers'
 import { Tooltip, HightlightText, ErrorText } from '../../components'
 import {
     SkillTreeIcon,
@@ -83,6 +82,35 @@ const SkillIconOverlay = styled.div(({ theme }) => ({
     background: 'rgba(80, 80, 80, 0.5)',
 }))
 
+const SkillConnectorStraight = styled.div(({ theme }) => {
+    const height = theme.spacing(3)
+    return {
+        position: 'absolute',
+        width: 4,
+        height: height,
+        top: -height,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        backgroundColor: theme.palette.primary,
+    }
+})
+
+const SkillConnectorToLeft = styled.div(({ theme }) => {
+    const height = theme.spacing(4)
+    return {
+        position: 'absolute',
+        width: 4,
+        height: height,
+        top: -height + 4,
+        left: '50%',
+        transform: 'translateX(-20px) rotate(-30deg)',
+        backgroundColor: theme.palette.primary,
+    }
+})
+const SkillConnectorToRight = styled(SkillConnectorToLeft)(({ theme }) => ({
+    transform: 'translateX(20px) rotate(30deg)',
+}))
+
 const LockIcon = styled(LockIconRaw)(({ theme }) => ({
     height: 24,
     width: 24,
@@ -134,6 +162,9 @@ export default function Skill({
     hasRequirement,
     learnability,
     replaces,
+    isOnlyChild,
+    isLeftSibling,
+    isRightSibling,
 }) {
     const iconName = `${capitalize(skill.skillTree)} T${skill.tier},${
         skill.skillNum
@@ -308,6 +339,9 @@ export default function Skill({
                     )}
                 </SkillIcon>
             </Tooltip>
+            {isOnlyChild && <SkillConnectorStraight />}
+            {isLeftSibling && <SkillConnectorToRight />}
+            {isRightSibling && <SkillConnectorToLeft />}
         </Root>
     )
 }
