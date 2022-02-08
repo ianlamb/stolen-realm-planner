@@ -37,6 +37,7 @@ export const SkillTreeIcon = styled.div(({ theme, isActive }) => ({
     height: theme.sizing.skillTreeIcon,
     maxWidth: theme.sizing.skillTreeIcon,
     maxHeight: theme.sizing.skillTreeIcon,
+    boxShadow: '0 0 3px 0 rgba(0, 0, 0, 0.3)',
     '&:before': {
         display: 'block',
         content: '""',

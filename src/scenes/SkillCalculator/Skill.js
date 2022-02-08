@@ -33,6 +33,35 @@ const SkillIcon = styled(SkillTreeIcon)(({ theme }) => ({
     cursor: 'pointer',
 }))
 
+const SkillIconBorder = styled.div(({ theme }) => ({
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    border: '3px outset rgba(85, 65, 57, 1)',
+    '&:before': {
+        content: '""',
+        position: 'absolute',
+        top: -1,
+        left: -1,
+        right: -1,
+        bottom: -1,
+        border: '1px solid rgba(195, 153, 133, 0.3)',
+    },
+    '&:after': {
+        content: '""',
+        position: 'absolute',
+        top: 2,
+        left: 2,
+        right: 2,
+        bottom: 2,
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 0 0 2px rgba(0, 0, 0, 0.3)',
+    },
+}))
+
 const SkillIconImg = styled(SkillTreeIconImg)(({ theme, grayscale }) => ({
     filter: grayscale && `grayscale(1)`,
 }))
@@ -260,6 +289,7 @@ export default function Skill({
                 }
             >
                 <SkillIcon onClick={handleClick}>
+                    <SkillIconBorder />
                     <SkillIconImg
                         src={iconUrl}
                         alt={skill.title}
