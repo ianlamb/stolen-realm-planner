@@ -65,13 +65,15 @@ export const SkillTreeIconImg = styled.img(({ theme }) => ({
 
 export const SkillTreeIconAnnotation = styled.div(({ theme }) => ({
     position: 'absolute',
-    bottom: 0,
-    right: 0,
+    top: 2,
+    right: 2,
     padding: `0 4px`,
-    fontSize: '70%',
+    fontSize: '12px',
     textAlign: 'right',
     color: theme.palette.text.highlight,
-    // background: 'rgba(0, 0, 0, 0.5)',
+    background: theme.palette.background.default,
+    border: `2px outset ${theme.palette.skillBorder}`,
+    textShadow: '0 0 1px rgba(0, 0, 0, 1)',
 }))
 
 const Heading = styled.div(({ theme }) => ({
@@ -119,9 +121,11 @@ export const SkillTreeNavItem = ({ skillTree, pointsSpent }) => {
                         src={`skill-tree-icons/${skillTree.id}.png`}
                         alt={skillTree.title}
                     />
-                    <SkillTreeIconAnnotation>
-                        {pointsSpent}
-                    </SkillTreeIconAnnotation>
+                    {pointsSpent > 0 && (
+                        <SkillTreeIconAnnotation>
+                            {pointsSpent}
+                        </SkillTreeIconAnnotation>
+                    )}
                 </SkillTreeIcon>
             </NavLink>
         </NavItem>

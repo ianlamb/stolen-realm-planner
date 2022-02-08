@@ -39,7 +39,7 @@ const SkillIconBorder = styled.div(({ theme }) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    border: '3px outset rgba(85, 65, 57, 1)',
+    border: `3px outset ${theme.palette.skillBorder}`,
     '&:before': {
         content: '""',
         position: 'absolute',
@@ -66,7 +66,11 @@ const SkillIconImg = styled(SkillTreeIconImg)(({ theme, grayscale }) => ({
 }))
 
 const SkillIconAnnotation = styled(SkillTreeIconAnnotation)(({ theme }) => ({
+    top: 'auto',
+    bottom: 2,
     background: 'none',
+    border: 'none',
+    fontSize: '14px',
 }))
 
 const SkillIconOverlay = styled.div(({ theme }) => ({

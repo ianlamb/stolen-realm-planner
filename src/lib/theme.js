@@ -3,6 +3,7 @@ const spacingMultiplier = 8
 export const theme = {
     palette: {
         primary: '#eb9944',
+        skillBorder: 'rgba(85, 65, 57, 1)',
         text: {
             default: '#f9f9f9',
             subdued: 'rgba(200, 200, 200, 0.85)',
