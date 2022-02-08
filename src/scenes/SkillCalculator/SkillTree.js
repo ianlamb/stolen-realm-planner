@@ -6,6 +6,8 @@ import { useDispatch, useAppState } from '../../store'
 import { isLearned, getPointsSpentInTree } from './index'
 import Skill from './Skill'
 
+const buildVersion = 'v0.14.9'
+
 const SPACING_OFFSET = 16
 const SKILL_OFFSET = 64
 
@@ -87,6 +89,16 @@ const ErrorMessage = styled.div(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.error,
     padding: theme.spacing(1),
+}))
+
+const DataVersion = styled.div(({ theme }) => ({
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
+    color: theme.palette.text.subdued,
+    fontSize: '11px',
+    fontFamily: 'Courier, monospace',
 }))
 
 export default function SkillTree({ id, title }) {
@@ -237,6 +249,9 @@ export default function SkillTree({ id, title }) {
             <PassiveSkills>
                 <SectionTitle>Passive Skills</SectionTitle>
                 {mapSkills(passiveSkills)}
+                <DataVersion>
+                    Data reviewed as of build: <b>{buildVersion}</b>
+                </DataVersion>
             </PassiveSkills>
         </Root>
     )

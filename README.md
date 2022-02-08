@@ -14,10 +14,6 @@ Future ideas:
 
 ## TODO before initial release
 
-### General
-
--   add note about what game version the data is from
-
 ### Production Readiness
 
 -   fix ci
