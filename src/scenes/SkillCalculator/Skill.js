@@ -160,6 +160,7 @@ const checkValue = (value) => {
 
 export default function Skill({
     skill,
+    scaledManaCost,
     pos,
     toggleSkill,
     isLearned,
@@ -299,10 +300,8 @@ export default function Skill({
                                             {getRangeText(skill.blastRadius)}
                                         </div>
                                     )}
-                                    {checkValue(skill.manaCost) && (
-                                        <div>
-                                            Mana Cost (base): {skill.manaCost}
-                                        </div>
+                                    {checkValue(scaledManaCost) && (
+                                        <div>Mana Cost: {scaledManaCost}</div>
                                     )}
                                     {checkValue(skill.cooldown) && (
                                         <div>Cooldown: {skill.cooldown}</div>

@@ -4,6 +4,7 @@ import { isEmpty, orderBy } from 'lodash-es'
 
 import { useDispatch, useAppState } from '../../store'
 import { isLearned, getPointsSpentInTree } from './index'
+import { calculateScaledManaCost } from './helpers'
 import Skill from './Skill'
 
 const buildVersion = 'v0.14.9'
@@ -224,6 +225,10 @@ export default function SkillTree({ id, title }) {
                 <Skill
                     key={skill.id}
                     skill={skill}
+                    scaledManaCost={calculateScaledManaCost(
+                        skill.manaCost,
+                        character.level
+                    )}
                     pos={getSkillPosition(skill)}
                     toggleSkill={toggleSkill}
                     isLearned={isLearned(skill, character.learnedSkills)}
