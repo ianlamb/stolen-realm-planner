@@ -16,7 +16,6 @@ Future ideas:
 
 ### Production Readiness
 
--   optimize images
 -   add google analytics
 -   add open graph
 

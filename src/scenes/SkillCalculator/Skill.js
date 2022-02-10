@@ -233,7 +233,7 @@ export default function Skill({
     const iconName = `${capitalize(skill.skillTree)} T${skill.tier},${
         skill.skillNum
     } ${skill.title} Icon`
-    const iconUrl = `skill-icons/${skill.skillTree}/${iconName}.png`
+    const iconUrl = `skill-icons/${skill.skillTree}/${iconName}-min.png`
 
     let decoratedDescription = [skill.description]
     let glossaryItems = []
