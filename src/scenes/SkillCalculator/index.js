@@ -142,7 +142,6 @@ export const SkillCalculator = ({ skillTrees }) => {
     const dispatch = useDispatch()
     const { character, skills, buildDataBase64 } = useAppState()
     const navigate = useNavigate()
-    const location = useLocation()
     const query = useQuery()
     const buildDataBase64FromUrl = query.get('build')
 
@@ -163,7 +162,7 @@ export const SkillCalculator = ({ skillTrees }) => {
     React.useEffect(() => {
         query.set('build', buildDataBase64)
         navigate({ search: `?${query.toString()}` })
-    }, [dispatch, buildDataBase64])
+    }, [dispatch, navigate, query, buildDataBase64])
 
     return (
         <Root>
