@@ -30,9 +30,6 @@ export const encodeBuildData = (character, skills) => {
         }${s.skillNum.toString(16)}`
         return sUID
     })
-    if (suidArray.length <= 0) {
-        return
-    }
     console.log(
         '[encodeBuildData] Convert skills into SUIDs, suidArray=',
         suidArray
@@ -60,57 +57,64 @@ export const decodeBuildData = (dataBase64, skills) => {
 
     console.log('[decodeBuildData] Decoding... dataBase64=', dataBase64)
 
-    const dataString = atob(dataBase64)
-    console.log('[decodeBuildData] Base64 to string, dataString=', dataString)
-
-    const kvPairs = dataString.split(';')
-    let name, level, skillData
-    kvPairs.forEach((kvp) => {
-        const kvArray = kvp.split('=')
-        if (kvArray[0] === 'n') {
-            name = kvArray[1]
-        }
-        if (kvArray[0] === 'l') {
-            level = parseInt(kvArray[1], 10)
-        }
-        if (kvArray[0] === 's') {
-            skillData = kvArray[1]
-        }
-    })
-    console.log(
-        '[decodeBuildData] Build data from key-value pairs, name=',
-        name,
-        'level=',
-        level,
-        'skillData=',
-        skillData
-    )
-
-    let suidArray = []
-    for (let i = 0; i < skillData.length; i += 3) {
-        suidArray.push(skillData.slice(i, i + 3))
-    }
-    console.log(
-        '[decodeBuildData] Split skillData into SUIDs, suidArray=',
-        suidArray
-    )
-
-    const learnedSkills = suidArray.map((suid) => {
-        const skillTree = getSkillTreeByID(suid[0])
-        const skillTier = parseInt(suid[1], 10)
-        const skillNum = parseInt(suid[2], 16)
-        const skillTreeSkills = skills[skillTree]
-        const skill = skillTreeSkills?.find(
-            (s) => s.tier === skillTier && s.skillNum === skillNum
+    try {
+        const dataString = atob(dataBase64)
+        console.log(
+            '[decodeBuildData] Base64 to string, dataString=',
+            dataString
         )
-        return skill?.id
-    })
-    console.log(
-        '[decodeBuildData] Read skills from SUIDs, learnedSkills=',
-        learnedSkills
-    )
 
-    return { name, level, learnedSkills }
+        let name, level, learnedSkills, skillData
+        const kvPairs = dataString.split(';')
+        kvPairs.forEach((kvp) => {
+            const kvArray = kvp.split('=')
+            if (kvArray[0] === 'n') {
+                name = kvArray[1]
+            }
+            if (kvArray[0] === 'l') {
+                level = parseInt(kvArray[1], 10)
+            }
+            if (kvArray[0] === 's') {
+                skillData = kvArray[1]
+            }
+        })
+        console.log(
+            '[decodeBuildData] Build data from key-value pairs, name=',
+            name,
+            'level=',
+            level,
+            'skillData=',
+            skillData
+        )
+
+        let suidArray = []
+        for (let i = 0; i < skillData.length; i += 3) {
+            suidArray.push(skillData.slice(i, i + 3))
+        }
+        console.log(
+            '[decodeBuildData] Split skillData into SUIDs, suidArray=',
+            suidArray
+        )
+
+        learnedSkills = suidArray.map((suid) => {
+            const skillTree = getSkillTreeByID(suid[0])
+            const skillTier = parseInt(suid[1], 10)
+            const skillNum = parseInt(suid[2], 16)
+            const skillTreeSkills = skills[skillTree]
+            const skill = skillTreeSkills?.find(
+                (s) => s.tier === skillTier && s.skillNum === skillNum
+            )
+            return skill?.id
+        })
+        console.log(
+            '[decodeBuildData] Read skills from SUIDs, learnedSkills=',
+            learnedSkills
+        )
+
+        return { name, level, learnedSkills }
+    } catch (error) {
+        console.error('[decodeBuildData] Failed to decode build data', error)
+    }
 }
 
 export const getMaxSkillPoints = (characterLevel) => {

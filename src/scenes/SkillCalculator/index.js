@@ -15,6 +15,7 @@ import { Container } from '../../components'
 import NameInput from './NameInput'
 import LevelSelect from './LevelSelect'
 import ShareBuild from './ShareBuild'
+import ResetBuild from './ResetBuild'
 
 const Root = styled(Container)(({ theme }) => ({
     border: '2px solid rgba(0, 0, 0, 0.5)',
@@ -148,20 +149,24 @@ export const SkillCalculator = ({ skillTrees }) => {
     // on initial load, see if we have build data to import
     React.useEffect(() => {
         const buildData = decodeBuildData(buildDataBase64FromUrl, skills)
-        dispatch({
-            type: 'loadBuildData',
-            payload: {
-                character: buildData,
-                buildDataBase64: buildDataBase64FromUrl,
-            },
-        })
+        if (buildData) {
+            dispatch({
+                type: 'loadBuildData',
+                payload: {
+                    character: buildData,
+                    buildDataBase64: buildDataBase64FromUrl,
+                },
+            })
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // any time the build data changes in the store, update the query param
     React.useEffect(() => {
-        query.set('build', buildDataBase64)
-        navigate({ search: `?${query.toString()}` })
+        if (buildDataBase64) {
+            query.set('build', buildDataBase64)
+            navigate({ search: `?${query.toString()}` })
+        }
     }, [dispatch, navigate, query, buildDataBase64])
 
     return (
@@ -171,6 +176,7 @@ export const SkillCalculator = ({ skillTrees }) => {
                     <NameInput />
                     <LevelSelect />
                     <ShareBuild />
+                    <ResetBuild />
                 </Options>
                 <SkillPointCounter
                     isEmpty={character.skillPointsRemaining <= 0}

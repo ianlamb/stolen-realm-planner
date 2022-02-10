@@ -142,6 +142,11 @@ export const StateProvider = ({ children }) => {
                     },
                 }
                 break
+            case 'resetBuild':
+                newState = {
+                    ...initialState,
+                }
+                break
             case 'setAttribute':
                 newState = {
                     ...state,

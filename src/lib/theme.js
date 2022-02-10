@@ -2,12 +2,12 @@ const spacingMultiplier = 8
 
 export const theme = {
     palette: {
-        primary: '#bfaf8c',
+        primary: '#dbb884',
         skillBorder: 'rgba(85, 65, 57, 1)',
         text: {
             default: '#f9f9f9',
             subdued: 'rgba(200, 200, 200, 0.85)',
-            highlight: '#bfaf8c',
+            highlight: '#dbb884',
             error: '#bb3314',
         },
         background: {
