@@ -185,7 +185,7 @@ export default function SkillTree({ id, title }) {
         return relevantSkills.find((s) => s.id === skill.replaces)
     }
 
-    const getLearnability = (skill) => {
+    const getLearnability = (skill, learnedSkills) => {
         let learnability = {
             canLearn: true,
             reason: '',
@@ -204,14 +204,14 @@ export default function SkillTree({ id, title }) {
             // requirements check
             if (!isEmpty(skill.requires)) {
                 const requiredSkill = getRequiredSkill(skill)
-                if (!isLearned(requiredSkill, character.learnedSkills)) {
+                if (!isLearned(requiredSkill, learnedSkills)) {
                     learnability.canLearn = false
                     learnability.reason = `Requires ${requiredSkill.title}.`
                 }
             }
             // exclusion check
             const excludedBy = getSkillThatExcludesThisOne(skill)
-            if (excludedBy && isLearned(excludedBy, character.learnedSkills)) {
+            if (excludedBy && isLearned(excludedBy, learnedSkills)) {
                 learnability.canLearn = false
                 learnability.reason = `Disabled by ${excludedBy.title}.`
             }
@@ -221,7 +221,7 @@ export default function SkillTree({ id, title }) {
 
     const toggleSkill = (skill) => {
         if (!isLearned(skill, character.learnedSkills)) {
-            if (getLearnability(skill).canLearn) {
+            if (getLearnability(skill, character.learnedSkills).canLearn) {
                 dispatch({ type: 'learnSkill', payload: skill })
             }
         } else {
@@ -253,7 +253,10 @@ export default function SkillTree({ id, title }) {
                     toggleSkill={toggleSkill}
                     isLearned={isLearned(skill, character.learnedSkills)}
                     hasRequirement={hasRequirement(skill)}
-                    learnability={getLearnability(skill)}
+                    learnability={getLearnability(
+                        skill,
+                        character.learnedSkills
+                    )}
                     replaces={getReplacesSkill(skill)}
                     isOnlyChild={skill.requires && !skill.exclusiveWith}
                     isLeftSibling={isLeftSibling}

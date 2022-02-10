@@ -421,7 +421,7 @@ export default function Skill({
                     {skill.requires && (
                         <SkillIconAnnotation>II</SkillIconAnnotation>
                     )}
-                    {!learnability.canLearn && (
+                    {!learnability.canLearn && !isLearned && (
                         <SkillIconOverlay>
                             <LockIcon />
                         </SkillIconOverlay>
