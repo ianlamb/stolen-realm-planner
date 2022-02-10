@@ -213,3 +213,10 @@ export const calculateAttackDamageRange = (
         Math.round(damageMod * attackPower * 1.15),
     ]
 }
+
+export const calculateWeaponAverage = (weaponDamage) => {
+    if (weaponDamage?.length !== 2) {
+        return 1
+    }
+    return Math.round((weaponDamage[0] + weaponDamage[1]) / 2)
+}

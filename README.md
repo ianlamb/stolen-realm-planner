@@ -16,7 +16,6 @@ Future ideas:
 
 ### Production Readiness
 
--   fix ci
 -   optimize images
 -   add google analytics
 -   add open graph
@@ -24,7 +23,6 @@ Future ideas:
 ### Skill Calculator
 
 -   refactor Tooltip component
--   audit pass to ensure tooltip data is accurate
 
 ## BUGS
 

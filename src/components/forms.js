@@ -20,7 +20,7 @@ export const Label = styled.label(({ theme }) => ({
 }))
 
 export const Input = styled.input(({ theme }) => ({
-    minWidth: 150,
+    minWidth: 100,
     padding: theme.spacing(1),
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.default,

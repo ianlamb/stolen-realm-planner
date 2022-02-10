@@ -8,6 +8,7 @@ import {
     calculateSpellDamageRange,
     calculateAttackDamage,
     calculateAttackDamageRange,
+    calculateWeaponAverage,
 } from './helpers'
 import { replaceJSX, replaceJSXSpecial } from '../../lib/helpers'
 import effectsGlossary from '../../data/effectsGlossary.json'
@@ -194,14 +195,14 @@ const replaceDamageValue = (description, damageMod, character, key) => {
         matchingRegex = regexExactAP
         damage = calculateAttackDamage(
             damageMod,
-            character.weaponAverage,
+            calculateWeaponAverage(character.equipment.weaponDamage),
             character.attributes.might
         )
     } else if (description.match(regexRangeAP)) {
         matchingRegex = regexRangeAP
         const damageRange = calculateAttackDamageRange(
             damageMod,
-            character.weaponAverage,
+            calculateWeaponAverage(character.equipment.weaponDamage),
             character.attributes.might
         )
         damage = `${damageRange[0]}-${damageRange[1]}`
