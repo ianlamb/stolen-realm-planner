@@ -1,7 +1,14 @@
 import React from 'react'
-import { Outlet, Link, useMatch } from 'react-router-dom'
+import {
+    Outlet,
+    Link,
+    useMatch,
+    useLocation,
+    useNavigate,
+} from 'react-router-dom'
 import styled from '@emotion/styled'
 
+import useQuery from '../../lib/useQuery'
 import { decodeBuildData } from './helpers'
 import { useDispatch, useAppState } from '../../store'
 import { Container } from '../../components'
@@ -112,11 +119,12 @@ export const getPointsSpentInTree = (skillTreeSkills, learnedSkills) => {
 }
 
 export const SkillTreeNavItem = ({ skillTree, pointsSpent }) => {
+    const { search } = useLocation()
     const isActive = useMatch(`/skill-calculator/${skillTree.id}`)
     const iconUrl = `skill-tree-icons/${skillTree.id}-min.png`
     return (
         <NavItem key={skillTree.id}>
-            <NavLink to={skillTree.id}>
+            <NavLink to={{ pathname: skillTree.id, search }}>
                 <SkillTreeIcon isActive={isActive}>
                     <SkillTreeIconImg src={iconUrl} alt={skillTree.title} />
                     {pointsSpent > 0 && (
@@ -132,13 +140,14 @@ export const SkillTreeNavItem = ({ skillTree, pointsSpent }) => {
 
 export const SkillCalculator = ({ skillTrees }) => {
     const dispatch = useDispatch()
-    const { character, skills } = useAppState()
-
-    const query = new URLSearchParams(window.location.search)
+    const { character, skills, buildDataBase64 } = useAppState()
+    const navigate = useNavigate()
+    const location = useLocation()
+    const query = useQuery()
     const buildDataBase64FromUrl = query.get('build')
 
+    // on initial load, see if we have build data to import
     React.useEffect(() => {
-        // on initial load, see if we have build data to import
         const buildData = decodeBuildData(buildDataBase64FromUrl, skills)
         dispatch({
             type: 'loadBuildData',
@@ -149,6 +158,12 @@ export const SkillCalculator = ({ skillTrees }) => {
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    // any time the build data changes in the store, update the query param
+    React.useEffect(() => {
+        query.set('build', buildDataBase64)
+        navigate({ search: `?${query.toString()}` })
+    }, [dispatch, buildDataBase64])
 
     return (
         <Root>

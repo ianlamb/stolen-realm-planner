@@ -4,6 +4,7 @@ import {
     Route,
     Navigate,
     NavLink,
+    useLocation,
 } from 'react-router-dom'
 import { ThemeProvider, Global } from '@emotion/react'
 import styled from '@emotion/styled'
@@ -30,11 +31,11 @@ const skillTrees = [
 
 const AppRoot = styled.div(({ theme }) => ({}))
 
-const AppContent = styled.div(({ theme }) => ({
+const AppContentRoot = styled.div(({ theme }) => ({
     paddingTop: theme.spacing(2),
 }))
 
-const AppBar = styled.div(({ theme }) => ({
+const AppBarRoot = styled.div(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     height: theme.sizing.appBarHeight,
@@ -98,7 +99,7 @@ const DiscordIcon = styled(DiscordIconRaw)(({ theme }) => ({
     paddingBottom: theme.spacing(2),
 }))
 
-const Footer = styled.div(({ theme }) => ({
+const AppFooterRoot = styled.div(({ theme }) => ({
     width: '100%',
     height: 30,
     lineHeight: '30px',
@@ -107,6 +108,89 @@ const Footer = styled.div(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.subdued,
 }))
+
+function AppBar() {
+    const { search } = useLocation()
+    return (
+        <AppBarRoot>
+            <Logo src="logo.png" alt="Stolen Realm Logo" />
+            <Title>Character Planner</Title>
+            <Nav>
+                <NavItem
+                    to={{
+                        pathname: 'skill-calculator',
+                        search,
+                    }}
+                >
+                    Skills
+                </NavItem>
+                <NavItem to={{ pathname: 'character', search }}>
+                    Character
+                </NavItem>
+                <NavSplitter />
+                <ExternalNavItem
+                    href="https://discord.com/invite/SbEPwMfXCJ"
+                    target="_blank"
+                    rel="noopener"
+                    title="Stolen Realm Discord Community"
+                >
+                    <DiscordIcon />
+                </ExternalNavItem>
+            </Nav>
+        </AppBarRoot>
+    )
+}
+
+function AppContent() {
+    const { search } = useLocation()
+    return (
+        <AppContentRoot>
+            <Routes>
+                <Route
+                    path="skill-calculator"
+                    element={<SkillCalculator skillTrees={skillTrees} />}
+                >
+                    {skillTrees.map((skillTree) => (
+                        <Route
+                            key={skillTree.id}
+                            path={skillTree.id}
+                            element={<SkillTree {...skillTree} />}
+                        />
+                    ))}
+                    <Route
+                        path=""
+                        element={<Navigate to={{ pathname: 'fire', search }} />}
+                    />
+                </Route>
+                <Route path="character" element={<CharacterScreen />} />
+                <Route
+                    path="/"
+                    element={
+                        <Navigate
+                            to={{ pathname: 'skill-calculator', search }}
+                        />
+                    }
+                />
+            </Routes>
+        </AppContentRoot>
+    )
+}
+
+function AppFooter() {
+    return (
+        <AppFooterRoot>
+            This is a fan site. All game art credit belongs to{' '}
+            <Link
+                href="https://burst2flame.com/"
+                target="_blank"
+                rel="noopener"
+            >
+                Burst2Flame
+            </Link>
+            .
+        </AppFooterRoot>
+    )
+}
 
 function App() {
     return (
@@ -132,68 +216,9 @@ function App() {
             <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <StateProvider>
                     <AppRoot>
-                        <AppBar>
-                            <Logo src="logo.png" alt="Stolen Realm Logo" />
-                            <Title>Character Planner</Title>
-                            <Nav>
-                                <NavItem to="skill-calculator">Skills</NavItem>
-                                <NavItem to="character">Character</NavItem>
-                                <NavSplitter />
-                                <ExternalNavItem
-                                    href="https://discord.com/invite/SbEPwMfXCJ"
-                                    target="_blank"
-                                    rel="noopener"
-                                    title="Stolen Realm Discord Community"
-                                >
-                                    <DiscordIcon />
-                                </ExternalNavItem>
-                            </Nav>
-                        </AppBar>
-                        <AppContent>
-                            <Routes>
-                                <Route
-                                    path="skill-calculator"
-                                    element={
-                                        <SkillCalculator
-                                            skillTrees={skillTrees}
-                                        />
-                                    }
-                                >
-                                    {skillTrees.map((skillTree) => (
-                                        <Route
-                                            key={skillTree.id}
-                                            path={skillTree.id}
-                                            element={
-                                                <SkillTree {...skillTree} />
-                                            }
-                                        />
-                                    ))}
-                                    <Route
-                                        path=""
-                                        element={<Navigate to="fire" />}
-                                    />
-                                </Route>
-                                <Route
-                                    path="character"
-                                    element={<CharacterScreen />}
-                                />
-                                <Route
-                                    path="/"
-                                    element={<Navigate to="skill-calculator" />}
-                                />
-                            </Routes>
-                        </AppContent>
-                        <Footer>
-                            This is a fan site. All game art credit belongs to{' '}
-                            <Link
-                                href="https://burst2flame.com/"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                Burst2Flame
-                            </Link>
-                            .
-                        </Footer>
+                        <AppBar />
+                        <AppContent />
+                        <AppFooter />
                         <Feedback />
                     </AppRoot>
                     <div id="tooltip-portal"></div>
