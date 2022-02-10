@@ -22,6 +22,7 @@ const skillOffsetBumps = {
     'trackers-mark': 4,
     'long-shot': 1,
     'piercing-shot': 1,
+    'patient-hunter': 6,
     // shadow
     'necromancer-1': 12,
     // thief
@@ -61,7 +62,7 @@ const Root = styled.div(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    height: 440,
+    height: 450,
 }))
 
 const ActiveSkills = styled.div(({ theme }) => ({
@@ -92,17 +93,35 @@ const ErrorMessage = styled.div(({ theme }) => ({
     padding: theme.spacing(1),
 }))
 
-const DataVersion = styled.div(({ theme }) => ({
+const Checkbox = styled.input(({ theme }) => ({
+    position: 'relative',
+    top: 2,
+    marginRight: theme.spacing(0.5),
+}))
+const CheckboxLabel = styled.label(({ theme }) => ({
+    fontSize: '14px',
+    fontFamily: theme.fonts.bodyText,
+    cursor: 'pointer',
+}))
+
+const BottomLeftNote = styled.div(({ theme }) => ({
     position: 'absolute',
     bottom: 0,
-    right: 0,
+    left: 0,
     padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
     color: theme.palette.text.subdued,
-    fontSize: '11px',
+    fontSize: '10px',
     fontFamily: 'Courier, monospace',
+    textAlign: 'right',
+}))
+
+const BottomRightNote = styled(BottomLeftNote)(({ theme }) => ({
+    left: 'auto',
+    right: 0,
 }))
 
 export default function SkillTree({ id, title }) {
+    const [shouldCalcDamage, setShouldCalcDamage] = React.useState(true)
     const dispatch = useDispatch()
     const { skills, character } = useAppState()
     const relevantSkills = skills[id]
@@ -225,6 +244,7 @@ export default function SkillTree({ id, title }) {
                 <Skill
                     key={skill.id}
                     skill={skill}
+                    shouldCalcDamage={shouldCalcDamage}
                     scaledManaCost={calculateScaledManaCost(
                         skill.manaCost,
                         character.level
@@ -250,13 +270,28 @@ export default function SkillTree({ id, title }) {
             <ActiveSkills>
                 <SectionTitle align="right">Active Skills</SectionTitle>
                 {mapSkills(activeSkills)}
+                <BottomLeftNote>
+                    <Checkbox
+                        id="calcDamageCheckbox"
+                        type="checkbox"
+                        checked={shouldCalcDamage}
+                        onChange={(event) =>
+                            setShouldCalcDamage(event.currentTarget.checked)
+                        }
+                    />
+                    <CheckboxLabel htmlFor="calcDamageCheckbox">
+                        Calculate Skill Damage
+                    </CheckboxLabel>
+                </BottomLeftNote>
             </ActiveSkills>
             <PassiveSkills>
                 <SectionTitle>Passive Skills</SectionTitle>
                 {mapSkills(passiveSkills)}
-                <DataVersion>
-                    Data reviewed as of build: <b>{buildVersion}</b>
-                </DataVersion>
+                <BottomRightNote>
+                    Data reviewed as of client build: <b>{buildVersion}</b>
+                    <br />
+                    Damage calculations are still being tweaked for accuracy.
+                </BottomRightNote>
             </PassiveSkills>
         </Root>
     )

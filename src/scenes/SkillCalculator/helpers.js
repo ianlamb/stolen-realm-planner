@@ -132,3 +132,84 @@ export const calculateScaledManaCost = (baseManaCost, characterLevel) => {
         baseManaCost + baseManaCost * (0.1 * (characterLevel - 1))
     )
 }
+
+export const calculateSpellPower = (
+    characterLevel,
+    might,
+    generalBonuses = 0
+) => {
+    const sp =
+        (22 + characterLevel * 3) * (0.9 + might / 100) * (generalBonuses + 1)
+    return Math.round(sp)
+}
+
+export const calculateSpellDamage = (
+    damageMod,
+    characterLevel,
+    might,
+    generalBonuses = 0
+) => {
+    const spellPower = calculateSpellPower(
+        characterLevel,
+        might,
+        generalBonuses
+    )
+    return Math.round(damageMod * spellPower)
+}
+
+export const calculateSpellDamageRange = (
+    damageMod,
+    characterLevel,
+    might,
+    generalBonuses = 0
+) => {
+    const spellPower = calculateSpellPower(
+        characterLevel,
+        might,
+        generalBonuses
+    )
+    return [
+        Math.round(damageMod * spellPower * 0.85),
+        Math.round(damageMod * spellPower * 1.15),
+    ]
+}
+
+export const calculateAttackPower = (
+    weaponAverage = 1,
+    might,
+    generalBonuses = 0
+) => {
+    const ap = weaponAverage * (0.9 + might / 100) * (generalBonuses + 1)
+    return Math.round(ap)
+}
+
+export const calculateAttackDamage = (
+    damageMod,
+    weaponAverage,
+    might,
+    generalBonuses = 0
+) => {
+    const attackPower = calculateAttackPower(
+        weaponAverage,
+        might,
+        generalBonuses
+    )
+    return Math.round(damageMod * attackPower)
+}
+
+export const calculateAttackDamageRange = (
+    damageMod,
+    weaponAverage,
+    might,
+    generalBonuses = 0
+) => {
+    const attackPower = calculateAttackPower(
+        weaponAverage,
+        might,
+        generalBonuses
+    )
+    return [
+        Math.round(damageMod * attackPower * 0.85),
+        Math.round(damageMod * attackPower * 1.15),
+    ]
+}

@@ -17,6 +17,22 @@ const initialState = {
         level: DEFAULT_LEVEL,
         skillPointsRemaining: getMaxSkillPoints(DEFAULT_LEVEL),
         learnedSkills: [],
+        attributes: {
+            // McTesta
+            // might: 16,
+            // dexterity: 8,
+            // vitality: 14,
+            // intelligence: 8,
+            // reflex: 11,
+
+            // Dana
+            might: 53,
+            dexterity: 63,
+            vitality: 38,
+            intelligence: 8,
+            reflex: 13,
+        },
+        weaponAverage: 83.5,
     },
     skills: {
         all: skills,
@@ -54,11 +70,12 @@ export const StateProvider = ({ children }) => {
                 }
                 break
             case 'setLevel':
+                const newLevel = parseInt(action.payload, 10)
                 mergedCharacter = {
                     ...state.character,
-                    level: action.payload,
+                    level: newLevel,
                     skillPointsRemaining:
-                        parseInt(action.payload, 10) -
+                        newLevel -
                         (state.character.level -
                             state.character.skillPointsRemaining),
                 }

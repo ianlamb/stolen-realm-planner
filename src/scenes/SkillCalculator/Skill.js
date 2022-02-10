@@ -2,6 +2,14 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { capitalize, isNil } from 'lodash-es'
 
+import { useAppState } from '../../store'
+import {
+    calculateSpellDamage,
+    calculateSpellDamageRange,
+    calculateAttackDamage,
+    calculateAttackDamageRange,
+} from './helpers'
+import { replaceJSX, replaceJSXSpecial } from '../../lib/helpers'
 import effectsGlossary from '../../data/effectsGlossary.json'
 import { Tooltip, HightlightText, ErrorText } from '../../components'
 import {
@@ -10,6 +18,11 @@ import {
     SkillTreeIconAnnotation,
 } from './index'
 import { ReactComponent as LockIconRaw } from '../../icons/lock.svg'
+
+const regexExactSP = new RegExp(/(\[[0-9]+% Spell Power\])/)
+const regexExactAP = new RegExp(/(\[[0-9]+% Attack Power\])/)
+const regexRangeSP = new RegExp(/(\[~[0-9]+% Spell Power\])/)
+const regexRangeAP = new RegExp(/(\[~[0-9]+% Attack Power\])/)
 
 const damageTypeEffects = {
     fire: 'Heat',
@@ -122,7 +135,7 @@ const LockIcon = styled(LockIconRaw)(({ theme }) => ({
 }))
 
 const TooltipContainer = styled.div(({ theme }) => ({
-    width: 300,
+    width: 270,
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
     padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
 }))
@@ -158,8 +171,51 @@ const checkValue = (value) => {
     return value !== '' && !isNil(value)
 }
 
+const replaceDamageValue = (description, damageMod, character, key) => {
+    let damage
+    let matchingRegex
+
+    if (description.match(regexExactSP)) {
+        matchingRegex = regexExactSP
+        damage = calculateSpellDamage(
+            damageMod,
+            character.level,
+            character.attributes.might
+        )
+    } else if (description.match(regexRangeSP)) {
+        matchingRegex = regexRangeSP
+        const damageRange = calculateSpellDamageRange(
+            damageMod,
+            character.level,
+            character.attributes.might
+        )
+        damage = `${damageRange[0]}-${damageRange[1]}`
+    } else if (description.match(regexExactAP)) {
+        matchingRegex = regexExactAP
+        damage = calculateAttackDamage(
+            damageMod,
+            character.weaponAverage,
+            character.attributes.might
+        )
+    } else if (description.match(regexRangeAP)) {
+        matchingRegex = regexRangeAP
+        const damageRange = calculateAttackDamageRange(
+            damageMod,
+            character.weaponAverage,
+            character.attributes.might
+        )
+        damage = `${damageRange[0]}-${damageRange[1]}`
+    }
+    return replaceJSXSpecial(
+        description,
+        matchingRegex,
+        <HightlightText key={key}>{damage}</HightlightText>
+    )
+}
+
 export default function Skill({
     skill,
+    shouldCalcDamage,
     scaledManaCost,
     pos,
     toggleSkill,
@@ -171,41 +227,70 @@ export default function Skill({
     isLeftSibling,
     isRightSibling,
 }) {
+    const { character } = useAppState()
+
     const iconName = `${capitalize(skill.skillTree)} T${skill.tier},${
         skill.skillNum
     } ${skill.title} Icon`
     const iconUrl = `skill-icons/${skill.skillTree}/${iconName}.png`
 
-    let decoratedDescriptionWords = skill.description.split(' ')
+    let decoratedDescription = [skill.description]
     let glossaryItems = []
     let damageEffectDescription
 
-    decoratedDescriptionWords = decoratedDescriptionWords.map((word) => {
-        const isLastWordInSentence = word.endsWith('.')
-        if (isLastWordInSentence) {
-            word = word.replace('.', '')
+    if (shouldCalcDamage && skill.damageMod) {
+        decoratedDescription = replaceDamageValue(
+            decoratedDescription[decoratedDescription.length - 1],
+            skill.damageMod,
+            character,
+            'damageMod'
+        )
+    }
+    if (shouldCalcDamage && skill.damageMod2) {
+        const newParts = replaceDamageValue(
+            decoratedDescription[decoratedDescription.length - 1],
+            skill.damageMod2,
+            character,
+            'damageMod2'
+        )
+        decoratedDescription.splice(
+            decoratedDescription.length - 1,
+            1,
+            ...newParts
+        )
+    }
+
+    for (let word in effectsGlossary) {
+        const wordRegex = new RegExp(word)
+        for (let i = 0; i < decoratedDescription.length; i++) {
+            const descPart = decoratedDescription[i]
+            if (typeof descPart === 'string' && descPart.match(wordRegex)) {
+                const newSplit = replaceJSX(
+                    descPart,
+                    wordRegex,
+                    <HightlightText>{word}</HightlightText>,
+                    word
+                )
+                decoratedDescription.splice(i, 1, ...newSplit)
+                if (
+                    effectsGlossary[word] &&
+                    !glossaryItems.find((x) => x.title === word)
+                ) {
+                    glossaryItems.push({
+                        title: word,
+                        description: effectsGlossary[word],
+                    })
+                }
+            }
         }
-        if (effectsGlossary[word]) {
-            glossaryItems.push({
-                title: word,
-                description: effectsGlossary[word],
-            })
-            return (
-                <>
-                    <HightlightText>{word}</HightlightText>
-                    {isLastWordInSentence ? '. ' : ' '}
-                </>
-            )
-        }
-        if (typeof word === 'string') {
-            return `${word}${isLastWordInSentence ? '. ' : ' '}`
-        }
-        return word
-    })
+    }
 
     if (checkValue(skill.damageType)) {
         const word = damageTypeEffects[skill.damageType]
-        if (!glossaryItems.find((x) => x.title === word)) {
+        if (
+            effectsGlossary[word] &&
+            !glossaryItems.find((x) => x.title === word)
+        ) {
             glossaryItems.push({
                 title: word,
                 description: effectsGlossary[word],
@@ -265,7 +350,7 @@ export default function Skill({
                                     Skill Point Cost: {skill.skillPointCost}
                                 </HightlightText>
                             </Section>
-                            <Section>{decoratedDescriptionWords}</Section>
+                            <Section>{decoratedDescription}</Section>
                             <Section>{damageEffectDescription}</Section>
                             {replaces && (
                                 <Section>
@@ -335,7 +420,7 @@ export default function Skill({
                     {skill.requires && (
                         <SkillIconAnnotation>II</SkillIconAnnotation>
                     )}
-                    {!isLearned && (
+                    {!learnability.canLearn && (
                         <SkillIconOverlay>
                             <LockIcon />
                         </SkillIconOverlay>

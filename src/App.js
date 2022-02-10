@@ -12,6 +12,7 @@ import Helmet from 'react-helmet'
 import { theme } from './lib/theme'
 import { StateProvider } from './store'
 import { SkillCalculator } from './scenes/SkillCalculator'
+import { CharacterScreen } from './scenes/Character'
 import { Link, Feedback } from './components'
 import SkillTree from './scenes/SkillCalculator/SkillTree'
 import { ReactComponent as DiscordIconRaw } from './icons/discord.svg'
@@ -62,16 +63,19 @@ const NavSplitter = styled.div(({ theme }) => ({
     flex: 1,
 }))
 
-const NavItem = styled(NavLink)(({ theme, isActive }) => ({
+const NavItem = styled(NavLink)(({ theme }) => ({
     height: theme.sizing.appBarHeight,
     lineHeight: `${theme.sizing.appBarHeight + 8}px`,
     verticalAlign: '',
     padding: `0 ${theme.spacing(2)}px`,
     color: theme.palette.text.default,
     textDecoration: 'none',
-    borderBottom: isActive && `4px solid ${theme.palette.primary}`,
+    borderBottom: `4px solid transparent`,
     '&:hover': {
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    },
+    '&.active': {
+        borderColor: theme.palette.primary,
     },
 }))
 
@@ -132,9 +136,8 @@ function App() {
                             <Logo src="logo.png" alt="Stolen Realm Logo" />
                             <Title>Character Planner</Title>
                             <Nav>
-                                <NavItem to="skill-calculator" isActive={true}>
-                                    Skill Calculator
-                                </NavItem>
+                                <NavItem to="skill-calculator">Skills</NavItem>
+                                <NavItem to="character">Character</NavItem>
                                 <NavSplitter />
                                 <ExternalNavItem
                                     href="https://discord.com/invite/SbEPwMfXCJ"
@@ -170,6 +173,10 @@ function App() {
                                         element={<Navigate to="fire" />}
                                     />
                                 </Route>
+                                <Route
+                                    path="character"
+                                    element={<CharacterScreen />}
+                                />
                                 <Route
                                     path="/"
                                     element={<Navigate to="skill-calculator" />}
