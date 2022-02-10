@@ -113,14 +113,12 @@ export const getPointsSpentInTree = (skillTreeSkills, learnedSkills) => {
 
 export const SkillTreeNavItem = ({ skillTree, pointsSpent }) => {
     const isActive = useMatch(`/skill-calculator/${skillTree.id}`)
+    const iconUrl = `skill-tree-icons/${skillTree.id}-min.png`
     return (
         <NavItem key={skillTree.id}>
             <NavLink to={skillTree.id}>
                 <SkillTreeIcon isActive={isActive}>
-                    <SkillTreeIconImg
-                        src={`skill-tree-icons/${skillTree.id}.png`}
-                        alt={skillTree.title}
-                    />
+                    <SkillTreeIconImg src={iconUrl} alt={skillTree.title} />
                     {pointsSpent > 0 && (
                         <SkillTreeIconAnnotation>
                             {pointsSpent}
