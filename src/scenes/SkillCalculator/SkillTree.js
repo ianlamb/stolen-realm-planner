@@ -127,12 +127,11 @@ export default function SkillTree({ id, title }) {
     const dispatch = useDispatch()
     const { skills, character } = useAppState()
     const relevantSkills = skills[id]
+    const ogImageUrl = `${window.location.origin}${process.env.PUBLIC_URL}/skill-tree-icons/${id}-min.png`
 
     if (!relevantSkills) {
         return <ErrorMessage>Something's wrong, sorry :(</ErrorMessage>
     }
-
-    const ogImageUrl = `skill-tree-icons/${id}-min.png`
 
     const activeSkills = relevantSkills.filter((s) => s.type === 'active')
     const passiveSkills = relevantSkills.filter((s) => s.type === 'passive')

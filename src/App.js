@@ -128,7 +128,7 @@ function AppBar() {
                 />
                 <meta
                     property="og:url"
-                    content={`${window.location.origin}${location.pathname}`}
+                    content={`${window.location.origin}${process.env.PUBLIC_URL}${location.pathname}`}
                 />
                 <meta property="og:image" content="" />
             </Helmet>
