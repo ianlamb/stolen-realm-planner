@@ -2,6 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { isEmpty, orderBy } from 'lodash-es'
 import ReactGA from 'react-ga'
+import Helmet from 'react-helmet'
 
 import { useDispatch, useAppState } from '../../store'
 import { isLearned, getPointsSpentInTree } from './index'
@@ -130,6 +131,8 @@ export default function SkillTree({ id, title }) {
     if (!relevantSkills) {
         return <ErrorMessage>Something's wrong, sorry :(</ErrorMessage>
     }
+
+    const ogImageUrl = `skill-tree-icons/${id}-min.png`
 
     const activeSkills = relevantSkills.filter((s) => s.type === 'active')
     const passiveSkills = relevantSkills.filter((s) => s.type === 'passive')
@@ -277,6 +280,9 @@ export default function SkillTree({ id, title }) {
 
     return (
         <Root>
+            <Helmet>
+                <meta property="og:image" content={ogImageUrl} />
+            </Helmet>
             <ActiveSkills>
                 <SectionTitle align="right">Active Skills</SectionTitle>
                 {mapSkills(activeSkills)}

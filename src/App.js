@@ -110,7 +110,7 @@ const AppFooterRoot = styled.div(({ theme }) => ({
 }))
 
 function AppBar() {
-    const { search } = useLocation()
+    const location = useLocation()
     const { character } = useAppState()
     let title = 'Stolen Realm Character Planner'
     if (character.name) {
@@ -122,7 +122,14 @@ function AppBar() {
                 <title>{title}</title>
                 <meta property="og:title" content={title} />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="" />
+                <meta
+                    property="og:description"
+                    content="Character Planner for Stolen Realm"
+                />
+                <meta
+                    property="og:url"
+                    content={`${window.location.origin}${location.pathname}`}
+                />
                 <meta property="og:image" content="" />
             </Helmet>
             <Logo src="logo.png" alt="Stolen Realm Logo" />
@@ -131,12 +138,14 @@ function AppBar() {
                 <NavItem
                     to={{
                         pathname: 'skill-calculator',
-                        search,
+                        search: location.search,
                     }}
                 >
                     Skills
                 </NavItem>
-                <NavItem to={{ pathname: 'character', search }}>
+                <NavItem
+                    to={{ pathname: 'character', search: location.search }}
+                >
                     Character
                 </NavItem>
                 <NavSplitter />
