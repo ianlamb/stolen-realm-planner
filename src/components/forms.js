@@ -19,15 +19,15 @@ export const Label = styled.label(({ theme }) => ({
     color: theme.palette.text.subdued,
 }))
 
-export const Input = styled.input(({ theme }) => ({
+export const Input = styled.input(({ theme, readOnly }) => ({
     minWidth: 100,
     padding: theme.spacing(1),
     backgroundColor: theme.palette.background.paper,
-    color: theme.palette.text.default,
+    color: readOnly ? theme.palette.text.subdued : theme.palette.text.default,
     border: '2px solid rgba(0, 0, 0, 0.5)',
     appearance: 'none',
     outline: 'none',
-    '&:focus': {
+    '&:focus': !readOnly && {
         borderColor: 'rgba(0, 0, 0, 0.8)',
     },
 }))

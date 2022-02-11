@@ -142,9 +142,9 @@ export const calculateSpellPower = (
     might,
     generalBonuses = 0
 ) => {
-    const sp =
+    return Math.round(
         (22 + characterLevel * 3) * (0.9 + might / 100) * (generalBonuses + 1)
-    return Math.round(sp)
+    )
 }
 
 export const calculateSpellDamage = (
@@ -183,8 +183,9 @@ export const calculateAttackPower = (
     might,
     generalBonuses = 0
 ) => {
-    const ap = weaponAverage * (0.9 + might / 100) * (generalBonuses + 1)
-    return Math.round(ap)
+    return Math.round(
+        weaponAverage * (0.9 + might / 100) * (generalBonuses + 1)
+    )
 }
 
 export const calculateAttackDamage = (

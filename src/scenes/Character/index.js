@@ -9,7 +9,7 @@ import {
     calculateWeaponAverage,
 } from '../SkillCalculator/helpers'
 import { useDispatch, useAppState } from '../../store'
-import { Container, Input } from '../../components'
+import { Container, Input, Label } from '../../components'
 
 const MAX_WEAPON_DAMAGE = 9999
 const MAX_ATTRIBUTE_VALUE = 9999
@@ -20,8 +20,31 @@ const Root = styled(Container)(({ theme }) => ({
     padding: theme.spacing(2),
 }))
 
-const StatInput = ({ value, onChange }) => {
-    return <Input type="number" value={value} onChange={onChange} />
+const Grid = styled.div(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: theme.spacing(2),
+}))
+
+const Column = styled.div(({ theme }) => ({
+    flex: 1,
+}))
+
+const Note = styled.div(({ theme }) => ({
+    color: theme.palette.text.subdued,
+    fontStyle: 'italic',
+}))
+
+const SectionTitle = styled.h3(({ theme }) => ({
+    color: theme.palette.text.highlight,
+}))
+
+const StatLabel = styled(Label)(({ theme }) => ({
+    marginTop: theme.spacing(1),
+}))
+
+const StatInput = ({ value, onChange, ...props }) => {
+    return <Input type="number" value={value} onChange={onChange} {...props} />
 }
 
 export const CharacterScreen = () => {
@@ -62,64 +85,110 @@ export const CharacterScreen = () => {
         <Root>
             <div>{character.name}</div>
             <div>Level: {character.level}</div>
-            <h5>Attributes</h5>
-            {Object.keys(character.attributes).map((attr) => (
-                <div key={attr}>
-                    {capitalize(attr)}:
-                    <StatInput
-                        value={character.attributes[attr]}
-                        onChange={(event) =>
-                            handleAttributeChange(
-                                attr,
-                                event.currentTarget.value
-                            )
-                        }
-                    />
-                </div>
-            ))}
-
-            <h5>Stats</h5>
-            <div>
-                Attack Power:{' '}
-                {calculateAttackPower(
-                    calculateWeaponAverage(character.equipment.weaponDamage),
-                    character.attributes.might
-                )}
-            </div>
-            <div>
-                Spell Power:{' '}
-                {calculateSpellPower(
-                    character.level,
-                    character.attributes.might
-                )}
-            </div>
-
-            <h5>Equipment</h5>
-            <div>
-                Weapon Damage:{' '}
-                <StatInput
-                    value={character.equipment.weaponDamage[0]}
-                    onChange={(event) =>
-                        handleWeaponDamageChange(0, event.currentTarget.value)
-                    }
-                />
-                {' - '}
-                <StatInput
-                    value={character.equipment.weaponDamage[1]}
-                    onChange={(event) =>
-                        handleWeaponDamageChange(1, event.currentTarget.value)
-                    }
-                />
-            </div>
-
-            <br />
-            <div>
-                <i>
-                    NOTE: Changes made in this section do NOT get saved with
-                    your build. Currently they are just for playing around with
-                    ability damage numbers.
-                </i>
-            </div>
+            <Grid>
+                <Column>
+                    <SectionTitle>Attributes</SectionTitle>
+                    {Object.keys(character.attributes).map((attr) => (
+                        <div key={attr}>
+                            <StatLabel>{capitalize(attr)}</StatLabel>
+                            <StatInput
+                                value={character.attributes[attr]}
+                                onChange={(event) =>
+                                    handleAttributeChange(
+                                        attr,
+                                        event.currentTarget.value
+                                    )
+                                }
+                            />
+                        </div>
+                    ))}
+                </Column>
+                <Column>
+                    <SectionTitle>Equipment</SectionTitle>
+                    <div>
+                        <StatLabel>Min Weapon Damage</StatLabel>
+                        <StatInput
+                            value={character.equipment.weaponDamage[0]}
+                            onChange={(event) =>
+                                handleWeaponDamageChange(
+                                    0,
+                                    event.currentTarget.value
+                                )
+                            }
+                        />
+                        <StatLabel>Max Weapon Damage</StatLabel>
+                        <StatInput
+                            value={character.equipment.weaponDamage[1]}
+                            onChange={(event) =>
+                                handleWeaponDamageChange(
+                                    1,
+                                    event.currentTarget.value
+                                )
+                            }
+                        />
+                    </div>
+                    <div>
+                        <StatLabel>Average Weapon Damage</StatLabel>
+                        <StatInput
+                            value={calculateWeaponAverage(
+                                character.equipment.weaponDamage
+                            )}
+                            readOnly
+                        />
+                    </div>
+                </Column>
+                <Column>
+                    <SectionTitle>Stats</SectionTitle>
+                    <div>
+                        <StatLabel>Attack Power</StatLabel>
+                        <StatInput
+                            value={calculateAttackPower(
+                                calculateWeaponAverage(
+                                    character.equipment.weaponDamage
+                                ),
+                                character.attributes.might
+                            )}
+                            readOnly
+                        />
+                        <br />
+                        Formula:{' '}
+                        <code>
+                            <pre>
+                                Math.round(weaponAverage * (0.9 + might / 100) *
+                                (generalBonuses + 1))
+                            </pre>
+                        </code>
+                    </div>
+                    <div>
+                        <StatLabel>Spell Power</StatLabel>
+                        <StatInput
+                            value={calculateSpellPower(
+                                character.level,
+                                character.attributes.might
+                            )}
+                            readOnly
+                        />
+                        <br />
+                        Formula:
+                        <code>
+                            <pre>
+                                Math.round((22 + characterLevel * 3) * (0.9 +
+                                might / 100) * (generalBonuses + 1))
+                            </pre>
+                        </code>
+                    </div>
+                </Column>
+            </Grid>
+            <Note>
+                NOTE: Changes made in this section do NOT yet get saved with
+                your build. Currently they are just for playing around with
+                ability damage numbers.
+            </Note>
+            <Note>
+                NOTE 2: "generalBonuses" to damage are NOT yet being calculated
+                in skill tooltips. This means, for example, that picking a skill
+                that gives increased damage will not be reflected.
+            </Note>
 
             <Outlet />
         </Root>

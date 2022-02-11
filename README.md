@@ -14,10 +14,6 @@ Future ideas:
 
 ## TODO before initial release
 
-### Production Readiness
-
--   add open graph
-
 ### Skill Calculator
 
 -   refactor Tooltip component

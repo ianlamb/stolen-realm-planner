@@ -223,6 +223,9 @@ function App() {
                         color: theme.palette.text.default,
                         fontFamily: theme.fonts.bodyText,
                     },
+                    'h1,h2,h3,h4,h5,h6': {
+                        fontFamily: theme.fonts.titleText,
+                    },
                 }}
             />
             <BrowserRouter basename={process.env.PUBLIC_URL}>
