@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { isEmpty, orderBy } from 'lodash-es'
+import ReactGA from 'react-ga'
 
 import { useDispatch, useAppState } from '../../store'
 import { isLearned, getPointsSpentInTree } from './index'
@@ -127,11 +128,7 @@ export default function SkillTree({ id, title }) {
     const relevantSkills = skills[id]
 
     if (!relevantSkills) {
-        return (
-            <ErrorMessage>
-                Sorry, still working on this skill tree!
-            </ErrorMessage>
-        )
+        return <ErrorMessage>Something's wrong, sorry :(</ErrorMessage>
     }
 
     const activeSkills = relevantSkills.filter((s) => s.type === 'active')
@@ -223,9 +220,19 @@ export default function SkillTree({ id, title }) {
         if (!isLearned(skill, character.learnedSkills)) {
             if (getLearnability(skill, character.learnedSkills).canLearn) {
                 dispatch({ type: 'learnSkill', payload: skill })
+                ReactGA.event({
+                    category: 'Skills',
+                    action: 'Learn Skill',
+                    label: skill.title,
+                })
             }
         } else {
             dispatch({ type: 'unlearnSkill', payload: skill })
+            ReactGA.event({
+                category: 'Skills',
+                action: 'Unlearn Skill',
+                label: skill.title,
+            })
         }
     }
 

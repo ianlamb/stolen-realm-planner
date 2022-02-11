@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { Label, Select, Option } from '../../components'
+import ReactGA from 'react-ga'
 
+import { Label, Select, Option } from '../../components'
 import { useDispatch, useAppState } from '../../store'
 
 const MAX_LEVEL = 30
@@ -22,6 +23,11 @@ export default function LevelSelect() {
 
     const handleChange = (event) => {
         dispatch({ type: 'setLevel', payload: event.target.value })
+        ReactGA.event({
+            category: 'Skills',
+            action: 'Change Level',
+            label: event.target.value,
+        })
     }
 
     return (

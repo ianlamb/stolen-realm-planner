@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { Label, Input } from '../../components'
+import ReactGA from 'react-ga'
 
+import { Label, Input } from '../../components'
 import { useDispatch, useAppState } from '../../store'
 
 const Root = styled.div(({ theme }) => ({
@@ -16,6 +17,14 @@ export default function NameInput() {
         dispatch({ type: 'setName', payload: event.target.value })
     }
 
+    const handleBlur = (event) => {
+        ReactGA.event({
+            category: 'Skills',
+            action: 'Change Name',
+            label: event.target.value,
+        })
+    }
+
     return (
         <Root>
             <Label htmlFor="name-input">Build Name</Label>
@@ -24,6 +33,7 @@ export default function NameInput() {
                 type="text"
                 value={character.name}
                 onChange={handleChange}
+                onBlur={handleBlur}
             />
         </Root>
     )

@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { Button, Label, Input } from '../../components'
+import ReactGA from 'react-ga'
 
+import { Button, Label, Input } from '../../components'
 import { useAppState } from '../../store'
 
 const Root = styled.div(({ theme }) => ({
@@ -41,6 +42,10 @@ export default function ShareBuild() {
                 () => setButtonText(defaultButtonText),
                 3000
             )
+        })
+        ReactGA.event({
+            category: 'Skills',
+            action: 'Copy Build URL',
         })
     }
 

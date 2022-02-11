@@ -11,7 +11,7 @@ import styled from '@emotion/styled'
 import Helmet from 'react-helmet'
 
 import { theme } from './lib/theme'
-import { StateProvider } from './store'
+import { StateProvider, useAppState } from './store'
 import { SkillCalculator } from './scenes/SkillCalculator'
 import { CharacterScreen } from './scenes/Character'
 import { Link, Feedback } from './components'
@@ -111,8 +111,20 @@ const AppFooterRoot = styled.div(({ theme }) => ({
 
 function AppBar() {
     const { search } = useLocation()
+    const { character } = useAppState()
+    let title = 'Stolen Realm Character Planner'
+    if (character.name) {
+        title = `${character.name} - Stolen Realm Build`
+    }
     return (
         <AppBarRoot>
+            <Helmet>
+                <title>{title}</title>
+                <meta property="og:title" content={title} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="" />
+                <meta property="og:image" content="" />
+            </Helmet>
             <Logo src="logo.png" alt="Stolen Realm Logo" />
             <Title>Character Planner</Title>
             <Nav>
@@ -204,15 +216,6 @@ function App() {
                     },
                 }}
             />
-            <Helmet>
-                <meta
-                    property="og:title"
-                    content="Stolen Realm Character Planner"
-                />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content="" />
-                <meta property="og:image" content="" />
-            </Helmet>
             <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <StateProvider>
                     <AppRoot>
