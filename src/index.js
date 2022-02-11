@@ -5,7 +5,9 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import ReactGA from 'react-ga'
 
-ReactGA.initialize('G-5YB5PC6GCL', { debug: true })
+ReactGA.initialize('302046213', {
+    debug: process.env.NODE_ENV === 'development',
+})
 ReactGA.pageview(window.location.pathname + window.location.search)
 
 ReactDOM.render(
