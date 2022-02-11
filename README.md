@@ -16,7 +16,6 @@ Future ideas:
 
 ### Production Readiness
 
--   add google analytics
 -   add open graph
 
 ### Skill Calculator
