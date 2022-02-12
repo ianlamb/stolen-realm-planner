@@ -20,6 +20,7 @@ import SkillTree from './scenes/SkillCalculator/SkillTree'
 import { ReactComponent as DiscordIconRaw } from './icons/discord.svg'
 
 const AppRoot = styled.div(({ theme }) => ({
+    minHeight: '100vh',
     overflow: 'hidden',
 }))
 
