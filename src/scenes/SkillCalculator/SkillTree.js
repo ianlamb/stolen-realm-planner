@@ -5,7 +5,7 @@ import Helmet from 'react-helmet'
 
 import { buildVersion } from '../../constants'
 import { useDispatch, useAppState } from '../../store'
-import { isLearned, getPointsSpentInTier } from './index'
+import { isLearned, getPointsSpentInTree } from './index'
 import { calculateScaledManaCost } from './helpers'
 import Skill from './Skill'
 
@@ -153,14 +153,13 @@ export default function SkillTree({ id, title }) {
         }
     }
 
-    const requiredPointsInLastTier = (tier) => {
-        if (tier === 1) {
-            return 0
-        } else if (tier === 5) {
-            return 4
-        } else {
-            return 2
-        }
+    const pointsSpentInThisTree = getPointsSpentInTree(
+        relevantSkills,
+        character.learnedSkills
+    )
+
+    const requiredPointsForTier = (tier) => {
+        return tier === 5 ? 10 : (tier - 1) * 2
     }
 
     const hasRequirement = (skill) => {
@@ -183,19 +182,15 @@ export default function SkillTree({ id, title }) {
         return relevantSkills.find((s) => s.id === skill.replaces)
     }
 
-    const getLearnability = (skill, learnedSkills) => {
+    const getLearnability = (skill, learnedSkills, pointsSpentInThisTree) => {
+        console.log('!!!', pointsSpentInThisTree)
         let learnability = {
             canLearn: true,
             reason: '',
         }
 
-        const requiredPoints = requiredPointsInLastTier(skill.tier)
-        const pointsSpentInPreviousTier = getPointsSpentInTier(
-            Math.max(skill.tier - 1, 1),
-            relevantSkills,
-            learnedSkills
-        )
-        if (requiredPoints > pointsSpentInPreviousTier) {
+        const requiredPoints = requiredPointsForTier(skill.tier)
+        if (requiredPoints > pointsSpentInThisTree) {
             // spent points required by tier check
             learnability.canLearn = false
             learnability.reason = `Requires ${requiredPoints} points in previous tiers.`
@@ -224,7 +219,13 @@ export default function SkillTree({ id, title }) {
 
     const toggleSkill = (skill) => {
         if (!isLearned(skill, character.learnedSkills)) {
-            if (getLearnability(skill, character.learnedSkills).canLearn) {
+            if (
+                getLearnability(
+                    skill,
+                    character.learnedSkills,
+                    pointsSpentInThisTree
+                ).canLearn
+            ) {
                 dispatch({ type: 'learnSkill', payload: skill })
                 window.gtag('event', 'learn_skill', {
                     category: 'skills',
@@ -237,11 +238,16 @@ export default function SkillTree({ id, title }) {
                     (ls) => ls === s.id && s.id !== skill.id
                 )
             )
+            const futureLearnedSkillIds = futureLearnedSkills.map((x) => x.id)
             for (let i = 0; i < futureLearnedSkills.length; i++) {
                 if (
                     !getLearnability(
                         futureLearnedSkills[i],
-                        futureLearnedSkills.map((x) => x.id)
+                        futureLearnedSkillIds,
+                        getPointsSpentInTree(
+                            relevantSkills,
+                            futureLearnedSkillIds
+                        ) - futureLearnedSkills[i].skillPointCost
                     ).canLearn
                 ) {
                     console.log(
@@ -284,7 +290,8 @@ export default function SkillTree({ id, title }) {
                     hasRequirement={hasRequirement(skill)}
                     learnability={getLearnability(
                         skill,
-                        character.learnedSkills
+                        character.learnedSkills,
+                        pointsSpentInThisTree
                     )}
                     replaces={getReplacesSkill(skill)}
                     isOnlyChild={skill.requires && !skill.exclusiveWith}
