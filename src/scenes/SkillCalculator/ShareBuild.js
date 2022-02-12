@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import ReactGA from 'react-ga'
 
 import { Button, Label, Input } from '../../components'
 import { useAppState } from '../../store'
@@ -43,9 +42,8 @@ export default function ShareBuild() {
                 3000
             )
         })
-        ReactGA.event({
-            category: 'Skills',
-            action: 'Copy Build URL',
+        window.gtag('event', 'Copy Build URL', {
+            category: 'Build',
         })
     }
 

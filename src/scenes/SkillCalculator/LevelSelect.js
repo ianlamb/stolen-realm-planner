@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import ReactGA from 'react-ga'
 
 import { Label, Select, Option } from '../../components'
 import { useDispatch, useAppState } from '../../store'
@@ -23,9 +22,8 @@ export default function LevelSelect() {
 
     const handleChange = (event) => {
         dispatch({ type: 'setLevel', payload: event.target.value })
-        ReactGA.event({
-            category: 'Skills',
-            action: 'Change Level',
+        window.gtag('event', 'Change Level', {
+            category: 'Build',
             label: event.target.value,
         })
     }

@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import ReactGA from 'react-ga'
 
 import { Button } from '../../components'
 
@@ -14,9 +13,8 @@ const Root = styled.div(({ theme }) => ({
 
 export default function ResetBuild() {
     const resetBuild = () => {
-        ReactGA.event({
-            category: 'Skills',
-            action: 'Reset Build',
+        window.gtag('event', 'Reset Build', {
+            category: 'Build',
         })
         window.location = `${window.location.origin}${window.location.pathname}`
     }

@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import ReactGA from 'react-ga'
 
 import { Label, Input } from '../../components'
 import { useDispatch, useAppState } from '../../store'
@@ -18,9 +17,8 @@ export default function NameInput() {
     }
 
     const handleBlur = (event) => {
-        ReactGA.event({
-            category: 'Skills',
-            action: 'Change Name',
+        window.gtag('event', 'Change Name', {
+            category: 'Build',
             label: event.target.value,
         })
     }

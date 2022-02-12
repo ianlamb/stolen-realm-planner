@@ -3,12 +3,6 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import ReactGA from 'react-ga'
-
-ReactGA.initialize('302046213', {
-    debug: process.env.NODE_ENV === 'development',
-})
-ReactGA.pageview(window.location.pathname + window.location.search)
 
 ReactDOM.render(
     <React.StrictMode>

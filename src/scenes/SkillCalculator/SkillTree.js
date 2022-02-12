@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { isEmpty, orderBy } from 'lodash-es'
-import ReactGA from 'react-ga'
 import Helmet from 'react-helmet'
 
 import { useDispatch, useAppState } from '../../store'
@@ -222,17 +221,15 @@ export default function SkillTree({ id, title }) {
         if (!isLearned(skill, character.learnedSkills)) {
             if (getLearnability(skill, character.learnedSkills).canLearn) {
                 dispatch({ type: 'learnSkill', payload: skill })
-                ReactGA.event({
+                window.gtag('event', 'Learn Skill', {
                     category: 'Skills',
-                    action: 'Learn Skill',
                     label: skill.title,
                 })
             }
         } else {
             dispatch({ type: 'unlearnSkill', payload: skill })
-            ReactGA.event({
+            window.gtag('event', 'Unlearn Skill', {
                 category: 'Skills',
-                action: 'Unlearn Skill',
                 label: skill.title,
             })
         }
