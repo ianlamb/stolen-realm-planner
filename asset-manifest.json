@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/stolen-realm-planner/static/css/main.dfc9b126.css",
-    "main.js": "/stolen-realm-planner/static/js/main.18ee3354.js",
+    "main.js": "/stolen-realm-planner/static/js/main.965d8bf6.js",
     "static/js/787.d1a03492.chunk.js": "/stolen-realm-planner/static/js/787.d1a03492.chunk.js",
     "static/media/MinionPro-Regular.svg": "/stolen-realm-planner/static/media/MinionPro-Regular.41b357a42c91d3782e85.svg",
     "static/media/TrajanPro-Regular.svg": "/stolen-realm-planner/static/media/TrajanPro-Regular.5c3edf16ad6f49a96803.svg",
@@ -18,11 +18,11 @@
     "index.html": "/stolen-realm-planner/index.html",
     "static/media/lock.svg": "/stolen-realm-planner/static/media/lock.8e4bc334db2fa91b34d0e00941ca56cd.svg",
     "main.dfc9b126.css.map": "/stolen-realm-planner/static/css/main.dfc9b126.css.map",
-    "main.18ee3354.js.map": "/stolen-realm-planner/static/js/main.18ee3354.js.map",
+    "main.965d8bf6.js.map": "/stolen-realm-planner/static/js/main.965d8bf6.js.map",
     "787.d1a03492.chunk.js.map": "/stolen-realm-planner/static/js/787.d1a03492.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.dfc9b126.css",
-    "static/js/main.18ee3354.js"
+    "static/js/main.965d8bf6.js"
   ]
 }
