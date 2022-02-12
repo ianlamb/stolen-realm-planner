@@ -138,18 +138,33 @@ const LockIcon = styled(LockIconRaw)(({ theme }) => ({
 const TooltipContainer = styled.div(({ theme }) => ({
     width: 270,
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    border: '1px solid rgba(255, 255, 255, 0.5)',
 }))
 
 const Heading = styled.div(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    borderBottom: '1px solid rgba(255, 255, 255, 0.5)',
     marginBottom: theme.spacing(1),
 }))
 
-const Title = styled.div(({ theme }) => ({
-    color: theme.palette.text.highlight,
+const TooltipIconImg = styled(SkillIconImg)(({ theme }) => ({
+    width: 48,
+    border: `1px solid rgba(255, 255, 255, 0.5)`,
+    marginRight: theme.spacing(1),
 }))
 
-const Content = styled.div(({ theme }) => ({}))
+const Title = styled.div(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    color: theme.palette.text.highlight,
+    fontFamily: theme.fonts.titleText,
+}))
+
+const Content = styled.div(({ theme }) => ({
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+}))
 
 const Section = styled.div(({ theme }) => ({
     width: '100%',
@@ -334,6 +349,7 @@ export default function Skill({
                 content={
                     <TooltipContainer>
                         <Heading>
+                            <TooltipIconImg src={iconUrl} alt={skill.title} />
                             <Title>{skill.title}</Title>
                         </Heading>
                         <Content>

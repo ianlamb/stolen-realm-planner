@@ -19,7 +19,9 @@ import { Link, Feedback } from './components'
 import SkillTree from './scenes/SkillCalculator/SkillTree'
 import { ReactComponent as DiscordIconRaw } from './icons/discord.svg'
 
-const AppRoot = styled.div(({ theme }) => ({}))
+const AppRoot = styled.div(({ theme }) => ({
+    overflow: 'hidden',
+}))
 
 const AppContentRoot = styled.div(({ theme }) => ({
     paddingTop: theme.spacing(2),
