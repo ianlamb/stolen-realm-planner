@@ -13,8 +13,8 @@ const Root = styled.div(({ theme }) => ({
 
 export default function ResetBuild() {
     const resetBuild = () => {
-        window.gtag('event', 'Reset Build', {
-            category: 'Build',
+        window.gtag('event', 'reset_build', {
+            category: 'build',
         })
         window.location = `${window.location.origin}${window.location.pathname}`
     }

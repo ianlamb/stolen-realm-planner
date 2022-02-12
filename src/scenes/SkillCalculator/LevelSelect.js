@@ -22,8 +22,8 @@ export default function LevelSelect() {
 
     const handleChange = (event) => {
         dispatch({ type: 'setLevel', payload: event.target.value })
-        window.gtag('event', 'Change Level', {
-            category: 'Build',
+        window.gtag('event', 'change_level', {
+            category: 'build',
             label: event.target.value,
         })
     }

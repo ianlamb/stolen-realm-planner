@@ -17,8 +17,8 @@ export default function NameInput() {
     }
 
     const handleBlur = (event) => {
-        window.gtag('event', 'Change Name', {
-            category: 'Build',
+        window.gtag('event', 'change_name', {
+            category: 'build',
             label: event.target.value,
         })
     }

@@ -221,15 +221,15 @@ export default function SkillTree({ id, title }) {
         if (!isLearned(skill, character.learnedSkills)) {
             if (getLearnability(skill, character.learnedSkills).canLearn) {
                 dispatch({ type: 'learnSkill', payload: skill })
-                window.gtag('event', 'Learn Skill', {
-                    category: 'Skills',
+                window.gtag('event', 'learn_skill', {
+                    category: 'skills',
                     label: skill.title,
                 })
             }
         } else {
             dispatch({ type: 'unlearnSkill', payload: skill })
-            window.gtag('event', 'Unlearn Skill', {
-                category: 'Skills',
+            window.gtag('event', 'unlearn_skill', {
+                category: 'skills',
                 label: skill.title,
             })
         }

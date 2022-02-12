@@ -60,6 +60,11 @@ export const CharacterScreen = () => {
                 value,
             },
         })
+        window.gtag('event', 'change_attribute', {
+            category: 'character',
+            label: attr,
+            value,
+        })
     }
 
     // weaponDamage is a length-2 array that represents min/max damage
@@ -79,6 +84,10 @@ export const CharacterScreen = () => {
         }
         weaponDamage.splice(index, 1, value)
         dispatch({ type: 'setWeaponDamage', payload: weaponDamage })
+        window.gtag('event', 'change_weapon_damage', {
+            category: 'character',
+            value: `${weaponDamage[0]}-${weaponDamage[1]}`,
+        })
     }
 
     return (

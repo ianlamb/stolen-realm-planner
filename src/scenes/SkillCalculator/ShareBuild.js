@@ -42,8 +42,8 @@ export default function ShareBuild() {
                 3000
             )
         })
-        window.gtag('event', 'Copy Build URL', {
-            category: 'Build',
+        window.gtag('event', 'copy_build_url', {
+            category: 'build',
         })
     }
 
