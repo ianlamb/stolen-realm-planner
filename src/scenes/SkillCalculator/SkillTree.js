@@ -4,7 +4,7 @@ import { isEmpty, orderBy } from 'lodash-es'
 import Helmet from 'react-helmet'
 
 import { useDispatch, useAppState } from '../../store'
-import { isLearned, getPointsSpentInTree } from './index'
+import { isLearned, getPointsSpentInTier } from './index'
 import { calculateScaledManaCost } from './helpers'
 import Skill from './Skill'
 
@@ -154,13 +154,14 @@ export default function SkillTree({ id, title }) {
         }
     }
 
-    const pointsSpentInThisTree = getPointsSpentInTree(
-        relevantSkills,
-        character.learnedSkills
-    )
-
-    const requiredPointsForTier = (tier) => {
-        return tier === 5 ? 10 : (tier - 1) * 2
+    const requiredPointsInLastTier = (tier) => {
+        if (tier === 1) {
+            return 0
+        } else if (tier === 5) {
+            return 4
+        } else {
+            return 2
+        }
     }
 
     const hasRequirement = (skill) => {
@@ -189,8 +190,13 @@ export default function SkillTree({ id, title }) {
             reason: '',
         }
 
-        const requiredPoints = requiredPointsForTier(skill.tier)
-        if (requiredPoints > pointsSpentInThisTree) {
+        const requiredPoints = requiredPointsInLastTier(skill.tier)
+        const pointsSpentInPreviousTier = getPointsSpentInTier(
+            Math.max(skill.tier - 1, 1),
+            relevantSkills,
+            learnedSkills
+        )
+        if (requiredPoints > pointsSpentInPreviousTier) {
             // spent points required by tier check
             learnability.canLearn = false
             learnability.reason = `Requires ${requiredPoints} points in previous tiers.`
@@ -227,6 +233,24 @@ export default function SkillTree({ id, title }) {
                 })
             }
         } else {
+            const futureLearnedSkills = relevantSkills.filter((s) =>
+                character.learnedSkills.find(
+                    (ls) => ls === s.id && s.id !== skill.id
+                )
+            )
+            for (let i = 0; i < futureLearnedSkills.length; i++) {
+                if (
+                    !getLearnability(
+                        futureLearnedSkills[i],
+                        futureLearnedSkills.map((x) => x.id)
+                    ).canLearn
+                ) {
+                    console.log(
+                        `Cannot unlearn ${skill.title} because it would invalidate other learned skills.`
+                    )
+                    return
+                }
+            }
             dispatch({ type: 'unlearnSkill', payload: skill })
             window.gtag('event', 'unlearn_skill', {
                 category: 'skills',

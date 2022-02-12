@@ -107,12 +107,17 @@ export const isLearned = (skill, learnedSkills) => {
 }
 
 export const getPointsSpentInTree = (skillTreeSkills, learnedSkills) => {
-    if (!skillTreeSkills) {
-        return 0
-    }
-
     return skillTreeSkills.reduce((acc, skill) => {
         if (isLearned(skill, learnedSkills)) {
+            acc += skill.skillPointCost
+        }
+        return acc
+    }, 0)
+}
+
+export const getPointsSpentInTier = (tier, skillTreeSkills, learnedSkills) => {
+    return skillTreeSkills.reduce((acc, skill) => {
+        if (isLearned(skill, learnedSkills) && skill.tier === tier) {
             acc += skill.skillPointCost
         }
         return acc

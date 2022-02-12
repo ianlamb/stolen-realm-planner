@@ -17,7 +17,3 @@ Future ideas:
 ### Skill Calculator
 
 -   refactor Tooltip component
-
-## BUGS
-
--   can unlearn skills that would otherwise unlock other learned skills (should recalc all skill requirements before unlearning)
