@@ -1,3 +1,16 @@
+export const buildVersion = 'v0.14.9'
+
+export const skillTrees = [
+    { id: 'fire', title: 'Fire' },
+    { id: 'lightning', title: 'Lightning' },
+    { id: 'cold', title: 'Cold' },
+    { id: 'warrior', title: 'Warrior' },
+    { id: 'light', title: 'Light' },
+    { id: 'ranger', title: 'Ranger' },
+    { id: 'shadow', title: 'Shadow' },
+    { id: 'thief', title: 'Thief' },
+]
+
 export const attributeGUIDMap = {
     'd19f1e26-3c80-4b4c-a9bf-214246d62ee1': 'reflex',
     '8e292abd-54a8-4696-b653-1b11ec6f757a': 'might',

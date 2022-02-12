@@ -3,12 +3,11 @@ import styled from '@emotion/styled'
 import { isEmpty, orderBy } from 'lodash-es'
 import Helmet from 'react-helmet'
 
+import { buildVersion } from '../../constants'
 import { useDispatch, useAppState } from '../../store'
 import { isLearned, getPointsSpentInTier } from './index'
 import { calculateScaledManaCost } from './helpers'
 import Skill from './Skill'
-
-const buildVersion = 'v0.14.9'
 
 const SPACING_OFFSET = 16
 const SKILL_OFFSET = 64

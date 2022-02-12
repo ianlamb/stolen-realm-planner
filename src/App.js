@@ -10,6 +10,7 @@ import { ThemeProvider, Global } from '@emotion/react'
 import styled from '@emotion/styled'
 import Helmet from 'react-helmet'
 
+import { skillTrees } from './constants'
 import { theme } from './lib/theme'
 import { StateProvider, useAppState } from './store'
 import { SkillCalculator } from './scenes/SkillCalculator'
@@ -17,17 +18,6 @@ import { CharacterScreen } from './scenes/Character'
 import { Link, Feedback } from './components'
 import SkillTree from './scenes/SkillCalculator/SkillTree'
 import { ReactComponent as DiscordIconRaw } from './icons/discord.svg'
-
-const skillTrees = [
-    { id: 'fire', title: 'Fire' },
-    { id: 'lightning', title: 'Lightning' },
-    { id: 'cold', title: 'Cold' },
-    { id: 'warrior', title: 'Warrior' },
-    { id: 'light', title: 'Light' },
-    { id: 'ranger', title: 'Ranger' },
-    { id: 'shadow', title: 'Shadow' },
-    { id: 'thief', title: 'Thief' },
-]
 
 const AppRoot = styled.div(({ theme }) => ({}))
 
