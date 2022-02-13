@@ -136,7 +136,8 @@ export const StateProvider = ({ children }) => {
                     character: {
                         ...mergedCharacter,
                         skillPointsRemaining: calculateSkillPointsRemaining(
-                            mergedCharacter,
+                            mergedCharacter.learnedSkills,
+                            mergedCharacter.level,
                             state.skills
                         ),
                     },

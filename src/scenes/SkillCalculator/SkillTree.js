@@ -182,8 +182,12 @@ export default function SkillTree({ id, title }) {
         return relevantSkills.find((s) => s.id === skill.replaces)
     }
 
-    const getLearnability = (skill, learnedSkills, pointsSpentInThisTree) => {
-        console.log('!!!', pointsSpentInThisTree)
+    const getLearnability = (
+        skill,
+        learnedSkills,
+        skillPointsRemaining,
+        pointsSpentInThisTree
+    ) => {
         let learnability = {
             canLearn: true,
             reason: '',
@@ -194,7 +198,7 @@ export default function SkillTree({ id, title }) {
             // spent points required by tier check
             learnability.canLearn = false
             learnability.reason = `Requires ${requiredPoints} points in previous tiers.`
-        } else if (character.skillPointsRemaining - skill.skillPointCost < 0) {
+        } else if (skillPointsRemaining - skill.skillPointCost < 0) {
             // available skill points check
             learnability.canLearn = false
             learnability.reason = 'Not enough skill points.'
@@ -223,6 +227,7 @@ export default function SkillTree({ id, title }) {
                 getLearnability(
                     skill,
                     character.learnedSkills,
+                    character.skillPointsRemaining,
                     pointsSpentInThisTree
                 ).canLearn
             ) {
@@ -240,10 +245,14 @@ export default function SkillTree({ id, title }) {
             )
             const futureLearnedSkillIds = futureLearnedSkills.map((x) => x.id)
             for (let i = 0; i < futureLearnedSkills.length; i++) {
+                const skillPointsRemaining =
+                    character.skillPointsRemaining +
+                    futureLearnedSkills[i].skillPointCost
                 if (
                     !getLearnability(
                         futureLearnedSkills[i],
                         futureLearnedSkillIds,
+                        skillPointsRemaining,
                         getPointsSpentInTree(
                             relevantSkills,
                             futureLearnedSkillIds
@@ -291,6 +300,7 @@ export default function SkillTree({ id, title }) {
                     learnability={getLearnability(
                         skill,
                         character.learnedSkills,
+                        character.skillPointsRemaining,
                         pointsSpentInThisTree
                     )}
                     replaces={getReplacesSkill(skill)}

@@ -37,7 +37,10 @@ export default function LevelSelect() {
                 value={character.level}
             >
                 {availableLevels.map((lvl) => (
-                    <Option key={lvl}>{lvl}</Option>
+                    <Option key={lvl}>
+                        {lvl}
+                        {lvl === MAX_LEVEL && ` (max)`}
+                    </Option>
                 ))}
             </Select>
         </Root>

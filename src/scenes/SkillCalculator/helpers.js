@@ -122,13 +122,17 @@ export const getMaxSkillPoints = (characterLevel) => {
     return characterLevel + 2
 }
 
-export const calculateSkillPointsRemaining = (character, skills) => {
-    return character.learnedSkills
+export const calculateSkillPointsRemaining = (
+    learnedSkills,
+    characterLevel,
+    skills
+) => {
+    return learnedSkills
         .map((ls) => skills.all.find((s) => s.id === ls))
         .reduce((skillPoints, skill) => {
             skillPoints -= skill.skillPointCost
             return skillPoints
-        }, getMaxSkillPoints(character.level))
+        }, getMaxSkillPoints(characterLevel))
 }
 
 export const calculateScaledManaCost = (baseManaCost, characterLevel) => {
