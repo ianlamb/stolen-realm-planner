@@ -114,16 +114,10 @@ function AppBar() {
             <Helmet>
                 <title>{title}</title>
                 <meta property="og:title" content={title} />
-                <meta property="og:type" content="website" />
-                <meta
-                    property="og:description"
-                    content="Character Planner for Stolen Realm"
-                />
                 <meta
                     property="og:url"
                     content={`${window.location.origin}${process.env.PUBLIC_URL}${location.pathname}`}
                 />
-                <meta property="og:image" content="" />
             </Helmet>
             <Logo src="logo.png" alt="Stolen Realm Logo" />
             <Title>Character Planner</Title>
