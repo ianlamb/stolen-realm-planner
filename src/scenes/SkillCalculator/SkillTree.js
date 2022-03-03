@@ -17,7 +17,6 @@ const skillOffsetBumps = {
     fracture: 6,
     rage: 8,
     'life-cleave': 4,
-    'bleeding-cleave': -2,
     // ranger
     'trackers-mark': 4,
     'long-shot': 1,
