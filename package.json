@@ -1,6 +1,6 @@
 {
   "name": "stolen-realm-planner",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "homepage": "https://ianlamb.github.io/stolen-realm-planner/",
   "dependencies": {
@@ -15,7 +15,6 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
-    "react-tooltip": "^4.2.21",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
