@@ -14,3 +14,7 @@ The first iteration will be a skill calculator that allows users to play with an
 -   flesh out character stats more
 -   character save import
 -   items & equipment
+
+## Develop
+
+Standard CRA... `npm install && npm start` should get your started (tested on Windows & Mac).
