@@ -18,3 +18,7 @@ The first iteration will be a skill calculator that allows users to play with an
 ## Develop
 
 Standard CRA... `npm install && npm start` should get your started (tested on Windows & Mac).
+
+## Deploy
+
+`npm run deploy` will build the app and deploy to GitHub Pages.
