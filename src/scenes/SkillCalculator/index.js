@@ -5,10 +5,12 @@ import {
     useMatch,
     useLocation,
     useNavigate,
+    useParams,
 } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { isEmpty } from 'lodash-es'
 
+import { getBuild } from '../../services/builds'
 import useQuery from '../../lib/useQuery'
 import { decodeBuildData, calculateSkillPointsRemaining } from './helpers'
 import { useDispatch, useAppState } from '../../store'
@@ -245,8 +247,9 @@ export const SkillCalculator = ({ skillTrees }) => {
     const navigate = useNavigate()
     const query = useQuery()
     const buildDataBase64FromUrl = query.get('build')
+    const { buildId } = useParams()
 
-    // on initial load, see if we have build data to import
+    // on initial load, see if we have build data to import or load
     React.useEffect(() => {
         const buildData = decodeBuildData(buildDataBase64FromUrl, skills)
         if (buildData) {
@@ -270,6 +273,15 @@ export const SkillCalculator = ({ skillTrees }) => {
                     buildDataBase64: buildDataBase64FromUrl,
                     partialLoadFailure,
                 },
+            })
+        } else if (buildId) {
+            getBuild(buildId).then((build) => {
+                dispatch({
+                    type: 'loadBuildData',
+                    payload: {
+                        character: build,
+                    },
+                })
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

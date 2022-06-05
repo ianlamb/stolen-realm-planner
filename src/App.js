@@ -16,6 +16,7 @@ import { theme, mq } from './lib/theme'
 import { StateProvider, useAppState, useDispatch } from './store'
 import { SkillCalculator } from './scenes/SkillCalculator'
 import { CharacterScreen } from './scenes/Character'
+import { BuildsScreen } from './scenes/Builds'
 import { Link, Feedback, Button } from './components'
 import SkillTree from './scenes/SkillCalculator/SkillTree'
 import { ReactComponent as DiscordIconRaw } from './icons/discord.svg'
@@ -156,6 +157,14 @@ function AppBar() {
                 >
                     Character
                 </NavItem>
+                <NavItem
+                    to={{
+                        pathname: 'builds',
+                        search: location.search,
+                    }}
+                >
+                    Builds
+                </NavItem>
                 <NavSplitter />
                 <ExternalNavItem
                     href="https://discord.com/invite/SbEPwMfXCJ"
@@ -220,6 +229,23 @@ function AppContent() {
                     />
                 </Route>
                 <Route path="character" element={<CharacterScreen />} />
+                <Route path="builds" element={<BuildsScreen />} />
+                <Route
+                    path="builds/:buildId"
+                    element={<SkillCalculator skillTrees={skillTrees} />}
+                >
+                    {skillTrees.map((skillTree) => (
+                        <Route
+                            key={skillTree.id}
+                            path={skillTree.id}
+                            element={<SkillTree {...skillTree} />}
+                        />
+                    ))}
+                    <Route
+                        path=""
+                        element={<Navigate to={{ pathname: 'fire', search }} />}
+                    />
+                </Route>
                 <Route
                     path="/"
                     element={

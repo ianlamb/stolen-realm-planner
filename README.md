@@ -19,6 +19,31 @@ The first iteration will be a skill calculator that allows users to play with an
 -   character save import
 -   items & equipment
 
+## V2 System Design
+
+### Requirements
+
+-   save builds on server
+-   shorter URLs for sharing builds
+    -   new domain name (srbuild.net? stolenrealm.tools?)
+-   old build links should still work
+    -   user has option to convert to new build system
+-   list/search builds that are public
+    -   public builds can be upvoted
+-   oauth/account system?
+    -   party builder?
+
+### Constraints
+
+-   server costs?
+-   storage costs?
+
+### API Architecture
+
+-   build in Go
+-   data stored in DynamoDB?
+-   hosted on DO droplet or EC2
+
 ## Develop
 
 Standard CRA... `npm install && npm start` should get your started (tested on Windows & Mac).

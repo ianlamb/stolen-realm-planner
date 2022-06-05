@@ -11,6 +11,7 @@ const getSkills = (skillTree) => skills.filter((s) => s.skillTree === skillTree)
 const DEFAULT_LEVEL = 30
 
 const initialState = {
+    builds: [],
     buildDataBase64: null,
     modal: {
         message: '',
@@ -190,6 +191,12 @@ export const StateProvider = ({ children }) => {
                     modal: {
                         open: false,
                     },
+                }
+                break
+            case 'setBuilds':
+                newState = {
+                    ...state,
+                    builds: action.payload,
                 }
                 break
             default:
