@@ -1,15 +1,51 @@
 export const buildVersion = 'v0.18.8'
 
 export const skillTrees = [
-    { id: 'fire', title: 'Fire' },
-    { id: 'lightning', title: 'Lightning' },
-    { id: 'cold', title: 'Cold' },
-    { id: 'warrior', title: 'Warrior' },
-    { id: 'light', title: 'Light' },
-    { id: 'ranger', title: 'Ranger' },
-    { id: 'shadow', title: 'Shadow' },
-    { id: 'thief', title: 'Thief' },
-    { id: 'monk', title: 'Monk' },
+    {
+        id: 'fire',
+        title: 'Fire',
+        wikiUrl: 'https://stolen-realm.fandom.com/wiki/Fire_Skill_Tree',
+    },
+    {
+        id: 'lightning',
+        title: 'Lightning',
+        wikiUrl: 'https://stolen-realm.fandom.com/wiki/Lightning_Skill_Tree',
+    },
+    {
+        id: 'cold',
+        title: 'Cold',
+        wikiUrl: 'https://stolen-realm.fandom.com/wiki/Cold_Skill_Tree',
+    },
+    {
+        id: 'warrior',
+        title: 'Warrior',
+        wikiUrl: 'https://stolen-realm.fandom.com/wiki/Warrior_Skill_Tree',
+    },
+    {
+        id: 'light',
+        title: 'Light',
+        wikiUrl: 'https://stolen-realm.fandom.com/wiki/Light_Skill_Tree',
+    },
+    {
+        id: 'ranger',
+        title: 'Ranger',
+        wikiUrl: 'https://stolen-realm.fandom.com/wiki/Ranger_Skill_Tree',
+    },
+    {
+        id: 'shadow',
+        title: 'Shadow',
+        wikiUrl: 'https://stolen-realm.fandom.com/wiki/Shadow_Skill_Tree',
+    },
+    {
+        id: 'thief',
+        title: 'Thief',
+        wikiUrl: 'https://stolen-realm.fandom.com/wiki/Thief_Skill_Tree',
+    },
+    {
+        id: 'monk',
+        title: 'Monk',
+        wikiUrl: 'https://stolen-realm.fandom.com/wiki/Monk_Skill_Tree',
+    },
 ]
 
 export const orderedSkillTrees = [

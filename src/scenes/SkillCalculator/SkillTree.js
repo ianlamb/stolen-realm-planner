@@ -14,6 +14,7 @@ import {
 } from './index'
 import { calculateScaledManaCost } from './helpers'
 import Skill from './Skill'
+import { Link } from '../../components'
 
 const SPACING_OFFSET = 16
 const SKILL_OFFSET = 64
@@ -83,6 +84,11 @@ const TreeWrapper = styled.div(({ theme }) => ({
     minWidth: 1196,
 }))
 
+const TreeTitle = styled.div(({ theme }) => ({
+    margin: theme.spacing(1),
+    float: 'right',
+}))
+
 const ActiveSkills = styled.div(({ theme }) => ({
     position: 'relative',
     flex: 1,
@@ -138,7 +144,7 @@ const BottomRightNote = styled(BottomLeftNote)(({ theme }) => ({
     right: 0,
 }))
 
-export default function SkillTree({ id, title }) {
+export default function SkillTree({ id, title, wikiUrl }) {
     const [shouldCalcDamage, setShouldCalcDamage] = React.useState(true)
     const dispatch = useDispatch()
     const { skills, character } = useAppState()
@@ -296,6 +302,16 @@ export default function SkillTree({ id, title }) {
                     </BottomLeftNote>
                 </ActiveSkills>
                 <PassiveSkills>
+                    <TreeTitle>
+                        <Link
+                            href={wikiUrl}
+                            target="_blank"
+                            rel="noopener"
+                            title={`${title} Skill Tree Wiki`}
+                        >
+                            {title} Wiki
+                        </Link>
+                    </TreeTitle>
                     <SectionTitle>Passive Skills</SectionTitle>
                     {mapSkills(passiveSkills)}
                     <BottomRightNote>
