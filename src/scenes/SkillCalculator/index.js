@@ -7,9 +7,10 @@ import {
     useNavigate,
 } from 'react-router-dom'
 import styled from '@emotion/styled'
+import { isEmpty } from 'lodash-es'
 
 import useQuery from '../../lib/useQuery'
-import { decodeBuildData } from './helpers'
+import { decodeBuildData, calculateSkillPointsRemaining } from './helpers'
 import { useDispatch, useAppState } from '../../store'
 import { Container } from '../../components'
 import NameInput from './NameInput'
@@ -127,6 +128,97 @@ export const getPointsSpentInTier = (tier, skillTreeSkills, learnedSkills) => {
     }, 0)
 }
 
+export const requiredPointsForTier = (tier) => {
+    return tier === 5 ? 10 : (tier - 1) * 2
+}
+
+export const hasRequirement = (skill, skillTreeSkills) => {
+    return !!skillTreeSkills.find((s) => s.requires && s.requires === skill.id)
+}
+
+export const getSkillThatExcludesThisOne = (skill, skillTreeSkills) => {
+    return skillTreeSkills.find(
+        (s) => s.exclusiveWith && s.exclusiveWith === skill.id
+    )
+}
+
+export const getRequiredSkill = (skill, skillTreeSkills) => {
+    return skillTreeSkills.find((s) => s.id === skill.requires)
+}
+
+export const getReplacesSkill = (skill, skillTreeSkills) => {
+    return skillTreeSkills.find((s) => s.id === skill.replaces)
+}
+
+export const getLearnability = (
+    skill,
+    learnedSkills,
+    skillPointsRemaining,
+    pointsSpentInThisTree,
+    skillTreeSkills
+) => {
+    let learnability = {
+        canLearn: true,
+        reason: '',
+    }
+
+    const requiredPoints = requiredPointsForTier(skill.tier)
+    if (requiredPoints > pointsSpentInThisTree) {
+        // spent points required by tier check
+        learnability.canLearn = false
+        learnability.reason = `Requires ${requiredPoints} points in previous tiers.`
+    } else if (skillPointsRemaining - skill.skillPointCost < 0) {
+        // available skill points check
+        learnability.canLearn = false
+        learnability.reason = 'Not enough skill points.'
+    } else {
+        // requirements check
+        if (!isEmpty(skill.requires)) {
+            const requiredSkill = getRequiredSkill(skill, skillTreeSkills)
+            if (!isLearned(requiredSkill, learnedSkills)) {
+                learnability.canLearn = false
+                learnability.reason = `Requires ${requiredSkill.title}.`
+            }
+        }
+        // exclusion check
+        const excludedBy = getSkillThatExcludesThisOne(skill, skillTreeSkills)
+        if (excludedBy && isLearned(excludedBy, learnedSkills)) {
+            learnability.canLearn = false
+            learnability.reason = `Disabled by ${excludedBy.title}.`
+        }
+    }
+    return learnability
+}
+
+const sanitizeLearnedSkills = (learnedSkills, skills, characterLevel) => {
+    let results = []
+    skills.all
+        .filter((s) => learnedSkills.includes(s.id))
+        .forEach((skill) => {
+            const skillPointsRemaining = calculateSkillPointsRemaining(
+                results,
+                characterLevel,
+                skills
+            )
+            const skillTreeSkills = skills[skill.skillTree]
+            const pointsSpentInThisTree = getPointsSpentInTree(
+                skillTreeSkills,
+                results
+            )
+            const { canLearn } = getLearnability(
+                skill,
+                results,
+                skillPointsRemaining,
+                pointsSpentInThisTree,
+                skillTreeSkills
+            )
+            if (canLearn) {
+                results.push(skill.id)
+            }
+        })
+    return results
+}
+
 export const SkillTreeNavItem = ({ skillTree, pointsSpent }) => {
     const { search } = useLocation()
     const isActive = useMatch(`/skill-calculator/${skillTree.id}`)
@@ -158,11 +250,25 @@ export const SkillCalculator = ({ skillTrees }) => {
     React.useEffect(() => {
         const buildData = decodeBuildData(buildDataBase64FromUrl, skills)
         if (buildData) {
+            const learnedSkills = sanitizeLearnedSkills(
+                buildData.learnedSkills,
+                skills,
+                buildData.level
+            )
+            const partialLoadFailure =
+                learnedSkills.length !== buildData.learnedSkills.length
+                    ? {
+                          title: 'Partial Build Corruption',
+                          message: `Some skills have moved around which has affected this build. Skills that can't be learned due to not meeting requirements have had their points refunded.`,
+                      }
+                    : null
+            buildData.learnedSkills = learnedSkills
             dispatch({
                 type: 'loadBuildData',
                 payload: {
                     character: buildData,
                     buildDataBase64: buildDataBase64FromUrl,
+                    partialLoadFailure,
                 },
             })
         }

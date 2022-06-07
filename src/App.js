@@ -6,18 +6,21 @@ import {
     NavLink,
     useLocation,
 } from 'react-router-dom'
-import { ThemeProvider, Global } from '@emotion/react'
+import Modal from 'react-modal'
+import { ThemeProvider, Global, useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import Helmet from 'react-helmet'
 
 import { skillTrees } from './constants'
 import { theme, mq } from './lib/theme'
-import { StateProvider, useAppState } from './store'
+import { StateProvider, useAppState, useDispatch } from './store'
 import { SkillCalculator } from './scenes/SkillCalculator'
 import { CharacterScreen } from './scenes/Character'
-import { Link, Feedback } from './components'
+import { Link, Feedback, Button } from './components'
 import SkillTree from './scenes/SkillCalculator/SkillTree'
 import { ReactComponent as DiscordIconRaw } from './icons/discord.svg'
+
+Modal.setAppElement('#root')
 
 const AppRoot = styled.div(({ theme }) => ({
     minHeight: '100vh',
@@ -106,6 +109,20 @@ const AppFooterRoot = styled.div(({ theme }) => ({
     color: theme.palette.text.subdued,
 }))
 
+const ModalTitle = styled.h3(({ theme }) => ({
+    marginTop: 0,
+}))
+const ModalBody = styled.div(({ theme }) => ({}))
+const ModalActions = styled.div(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: theme.spacing(2),
+}))
+const ModalButton = styled(Button)(({ theme }) => ({
+    width: 100,
+}))
+
 function AppBar() {
     const location = useLocation()
     const { character } = useAppState()
@@ -155,6 +172,34 @@ function AppBar() {
 
 function AppContent() {
     const { search } = useLocation()
+    const dispatch = useDispatch()
+    const { modal } = useAppState()
+    const theme = useTheme()
+
+    const modalStyles = {
+        overlay: {
+            zIndex: 1,
+            background: 'rgba(0, 0, 0, 0.8)',
+        },
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            width: 540,
+            background: theme.palette.background.default,
+            color: theme.palette.text.default,
+            borderColor: 'rgba(0, 0, 0, 0.8)',
+            borderWidth: 2,
+            borderRadius: 0,
+        },
+    }
+
+    const closeModal = () => {
+        dispatch({ type: 'closeModal' })
+    }
     return (
         <AppContentRoot>
             <Routes>
@@ -184,6 +229,19 @@ function AppContent() {
                     }
                 />
             </Routes>
+
+            <Modal
+                isOpen={modal.open}
+                onRequestClose={closeModal}
+                style={modalStyles}
+                contentLabel="Notification Modal"
+            >
+                <ModalTitle>{modal.title}</ModalTitle>
+                <ModalBody>{modal.message}</ModalBody>
+                <ModalActions>
+                    <ModalButton onClick={closeModal}>Ok</ModalButton>
+                </ModalActions>
+            </Modal>
         </AppContentRoot>
     )
 }

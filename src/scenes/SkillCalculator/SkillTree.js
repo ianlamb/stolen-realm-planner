@@ -1,11 +1,17 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { isEmpty, orderBy } from 'lodash-es'
+import { orderBy } from 'lodash-es'
 import Helmet from 'react-helmet'
 
 import { buildVersion } from '../../constants'
 import { useDispatch, useAppState } from '../../store'
-import { isLearned, getPointsSpentInTree } from './index'
+import {
+    isLearned,
+    getPointsSpentInTree,
+    getLearnability,
+    hasRequirement,
+    getReplacesSkill,
+} from './index'
 import { calculateScaledManaCost } from './helpers'
 import Skill from './Skill'
 
@@ -170,69 +176,6 @@ export default function SkillTree({ id, title }) {
         character.learnedSkills
     )
 
-    const requiredPointsForTier = (tier) => {
-        return tier === 5 ? 10 : (tier - 1) * 2
-    }
-
-    const hasRequirement = (skill) => {
-        return !!relevantSkills.find(
-            (s) => s.requires && s.requires === skill.id
-        )
-    }
-
-    const getSkillThatExcludesThisOne = (skill) => {
-        return relevantSkills.find(
-            (s) => s.exclusiveWith && s.exclusiveWith === skill.id
-        )
-    }
-
-    const getRequiredSkill = (skill) => {
-        return relevantSkills.find((s) => s.id === skill.requires)
-    }
-
-    const getReplacesSkill = (skill) => {
-        return relevantSkills.find((s) => s.id === skill.replaces)
-    }
-
-    const getLearnability = (
-        skill,
-        learnedSkills,
-        skillPointsRemaining,
-        pointsSpentInThisTree
-    ) => {
-        let learnability = {
-            canLearn: true,
-            reason: '',
-        }
-
-        const requiredPoints = requiredPointsForTier(skill.tier)
-        if (requiredPoints > pointsSpentInThisTree) {
-            // spent points required by tier check
-            learnability.canLearn = false
-            learnability.reason = `Requires ${requiredPoints} points in previous tiers.`
-        } else if (skillPointsRemaining - skill.skillPointCost < 0) {
-            // available skill points check
-            learnability.canLearn = false
-            learnability.reason = 'Not enough skill points.'
-        } else {
-            // requirements check
-            if (!isEmpty(skill.requires)) {
-                const requiredSkill = getRequiredSkill(skill)
-                if (!isLearned(requiredSkill, learnedSkills)) {
-                    learnability.canLearn = false
-                    learnability.reason = `Requires ${requiredSkill.title}.`
-                }
-            }
-            // exclusion check
-            const excludedBy = getSkillThatExcludesThisOne(skill)
-            if (excludedBy && isLearned(excludedBy, learnedSkills)) {
-                learnability.canLearn = false
-                learnability.reason = `Disabled by ${excludedBy.title}.`
-            }
-        }
-        return learnability
-    }
-
     const toggleSkill = (skill) => {
         if (!isLearned(skill, character.learnedSkills)) {
             if (
@@ -240,7 +183,8 @@ export default function SkillTree({ id, title }) {
                     skill,
                     character.learnedSkills,
                     character.skillPointsRemaining,
-                    pointsSpentInThisTree
+                    pointsSpentInThisTree,
+                    relevantSkills
                 ).canLearn
             ) {
                 dispatch({ type: 'learnSkill', payload: skill })
@@ -268,7 +212,8 @@ export default function SkillTree({ id, title }) {
                         getPointsSpentInTree(
                             relevantSkills,
                             futureLearnedSkillIds
-                        ) - futureLearnedSkills[i].skillPointCost
+                        ) - futureLearnedSkills[i].skillPointCost,
+                        relevantSkills
                     ).canLearn
                 ) {
                     console.log(
@@ -308,14 +253,15 @@ export default function SkillTree({ id, title }) {
                     pos={getSkillPosition(skill)}
                     toggleSkill={toggleSkill}
                     isLearned={isLearned(skill, character.learnedSkills)}
-                    hasRequirement={hasRequirement(skill)}
+                    hasRequirement={hasRequirement(skill, relevantSkills)}
                     learnability={getLearnability(
                         skill,
                         character.learnedSkills,
                         character.skillPointsRemaining,
-                        pointsSpentInThisTree
+                        pointsSpentInThisTree,
+                        relevantSkills
                     )}
-                    replaces={getReplacesSkill(skill)}
+                    replaces={getReplacesSkill(skill, relevantSkills)}
                     isOnlyChild={skill.requires && !skill.exclusiveWith}
                     isLeftSibling={isLeftSibling}
                     isRightSibling={isRightSibling}

@@ -12,6 +12,10 @@ const DEFAULT_LEVEL = 30
 
 const initialState = {
     buildDataBase64: null,
+    modal: {
+        message: '',
+        open: false,
+    },
     character: {
         name: '',
         level: DEFAULT_LEVEL,
@@ -131,9 +135,16 @@ export const StateProvider = ({ children }) => {
                     ...state.character,
                     ...action.payload.character,
                 }
+                const modal = action.payload.partialLoadFailure
+                    ? {
+                          ...action.payload.partialLoadFailure,
+                          open: true,
+                      }
+                    : {}
                 newState = {
                     ...state,
                     buildDataBase64: action.payload.buildDataBase64,
+                    modal,
                     character: {
                         ...mergedCharacter,
                         skillPointsRemaining: calculateSkillPointsRemaining(
@@ -170,6 +181,14 @@ export const StateProvider = ({ children }) => {
                             ...state.character.equipment,
                             weaponDamage: action.payload,
                         },
+                    },
+                }
+                break
+            case 'closeModal':
+                newState = {
+                    ...state,
+                    modal: {
+                        open: false,
                     },
                 }
                 break

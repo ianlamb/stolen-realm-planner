@@ -130,7 +130,7 @@ export const calculateSpellPower = (
     generalBonuses = 0
 ) => {
     return Math.round(
-        (22 + characterLevel * 3) * (0.9 + might / 100) * (generalBonuses + 1)
+        (9 + characterLevel * 4) * (0.9 + might / 100) * (generalBonuses + 1)
     )
 }
 

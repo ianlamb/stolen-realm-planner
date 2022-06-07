@@ -181,7 +181,7 @@ export const CharacterScreen = () => {
                         Formula:
                         <code>
                             <pre>
-                                Math.round((22 + characterLevel * 3) * (0.9 +
+                                Math.round((9 + characterLevel * 4) * (0.9 +
                                 might / 100) * (generalBonuses + 1))
                             </pre>
                         </code>
