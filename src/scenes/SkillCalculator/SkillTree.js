@@ -14,8 +14,8 @@ const SKILL_OFFSET = 64
 
 const skillOffsetBumps = {
     // warrior
-    fracture: 6,
-    rage: 8,
+    fracture: 4,
+    rage: 2,
     'life-cleave': 4,
     // ranger
     'trackers-mark': 4,
@@ -28,6 +28,12 @@ const skillOffsetBumps = {
     'dagger-throw': 5,
     escape: 2,
     'enduring-evasion': 4,
+    // monk
+    'front-kick': 2,
+    'chi-strike': 4,
+    incapacitate: 2,
+    'cyclone-kick': 6,
+    'weapon-of-choice': 6,
 }
 
 const getSkillOffsets = (skills) => {
@@ -58,10 +64,17 @@ const getSkillOffsets = (skills) => {
 }
 
 const Root = styled.div(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'row',
     width: '100%',
     height: 450,
+    // overflowX: 'auto',
+}))
+
+const TreeWrapper = styled.div(({ theme }) => ({
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
+    height: '100%',
+    minWidth: 1196,
 }))
 
 const ActiveSkills = styled.div(({ theme }) => ({
@@ -318,32 +331,35 @@ export default function SkillTree({ id, title }) {
             <Helmet>
                 <meta property="og:image" content={ogImageUrl} />
             </Helmet>
-            <ActiveSkills>
-                <SectionTitle align="right">Active Skills</SectionTitle>
-                {mapSkills(activeSkills)}
-                <BottomLeftNote>
-                    <Checkbox
-                        id="calcDamageCheckbox"
-                        type="checkbox"
-                        checked={shouldCalcDamage}
-                        onChange={(event) =>
-                            setShouldCalcDamage(event.currentTarget.checked)
-                        }
-                    />
-                    <CheckboxLabel htmlFor="calcDamageCheckbox">
-                        Calculate Skill Damage
-                    </CheckboxLabel>
-                </BottomLeftNote>
-            </ActiveSkills>
-            <PassiveSkills>
-                <SectionTitle>Passive Skills</SectionTitle>
-                {mapSkills(passiveSkills)}
-                <BottomRightNote>
-                    Data reviewed as of client build: <b>{buildVersion}</b>
-                    <br />
-                    Damage calculations are still being tweaked for accuracy.
-                </BottomRightNote>
-            </PassiveSkills>
+            <TreeWrapper>
+                <ActiveSkills>
+                    <SectionTitle align="right">Active Skills</SectionTitle>
+                    {mapSkills(activeSkills)}
+                    <BottomLeftNote>
+                        <Checkbox
+                            id="calcDamageCheckbox"
+                            type="checkbox"
+                            checked={shouldCalcDamage}
+                            onChange={(event) =>
+                                setShouldCalcDamage(event.currentTarget.checked)
+                            }
+                        />
+                        <CheckboxLabel htmlFor="calcDamageCheckbox">
+                            Calculate Skill Damage
+                        </CheckboxLabel>
+                    </BottomLeftNote>
+                </ActiveSkills>
+                <PassiveSkills>
+                    <SectionTitle>Passive Skills</SectionTitle>
+                    {mapSkills(passiveSkills)}
+                    <BottomRightNote>
+                        Data reviewed as of client build: <b>{buildVersion}</b>
+                        <br />
+                        Damage calculations are still being tweaked for
+                        accuracy.
+                    </BottomRightNote>
+                </PassiveSkills>
+            </TreeWrapper>
         </Root>
     )
 }

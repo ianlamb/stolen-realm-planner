@@ -1,5 +1,9 @@
 const spacingMultiplier = 8
 
+const breakpoints = [600, 900]
+
+export const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`)
+
 export const theme = {
     palette: {
         primary: '#dbb884',

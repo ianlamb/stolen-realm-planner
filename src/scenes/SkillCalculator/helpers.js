@@ -1,13 +1,5 @@
-const orderedSkillTrees = [
-    'fire',
-    'lightning',
-    'cold',
-    'warrior',
-    'light',
-    'ranger',
-    'shadow',
-    'thief',
-]
+import { orderedSkillTrees } from '../../constants'
+
 export const getSkillTreeID = (skillTree) => {
     return orderedSkillTrees.indexOf(skillTree)
 }
@@ -25,10 +17,7 @@ export const encodeBuildData = (character, skills) => {
     )
     const suidArray = character.learnedSkills.map((ls) => {
         const s = skills.all.find((x) => x.id === ls)
-        const sUID = `${getSkillTreeID(s.skillTree)}${
-            s.tier
-        }${s.skillNum.toString(16)}`
-        return sUID
+        return s.suid
     })
     console.log(
         '[encodeBuildData] Convert skills into SUIDs, suidArray=',
@@ -97,13 +86,7 @@ export const decodeBuildData = (dataBase64, skills) => {
         )
 
         learnedSkills = suidArray.map((suid) => {
-            const skillTree = getSkillTreeByID(suid[0])
-            const skillTier = parseInt(suid[1], 10)
-            const skillNum = parseInt(suid[2], 16)
-            const skillTreeSkills = skills[skillTree]
-            const skill = skillTreeSkills?.find(
-                (s) => s.tier === skillTier && s.skillNum === skillNum
-            )
+            const skill = skills.all?.find((s) => s.suid === suid)
             return skill?.id
         })
         console.log(

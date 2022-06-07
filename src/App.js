@@ -11,7 +11,7 @@ import styled from '@emotion/styled'
 import Helmet from 'react-helmet'
 
 import { skillTrees } from './constants'
-import { theme } from './lib/theme'
+import { theme, mq } from './lib/theme'
 import { StateProvider, useAppState } from './store'
 import { SkillCalculator } from './scenes/SkillCalculator'
 import { CharacterScreen } from './scenes/Character'
@@ -45,6 +45,10 @@ const Title = styled.h1(({ theme }) => ({
     lineHeight: '36px',
     fontFamily: theme.fonts.titleText,
     paddingRight: theme.spacing(2),
+    [mq[0]]: {
+        fontSize: '16px',
+        lineHeight: '26px',
+    },
 }))
 
 const Nav = styled.div(({ theme }) => ({

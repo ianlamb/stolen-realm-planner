@@ -1,4 +1,4 @@
-export const buildVersion = 'v0.15.2'
+export const buildVersion = 'v0.18.8'
 
 export const skillTrees = [
     { id: 'fire', title: 'Fire' },
@@ -9,6 +9,19 @@ export const skillTrees = [
     { id: 'ranger', title: 'Ranger' },
     { id: 'shadow', title: 'Shadow' },
     { id: 'thief', title: 'Thief' },
+    { id: 'monk', title: 'Monk' },
+]
+
+export const orderedSkillTrees = [
+    'fire',
+    'lightning',
+    'cold',
+    'warrior',
+    'light',
+    'ranger',
+    'shadow',
+    'thief',
+    'monk',
 ]
 
 export const attributeGUIDMap = {

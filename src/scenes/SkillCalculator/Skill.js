@@ -75,7 +75,9 @@ const SkillIconBorder = styled.div(({ theme }) => ({
     },
 }))
 
-const SkillIconImg = styled(SkillTreeIconImg)(({ theme, grayscale }) => ({
+const SkillIconImg = styled.img(({ theme, grayscale }) => ({
+    width: '100%',
+    height: '100%',
     filter: grayscale && `grayscale(1)`,
 }))
 
@@ -343,13 +345,24 @@ export default function Skill({
         toggleSkill(skill)
     }
 
+    const onImgError = (e) => {
+        console.log(e)
+        if (e.target.src !== 'skill-placeholder.png') {
+            e.target.src = 'skill-placeholder.png'
+        }
+    }
+
     return (
         <Root left={pos.left} right={pos.right} top={pos.top}>
             <Tooltip
                 content={
                     <TooltipContainer>
                         <Heading>
-                            <TooltipIconImg src={iconUrl} alt={skill.title} />
+                            <TooltipIconImg
+                                src={iconUrl}
+                                alt={skill.title}
+                                onError={onImgError}
+                            />
                             <Title>{skill.title}</Title>
                         </Heading>
                         <Content>
@@ -430,6 +443,7 @@ export default function Skill({
                         src={iconUrl}
                         alt={skill.title}
                         grayscale={!isLearned}
+                        onError={onImgError}
                     />
                     {hasRequirement && (
                         <SkillIconAnnotation>I</SkillIconAnnotation>

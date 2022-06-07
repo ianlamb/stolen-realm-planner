@@ -25,7 +25,7 @@ const Root = styled(Container)(({ theme }) => ({
 const SkillTreeNav = styled.div(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
-    height: 100,
+    flexWrap: 'wrap',
     padding: theme.spacing(1),
     borderTop: '2px solid rgba(0, 0, 0, 0.5)',
     borderBottom: '2px solid rgba(0, 0, 0, 0.5)',
@@ -36,6 +36,7 @@ const NavItem = styled.div(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    margin: theme.spacing(0.5),
 }))
 
 const NavLink = styled(Link)(({ theme }) => ({}))
@@ -93,6 +94,7 @@ const Heading = styled.div(({ theme }) => ({
 const Options = styled.div(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
+    flexWrap: 'wrap',
 }))
 
 const SkillPointCounter = styled.div(({ theme, isEmpty }) => ({
@@ -100,6 +102,7 @@ const SkillPointCounter = styled.div(({ theme, isEmpty }) => ({
     padding: theme.spacing(1),
     display: 'flex',
     alignItems: 'flex-end',
+    whiteSpace: 'nowrap',
 }))
 
 export const isLearned = (skill, learnedSkills) => {

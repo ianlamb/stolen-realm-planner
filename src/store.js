@@ -38,6 +38,7 @@ const initialState = {
         ranger: getSkills('ranger'),
         shadow: getSkills('shadow'),
         thief: getSkills('thief'),
+        monk: getSkills('monk'),
     },
 }
 

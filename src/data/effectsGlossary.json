@@ -15,6 +15,7 @@
   "Shocked":
       "Incoming critical strike damage increased by 10% per stack. Lasts 3 turns. Can stack up to 10 times.",
   "Heat": "Elemental resistance reduced by 5% per stack. Lasts 3 turns. Can stack up to 10 times.",
+  "Exhaustion": "Cannot receive additional action points. Caused by receiving addition action points this turn.",
   "Maximum Health": false,
   "Maximum Mana": false,
   "All Resistances": false,
