@@ -36,7 +36,6 @@ export const Tooltip = (props) => {
         if (rect) {
             const bottomScreenDiff = window.innerHeight - (rect.y + rect.height)
             const rightScreenDiff = window.innerWidth - (rect.x + rect.width)
-            console.log('??', bottomScreenDiff)
             if (bottomScreenDiff - 8 < 0) {
                 yOffset = bottomScreenDiff - 48
             }
