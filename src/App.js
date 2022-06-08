@@ -11,14 +11,11 @@ import { ThemeProvider, Global, useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import Helmet from 'react-helmet'
 
-import { skillTrees } from './constants'
 import { theme, mq } from './lib/theme'
 import { StateProvider, useAppState, useDispatch } from './store'
 import { SkillCalculator } from './scenes/SkillCalculator'
-import { CharacterScreen } from './scenes/Character'
-import { BuildsScreen } from './scenes/Builds'
+import { Builds } from './scenes/Builds'
 import { Link, Feedback, Button } from './components'
-import SkillTree from './scenes/SkillCalculator/SkillTree'
 import { ReactComponent as DiscordIconRaw } from './icons/discord.svg'
 
 Modal.setAppElement('#root')
@@ -144,27 +141,8 @@ function AppBar() {
             <Logo src="logo.png" alt="Stolen Realm Logo" />
             <Title>Character Planner</Title>
             <Nav>
-                <NavItem
-                    to={{
-                        pathname: 'skill-calculator',
-                        search: location.search,
-                    }}
-                >
-                    Skills
-                </NavItem>
-                <NavItem
-                    to={{ pathname: 'character', search: location.search }}
-                >
-                    Character
-                </NavItem>
-                <NavItem
-                    to={{
-                        pathname: 'builds',
-                        search: location.search,
-                    }}
-                >
-                    Builds
-                </NavItem>
+                <NavItem to="builds">Builds</NavItem>
+                <NavItem to="calc">Build Calculator</NavItem>
                 <NavSplitter />
                 <ExternalNavItem
                     href="https://discord.com/invite/SbEPwMfXCJ"
@@ -180,7 +158,6 @@ function AppBar() {
 }
 
 function AppContent() {
-    const { search } = useLocation()
     const dispatch = useDispatch()
     const { modal } = useAppState()
     const theme = useTheme()
@@ -209,50 +186,16 @@ function AppContent() {
     const closeModal = () => {
         dispatch({ type: 'closeModal' })
     }
+
     return (
         <AppContentRoot>
             <Routes>
-                <Route
-                    path="skill-calculator"
-                    element={<SkillCalculator skillTrees={skillTrees} />}
-                >
-                    {skillTrees.map((skillTree) => (
-                        <Route
-                            key={skillTree.id}
-                            path={skillTree.id}
-                            element={<SkillTree {...skillTree} />}
-                        />
-                    ))}
-                    <Route
-                        path=""
-                        element={<Navigate to={{ pathname: 'fire', search }} />}
-                    />
-                </Route>
-                <Route path="character" element={<CharacterScreen />} />
-                <Route path="builds" element={<BuildsScreen />} />
-                <Route
-                    path="builds/:buildId"
-                    element={<SkillCalculator skillTrees={skillTrees} />}
-                >
-                    {skillTrees.map((skillTree) => (
-                        <Route
-                            key={skillTree.id}
-                            path={skillTree.id}
-                            element={<SkillTree {...skillTree} />}
-                        />
-                    ))}
-                    <Route
-                        path=""
-                        element={<Navigate to={{ pathname: 'fire', search }} />}
-                    />
-                </Route>
+                <Route path="calc/:buildId" element={<SkillCalculator />} />
+                <Route path="calc" element={<SkillCalculator />} />
+                <Route path="builds" element={<Builds />} />
                 <Route
                     path="/"
-                    element={
-                        <Navigate
-                            to={{ pathname: 'skill-calculator', search }}
-                        />
-                    }
+                    element={<Navigate to={{ pathname: 'builds' }} />}
                 />
             </Routes>
 

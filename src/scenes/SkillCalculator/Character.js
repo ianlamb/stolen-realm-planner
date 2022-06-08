@@ -15,8 +15,6 @@ const MAX_WEAPON_DAMAGE = 9999
 const MAX_ATTRIBUTE_VALUE = 9999
 
 const Root = styled(Container)(({ theme }) => ({
-    border: '2px solid rgba(0, 0, 0, 0.5)',
-    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(2),
 }))
 
@@ -47,7 +45,7 @@ const StatInput = ({ value, onChange, ...props }) => {
     return <Input type="number" value={value} onChange={onChange} {...props} />
 }
 
-export const CharacterScreen = () => {
+export const Character = () => {
     const dispatch = useDispatch()
     const { character } = useAppState()
 
@@ -204,4 +202,4 @@ export const CharacterScreen = () => {
     )
 }
 
-export default CharacterScreen
+export default Character

@@ -13,7 +13,7 @@ import {
 import { replaceJSX, replaceJSXSpecial } from '../../lib/helpers'
 import effectsGlossary from '../../data/effectsGlossary.json'
 import { Tooltip, HightlightText, ErrorText } from '../../components'
-import { SkillTreeIcon, SkillTreeIconAnnotation } from './index'
+import { SkillTreeIcon, SkillTreeIconAnnotation } from './common'
 import { ReactComponent as LockIconRaw } from '../../icons/lock.svg'
 
 const regexExactSP = new RegExp(/(\[[0-9]+% Spell Power\])/)

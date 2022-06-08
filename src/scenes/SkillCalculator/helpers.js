@@ -1,4 +1,5 @@
 import { orderedSkillTrees } from '../../constants'
+import { isEmpty } from 'lodash-es'
 
 export const getSkillTreeID = (skillTree) => {
     return orderedSkillTrees.indexOf(skillTree)
@@ -209,4 +210,121 @@ export const calculateWeaponAverage = (weaponDamage) => {
         return 1
     }
     return Math.ceil((weaponDamage[0] + weaponDamage[1]) / 2)
+}
+
+export const isLearned = (skill, learnedSkills) => {
+    return !!learnedSkills.find((ls) => ls === skill.id)
+}
+
+export const getPointsSpentInTree = (skillTreeSkills, learnedSkills) => {
+    return skillTreeSkills.reduce((acc, skill) => {
+        if (isLearned(skill, learnedSkills)) {
+            acc += skill.skillPointCost
+        }
+        return acc
+    }, 0)
+}
+
+export const getPointsSpentInTier = (tier, skillTreeSkills, learnedSkills) => {
+    return skillTreeSkills.reduce((acc, skill) => {
+        if (isLearned(skill, learnedSkills) && skill.tier === tier) {
+            acc += skill.skillPointCost
+        }
+        return acc
+    }, 0)
+}
+
+export const requiredPointsForTier = (tier) => {
+    return tier === 5 ? 10 : (tier - 1) * 2
+}
+
+export const hasRequirement = (skill, skillTreeSkills) => {
+    return !!skillTreeSkills.find((s) => s.requires && s.requires === skill.id)
+}
+
+export const getSkillThatExcludesThisOne = (skill, skillTreeSkills) => {
+    return skillTreeSkills.find(
+        (s) => s.exclusiveWith && s.exclusiveWith === skill.id
+    )
+}
+
+export const getRequiredSkill = (skill, skillTreeSkills) => {
+    return skillTreeSkills.find((s) => s.id === skill.requires)
+}
+
+export const getReplacesSkill = (skill, skillTreeSkills) => {
+    return skillTreeSkills.find((s) => s.id === skill.replaces)
+}
+
+export const getLearnability = (
+    skill,
+    learnedSkills,
+    skillPointsRemaining,
+    pointsSpentInThisTree,
+    skillTreeSkills
+) => {
+    let learnability = {
+        canLearn: true,
+        reason: '',
+    }
+
+    const requiredPoints = requiredPointsForTier(skill.tier)
+    if (requiredPoints > pointsSpentInThisTree) {
+        // spent points required by tier check
+        learnability.canLearn = false
+        learnability.reason = `Requires ${requiredPoints} points in previous tiers.`
+    } else if (skillPointsRemaining - skill.skillPointCost < 0) {
+        // available skill points check
+        learnability.canLearn = false
+        learnability.reason = 'Not enough skill points.'
+    } else {
+        // requirements check
+        if (!isEmpty(skill.requires)) {
+            const requiredSkill = getRequiredSkill(skill, skillTreeSkills)
+            if (!isLearned(requiredSkill, learnedSkills)) {
+                learnability.canLearn = false
+                learnability.reason = `Requires ${requiredSkill.title}.`
+            }
+        }
+        // exclusion check
+        const excludedBy = getSkillThatExcludesThisOne(skill, skillTreeSkills)
+        if (excludedBy && isLearned(excludedBy, learnedSkills)) {
+            learnability.canLearn = false
+            learnability.reason = `Disabled by ${excludedBy.title}.`
+        }
+    }
+    return learnability
+}
+
+export const sanitizeLearnedSkills = (
+    learnedSkills,
+    skills,
+    characterLevel
+) => {
+    let results = []
+    skills.all
+        .filter((s) => learnedSkills.includes(s.id))
+        .forEach((skill) => {
+            const skillPointsRemaining = calculateSkillPointsRemaining(
+                results,
+                characterLevel,
+                skills
+            )
+            const skillTreeSkills = skills[skill.skillTree]
+            const pointsSpentInThisTree = getPointsSpentInTree(
+                skillTreeSkills,
+                results
+            )
+            const { canLearn } = getLearnability(
+                skill,
+                results,
+                skillPointsRemaining,
+                pointsSpentInThisTree,
+                skillTreeSkills
+            )
+            if (canLearn) {
+                results.push(skill.id)
+            }
+        })
+    return results
 }

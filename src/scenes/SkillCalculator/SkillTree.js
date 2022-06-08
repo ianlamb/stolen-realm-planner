@@ -12,8 +12,8 @@ import {
     getLearnability,
     hasRequirement,
     getReplacesSkill,
-} from './index'
-import { calculateScaledManaCost } from './helpers'
+    calculateScaledManaCost,
+} from './helpers'
 import Skill from './Skill'
 import { Link } from '../../components'
 

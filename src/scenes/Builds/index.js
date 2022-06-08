@@ -12,7 +12,7 @@ const Root = styled(Container)(({ theme }) => ({
     padding: theme.spacing(2),
 }))
 
-export const BuildsScreen = () => {
+export const Builds = () => {
     const dispatch = useDispatch()
     const { builds } = useAppState()
 
@@ -29,7 +29,7 @@ export const BuildsScreen = () => {
         <Root>
             {builds.map((b) => (
                 <div>
-                    <Link to={`/builds/${b.id}`}>{b.id}</Link> {b.name}
+                    <Link to={`/calc/${b.id}`}>{b.id}</Link> {b.name}
                 </div>
             ))}
             <Outlet />
@@ -37,4 +37,4 @@ export const BuildsScreen = () => {
     )
 }
 
-export default BuildsScreen
+export default Builds
