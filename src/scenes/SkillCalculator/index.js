@@ -12,6 +12,7 @@ import Character from './Character'
 import NameInput from './NameInput'
 import LevelSelect from './LevelSelect'
 import ShareBuild from './ShareBuild'
+import SaveBuild from './SaveBuild'
 import ResetBuild from './ResetBuild'
 
 const Root = styled(Container)(({ theme }) => ({
@@ -71,6 +72,7 @@ export const SkillCalculator = () => {
                     type: 'loadBuildData',
                     payload: {
                         character: build,
+                        buildId,
                     },
                 })
             })
@@ -85,6 +87,7 @@ export const SkillCalculator = () => {
                     <NameInput />
                     <LevelSelect />
                     <ShareBuild />
+                    <SaveBuild />
                     <ResetBuild />
                 </Options>
             </Heading>

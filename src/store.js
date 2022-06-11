@@ -13,10 +13,7 @@ const DEFAULT_LEVEL = 30
 const initialState = {
     builds: [],
     buildDataBase64: null,
-    modal: {
-        message: '',
-        open: false,
-    },
+    buildId: null,
     character: {
         name: '',
         level: DEFAULT_LEVEL,
@@ -44,6 +41,10 @@ const initialState = {
         shadow: getSkills('shadow'),
         thief: getSkills('thief'),
         monk: getSkills('monk'),
+    },
+    modal: {
+        message: '',
+        open: false,
     },
 }
 
@@ -145,6 +146,7 @@ export const StateProvider = ({ children }) => {
                 newState = {
                     ...state,
                     buildDataBase64: action.payload.buildDataBase64,
+                    buildId: action.payload.buildId,
                     modal,
                     character: {
                         ...mergedCharacter,
@@ -154,6 +156,12 @@ export const StateProvider = ({ children }) => {
                             state.skills
                         ),
                     },
+                }
+                break
+            case 'setBuildId':
+                newState = {
+                    ...state,
+                    buildId: action.payload,
                 }
                 break
             case 'resetBuild':

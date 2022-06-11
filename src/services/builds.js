@@ -6,6 +6,7 @@ import {
     doc,
     query,
     where,
+    setDoc,
 } from 'firebase/firestore'
 
 import { db } from '../lib/firebase'
@@ -36,7 +37,20 @@ export const createBuild = async (data) => {
     try {
         const docRef = await addDoc(collection(db, 'builds'), data)
         console.log('Document written with ID: ', docRef.id)
+        return docRef.id
     } catch (e) {
         console.error('Error adding document: ', e)
+    }
+}
+
+export const updateBuild = async (id, data) => {
+    const docRef = doc(db, 'builds', id)
+
+    try {
+        const result = await setDoc(docRef, data)
+        console.log('Document updated: ', result)
+        return result
+    } catch (e) {
+        console.error('Error updating document: ', e)
     }
 }
