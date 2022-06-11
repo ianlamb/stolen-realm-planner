@@ -1,4 +1,5 @@
 import React from 'react'
+import { keyframes } from '@emotion/react'
 import styled from '@emotion/styled'
 import { orderBy } from 'lodash-es'
 import Helmet from 'react-helmet'
@@ -71,17 +72,55 @@ const getSkillOffsets = (skills) => {
 }
 
 const Root = styled.div(({ theme }) => ({
+    position: 'relative',
     width: '100%',
     height: 450,
     // overflowX: 'auto',
 }))
 
-const TreeWrapper = styled.div(({ theme }) => ({
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`
+
+const BackdropRoot = styled.div(({ theme, url, opacity }) => ({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: `url(${url})`,
+    backgroundPosition: 'center bottom',
+    backgroundSize: '100%',
+    opacity: opacity,
+    transition: opacity === 1 ? `opacity 1s` : '',
+}))
+
+const Backdrop = ({ url }) => {
+    const [opacity, setOpacity] = React.useState(0)
+    const [lastUrl, setLastUrl] = React.useState()
+    if (url !== lastUrl) {
+        setLastUrl(url)
+        setOpacity(0)
+        setTimeout(() => {
+            setOpacity(1)
+        }, 100)
+        return null
+    }
+    return <BackdropRoot url={url} opacity={opacity} />
+}
+
+const TreeWrapper = styled.div(({ theme, bg }) => ({
     position: 'relative',
     display: 'flex',
     flexDirection: 'row',
     height: '100%',
     minWidth: 1196,
+    background: 'rgba(25,25,25,0.75)',
 }))
 
 const TreeTitle = styled.div(({ theme }) => ({
@@ -92,13 +131,19 @@ const TreeTitle = styled.div(({ theme }) => ({
 const ActiveSkills = styled.div(({ theme }) => ({
     position: 'relative',
     flex: 1,
-    borderRight: '1px solid rgba(0, 0, 0, 0.5)',
+    border: `1px solid ${theme.palette.skillBorder}`,
 }))
 
 const PassiveSkills = styled.div(({ theme }) => ({
     position: 'relative',
     flex: 1,
-    borderLeft: '1px solid rgba(0, 0, 0, 0.5)',
+    border: `1px solid ${theme.palette.skillBorder}`,
+}))
+
+const VerticalDivider = styled.div(({ theme }) => ({
+    width: theme.spacing(1),
+    height: '100%',
+    background: theme.palette.background.default,
 }))
 
 const SectionTitle = styled.div(({ theme, align = 'left' }) => ({
@@ -106,8 +151,15 @@ const SectionTitle = styled.div(({ theme, align = 'left' }) => ({
     top: 0,
     left: align === 'left' ? 0 : 'auto',
     right: align === 'right' ? 0 : 'auto',
-    padding: theme.spacing(1),
+    padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
     color: theme.palette.text.highlight,
+    background: theme.palette.background.default,
+    borderStyle: 'solid',
+    borderColor: theme.palette.skillBorder,
+    borderTopWidth: 0,
+    borderBottomWidth: 1,
+    borderLeftWidth: align === 'right' ? 1 : 0,
+    borderRightWidth: align === 'left' ? 1 : 0,
 }))
 
 const ErrorMessage = styled.div(({ theme }) => ({
@@ -150,6 +202,7 @@ export default function SkillTree({ id, title, wikiUrl }) {
     const { skills, character } = useAppState()
     const relevantSkills = skills[id]
     const ogImageUrl = `${window.location.origin}${process.env.PUBLIC_URL}/skill-tree-icons/${id}-min.png`
+    const backgroundUrl = `${window.location.origin}${process.env.PUBLIC_URL}/skill-tree-bgs/${title}.jpg`
 
     if (!relevantSkills) {
         return <ErrorMessage>Something's wrong, sorry :(</ErrorMessage>
@@ -283,6 +336,7 @@ export default function SkillTree({ id, title, wikiUrl }) {
             <Helmet>
                 <meta property="og:image" content={ogImageUrl} />
             </Helmet>
+            <Backdrop url={backgroundUrl} />
             <TreeWrapper>
                 <ActiveSkills>
                     <SectionTitle align="right">Active Skills</SectionTitle>
@@ -301,6 +355,7 @@ export default function SkillTree({ id, title, wikiUrl }) {
                         </CheckboxLabel>
                     </BottomLeftNote>
                 </ActiveSkills>
+                <VerticalDivider />
                 <PassiveSkills>
                     <TreeTitle>
                         <Link
