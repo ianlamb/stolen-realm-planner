@@ -22,11 +22,11 @@ const initialState = {
         skillPointsRemaining: getMaxSkillPoints(DEFAULT_LEVEL),
         learnedSkills: [],
         attributes: {
-            might: 10,
-            dexterity: 10,
-            vitality: 10,
-            intelligence: 10,
-            reflex: 10,
+            might: 8,
+            dexterity: 8,
+            vitality: 8,
+            intelligence: 8,
+            reflex: 8,
         },
         equipment: {
             weaponDamage: [1, 3],

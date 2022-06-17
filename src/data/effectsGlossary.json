@@ -39,5 +39,7 @@
   "Movement Points": false,
   "Dodge Chance": false,
   "Magic Armor": false,
-  "Armor": false
+  "Armor": false,
+  "Opportunity Attacks": false,
+  "All Stats": false
 }

@@ -129,8 +129,8 @@ export const calculateSpellPower = (
     might,
     generalBonuses = 0
 ) => {
-    return Math.round(
-        (9 + characterLevel * 4) * (0.9 + might / 100) * (generalBonuses + 1)
+    return Math.ceil(
+        (10 + characterLevel * 4) * (0.9 + might / 100) * (generalBonuses + 1)
     )
 }
 
@@ -145,7 +145,7 @@ export const calculateSpellDamage = (
         might,
         generalBonuses
     )
-    return Math.round(damageMod * spellPower)
+    return Math.ceil(damageMod * spellPower)
 }
 
 export const calculateSpellDamageRange = (
@@ -160,8 +160,8 @@ export const calculateSpellDamageRange = (
         generalBonuses
     )
     return [
-        Math.round(damageMod * spellPower * 0.85),
-        Math.round(damageMod * spellPower * 1.15),
+        Math.ceil(damageMod * spellPower * 0.85),
+        Math.ceil(damageMod * spellPower * 1.15),
     ]
 }
 
@@ -170,9 +170,7 @@ export const calculateAttackPower = (
     might,
     generalBonuses = 0
 ) => {
-    return Math.round(
-        weaponAverage * (0.9 + might / 100) * (generalBonuses + 1)
-    )
+    return Math.ceil(weaponAverage * (0.9 + might / 100) * (generalBonuses + 1))
 }
 
 export const calculateAttackDamage = (
@@ -186,7 +184,7 @@ export const calculateAttackDamage = (
         might,
         generalBonuses
     )
-    return Math.round(damageMod * attackPower)
+    return Math.ceil(damageMod * attackPower)
 }
 
 export const calculateAttackDamageRange = (
@@ -201,8 +199,8 @@ export const calculateAttackDamageRange = (
         generalBonuses
     )
     return [
-        Math.round(damageMod * attackPower * 0.85),
-        Math.round(damageMod * attackPower * 1.15),
+        Math.ceil(damageMod * attackPower * 0.85),
+        Math.ceil(damageMod * attackPower * 1.15),
     ]
 }
 
@@ -210,5 +208,5 @@ export const calculateWeaponAverage = (weaponDamage) => {
     if (weaponDamage?.length !== 2) {
         return 1
     }
-    return Math.round((weaponDamage[0] + weaponDamage[1]) / 2)
+    return Math.ceil((weaponDamage[0] + weaponDamage[1]) / 2)
 }
