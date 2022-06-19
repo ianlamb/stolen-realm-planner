@@ -1,3 +1,4 @@
+import React from 'react'
 import {
     BrowserRouter,
     Routes,
@@ -11,6 +12,7 @@ import { ThemeProvider, Global, useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import Helmet from 'react-helmet'
 
+import { silentlyLogin } from './lib/firebase'
 import { theme, mq } from './lib/theme'
 import { StateProvider, useAppState, useDispatch } from './store'
 import { SkillCalculator } from './scenes/SkillCalculator'
@@ -159,7 +161,7 @@ function AppBar() {
 
 function AppContent() {
     const dispatch = useDispatch()
-    const { modal } = useAppState()
+    const { modal, user } = useAppState()
     const theme = useTheme()
 
     const modalStyles = {
@@ -186,6 +188,14 @@ function AppContent() {
     const closeModal = () => {
         dispatch({ type: 'closeModal' })
     }
+
+    React.useEffect(() => {
+        if (!user) {
+            silentlyLogin().then((user) => {
+                dispatch({ type: 'setUser', payload: user })
+            })
+        }
+    }, [user])
 
     return (
         <AppContentRoot>

@@ -29,7 +29,7 @@ export const Builds = () => {
         <Root>
             {builds.map((b) => (
                 <div>
-                    <Link to={`/calc/${b.id}`}>{b.id}</Link> {b.name}
+                    <Link to={`/calc/${b.id}`}>{b.id}</Link> {b.name} {b.likes}
                 </div>
             ))}
             <Outlet />

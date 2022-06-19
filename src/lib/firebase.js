@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app'
+import { getAuth, signInAnonymously } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 
 // TODO: Replace the following with your app's Firebase project configuration
@@ -15,6 +16,25 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig)
+
+// Initialize auth
+export const auth = getAuth(app)
+export const silentlyLogin = () => {
+    return signInAnonymously(auth)
+        .then((result) => result.user)
+        .catch((error) => {
+            var errorCode = error.code
+            var errorMessage = error.message
+
+            if (errorCode === 'auth/operation-not-allowed') {
+                console.error(
+                    'You must enable Anonymous auth in the Firebase Console.'
+                )
+            } else {
+                console.error(error)
+            }
+        })
+}
 
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(app)

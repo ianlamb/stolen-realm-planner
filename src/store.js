@@ -11,6 +11,7 @@ const getSkills = (skillTree) => skills.filter((s) => s.skillTree === skillTree)
 const DEFAULT_LEVEL = 30
 
 const initialState = {
+    user: null,
     builds: [],
     buildDataBase64: null,
     buildId: null,
@@ -29,6 +30,8 @@ const initialState = {
         equipment: {
             weaponDamage: [1, 3],
         },
+        likes: null,
+        likedBy: new Set(),
     },
     skills: {
         all: skills,
@@ -55,6 +58,7 @@ export const StateProvider = ({ children }) => {
     const [state, dispatch] = useReducer((state, action) => {
         let newState
         let mergedCharacter
+        let build
         switch (action.type) {
             case 'setName':
                 mergedCharacter = {
@@ -136,6 +140,8 @@ export const StateProvider = ({ children }) => {
                 mergedCharacter = {
                     ...state.character,
                     ...action.payload.character,
+                    likes: action.payload.character.likedBy?.length || 0,
+                    likedBy: new Set(action.payload.character.likedBy || []),
                 }
                 const modal = action.payload.partialLoadFailure
                     ? {
@@ -156,6 +162,10 @@ export const StateProvider = ({ children }) => {
                             state.skills
                         ),
                     },
+                    createdBy: action.payload.createdBy,
+                    createdAt: action.payload.createdAt,
+                    updatedBy: action.payload.updatedBy,
+                    updatedAt: action.payload.updatedAt,
                 }
                 break
             case 'setBuildId':
@@ -204,7 +214,49 @@ export const StateProvider = ({ children }) => {
             case 'setBuilds':
                 newState = {
                     ...state,
-                    builds: action.payload,
+                    builds: action.payload.map((b) => ({
+                        ...b,
+                        likedBy: new Set(b.likedBy || []),
+                        likes: b.likedBy?.length,
+                    })),
+                }
+                break
+            case 'setUser':
+                newState = {
+                    ...state,
+                    user: action.payload,
+                }
+                break
+            case 'optimisticLike':
+                newState = {
+                    ...state,
+                }
+                if (newState.buildId === action.payload.buildId) {
+                    newState.character.likedBy.add(action.payload.userId)
+                    newState.character.likes++
+                }
+                build = newState.builds.find(
+                    (b) => b.id === action.payload.buildId
+                )
+                if (build) {
+                    build.likedBy.add(action.payload.userId)
+                    build.likes++
+                }
+                break
+            case 'optimisticUnlike':
+                newState = {
+                    ...state,
+                }
+                if (newState.buildId === action.payload.buildId) {
+                    newState.character.likedBy.delete(action.payload.userId)
+                    newState.character.likes--
+                }
+                build = newState.builds.find(
+                    (b) => b.id === action.payload.buildId
+                )
+                if (build) {
+                    build.likedBy.delete(action.payload.userId)
+                    build.likes--
                 }
                 break
             default:

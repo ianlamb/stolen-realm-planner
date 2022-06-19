@@ -14,6 +14,7 @@ import LevelSelect from './LevelSelect'
 import ShareBuild from './ShareBuild'
 import SaveBuild from './SaveBuild'
 import ResetBuild from './ResetBuild'
+import LikeButton from './LikeButton'
 
 const Root = styled(Container)(({ theme }) => ({
     border: '2px solid rgba(0, 0, 0, 0.5)',
@@ -89,6 +90,7 @@ export const SkillCalculator = () => {
                     <ShareBuild />
                     <SaveBuild />
                     <ResetBuild />
+                    <LikeButton buildId={buildId} />
                 </Options>
             </Heading>
             <div>
