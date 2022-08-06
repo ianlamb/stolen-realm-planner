@@ -17,8 +17,9 @@ import { theme, mq } from './lib/theme'
 import { StateProvider, useAppState, useDispatch } from './store'
 import { SkillCalculator } from './scenes/SkillCalculator'
 import { Builds } from './scenes/Builds'
-import { Link, Feedback, Button } from './components'
+import { Link, Feedback, Button, HightlightText } from './components'
 import { ReactComponent as DiscordIconRaw } from './icons/discord.svg'
+import { ReactComponent as CoffeeIconRaw } from './icons/coffee.svg'
 
 Modal.setAppElement('#root')
 
@@ -86,6 +87,9 @@ const NavItem = styled(NavLink)(({ theme }) => ({
 }))
 
 const ExternalNavItem = styled.a(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    gap: theme.spacing(1),
     height: theme.sizing.appBarHeight,
     lineHeight: `${theme.sizing.appBarHeight + 8}px`,
     verticalAlign: '',
@@ -97,7 +101,21 @@ const ExternalNavItem = styled.a(({ theme }) => ({
     },
 }))
 
+const TextBesideIcon = styled.div(({ theme }) => ({
+    lineHeight: '16px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+}))
+
 const DiscordIcon = styled(DiscordIconRaw)(({ theme }) => ({
+    height: '100%',
+    width: 'auto',
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+}))
+
+const CoffeeIcon = styled(CoffeeIconRaw)(({ theme }) => ({
     height: '100%',
     width: 'auto',
     paddingTop: theme.spacing(2),
@@ -151,6 +169,18 @@ function AppBar() {
                 <NavItem to="builds">Builds</NavItem>
                 <NavItem to="calc">Build Calculator</NavItem>
                 <NavSplitter />
+                <ExternalNavItem
+                    href="https://www.buymeacoffee.com/ianlamb"
+                    target="_blank"
+                    rel="noopener"
+                    title="Donate to the creator"
+                >
+                    <TextBesideIcon>
+                        Like this tool?
+                        <HightlightText>Buy me a coffee!</HightlightText>
+                    </TextBesideIcon>
+                    <CoffeeIcon />
+                </ExternalNavItem>
                 <ExternalNavItem
                     href="https://discord.com/invite/SbEPwMfXCJ"
                     target="_blank"
@@ -237,7 +267,11 @@ function AppContent() {
 function AppFooter() {
     return (
         <AppFooterRoot>
-            This is a fan site. All game art credit belongs to{' '}
+            This is a fan site created by{' '}
+            <Link href="https://ianlamb.com/" target="_blank" rel="noopener">
+                Ian Lamb
+            </Link>{' '}
+            (aka EhTypical). All game art credit belongs to{' '}
             <Link
                 href="https://burst2flame.com/"
                 target="_blank"
