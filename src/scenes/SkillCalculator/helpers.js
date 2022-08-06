@@ -225,6 +225,15 @@ export const getPointsSpentInTree = (skillTreeSkills, learnedSkills) => {
     }, 0)
 }
 
+export const getFirstSkillTreeWithPoints = (skills, learnedSkills) => {
+    return (
+        orderedSkillTrees.find(
+            (skillTree) =>
+                getPointsSpentInTree(skills[skillTree], learnedSkills) > 0
+        ) || 'fire'
+    )
+}
+
 export const getPointsSpentInTier = (tier, skillTreeSkills, learnedSkills) => {
     return skillTreeSkills.reduce((acc, skill) => {
         if (isLearned(skill, learnedSkills) && skill.tier === tier) {

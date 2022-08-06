@@ -29,6 +29,11 @@ const AppRoot = styled.div(({ theme }) => ({
 
 const AppContentRoot = styled.div(({ theme }) => ({
     paddingTop: theme.spacing(2),
+    minHeight: `calc(100vh - ${
+        theme.sizing.appBarHeight + theme.sizing.appFooterHeight
+    }px)`,
+    display: 'flex',
+    flexDirection: 'column',
 }))
 
 const AppBarRoot = styled.div(({ theme }) => ({
@@ -101,7 +106,7 @@ const DiscordIcon = styled(DiscordIconRaw)(({ theme }) => ({
 
 const AppFooterRoot = styled.div(({ theme }) => ({
     width: '100%',
-    height: 30,
+    height: theme.sizing.appFooterHeight,
     lineHeight: '30px',
     fontFamily: 'Helvetica, sans-serif',
     fontSize: '12px',
@@ -126,7 +131,7 @@ const ModalButton = styled(Button)(({ theme }) => ({
 function AppBar() {
     const location = useLocation()
     const { character } = useAppState()
-    let title = 'Stolen Realm Character Planner'
+    let title = 'Stolen Realm Tools'
     if (character.name) {
         title = `${character.name} - Stolen Realm Build`
     }
@@ -141,7 +146,7 @@ function AppBar() {
                 />
             </Helmet>
             <Logo src="logo.png" alt="Stolen Realm Logo" />
-            <Title>Character Planner</Title>
+            <Title>Tools</Title>
             <Nav>
                 <NavItem to="builds">Builds</NavItem>
                 <NavItem to="calc">Build Calculator</NavItem>
@@ -195,7 +200,11 @@ function AppContent() {
                 dispatch({ type: 'setUser', payload: user })
             })
         }
-    }, [user])
+    }, [user, dispatch])
+
+    if (!user) {
+        return <AppContentRoot />
+    }
 
     return (
         <AppContentRoot>

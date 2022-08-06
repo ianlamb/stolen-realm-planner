@@ -15,6 +15,7 @@ const initialState = {
     builds: [],
     buildDataBase64: null,
     buildId: null,
+    buildsLoaded: false,
     character: {
         name: '',
         level: DEFAULT_LEVEL,
@@ -49,6 +50,7 @@ const initialState = {
         message: '',
         open: false,
     },
+    buildOrder: 'popular',
 }
 
 export const store = createContext(initialState)
@@ -219,6 +221,7 @@ export const StateProvider = ({ children }) => {
                         likedBy: new Set(b.likedBy || []),
                         likes: b.likedBy?.length,
                     })),
+                    buildsLoaded: true,
                 }
                 break
             case 'setUser':
@@ -233,14 +236,14 @@ export const StateProvider = ({ children }) => {
                 }
                 if (newState.buildId === action.payload.buildId) {
                     newState.character.likedBy.add(action.payload.userId)
-                    newState.character.likes++
+                    newState.character.likes = newState.character.likedBy.size
                 }
                 build = newState.builds.find(
                     (b) => b.id === action.payload.buildId
                 )
                 if (build) {
                     build.likedBy.add(action.payload.userId)
-                    build.likes++
+                    build.likes = build.likedBy.size
                 }
                 break
             case 'optimisticUnlike':
@@ -249,14 +252,20 @@ export const StateProvider = ({ children }) => {
                 }
                 if (newState.buildId === action.payload.buildId) {
                     newState.character.likedBy.delete(action.payload.userId)
-                    newState.character.likes--
+                    newState.character.likes = newState.character.likedBy.size
                 }
                 build = newState.builds.find(
                     (b) => b.id === action.payload.buildId
                 )
                 if (build) {
                     build.likedBy.delete(action.payload.userId)
-                    build.likes--
+                    build.likes = build.likedBy.size
+                }
+                break
+            case 'setBuildOrder':
+                newState = {
+                    ...state,
+                    buildOrder: action.payload,
                 }
                 break
             default:

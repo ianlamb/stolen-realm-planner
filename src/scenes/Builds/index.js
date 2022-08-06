@@ -1,10 +1,13 @@
 import React from 'react'
-import { Outlet, Link } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 import { getBuilds } from '../../services/builds'
 import { useDispatch, useAppState } from '../../store'
-import { Container, Input, Label } from '../../components'
+import { Container } from '../../components'
+import { BuildCard } from './BuildCard'
+import BuildFilters from './BuildFilters'
+import { Spinner } from '../../components'
 
 const Root = styled(Container)(({ theme }) => ({
     border: '2px solid rgba(0, 0, 0, 0.5)',
@@ -12,26 +15,47 @@ const Root = styled(Container)(({ theme }) => ({
     padding: theme.spacing(2),
 }))
 
+const BuildList = styled(Container)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(1),
+}))
+
 export const Builds = () => {
     const dispatch = useDispatch()
-    const { builds } = useAppState()
+    const { builds, skills, buildOrder, buildsLoaded } = useAppState()
 
     React.useEffect(() => {
         if (builds && builds.length) {
             return
         }
-        getBuilds().then((builds) => {
+        getBuilds(buildOrder).then((builds) => {
             dispatch({ type: 'setBuilds', payload: builds })
         })
     }, [])
 
+    const setBuildOrder = (order) => {
+        dispatch({ type: 'setBuildOrder', payload: order })
+        getBuilds(order).then((builds) => {
+            dispatch({ type: 'setBuilds', payload: builds })
+        })
+    }
+
+    if (!buildsLoaded) {
+        return <Spinner />
+    }
+
     return (
         <Root>
-            {builds.map((b) => (
-                <div>
-                    <Link to={`/calc/${b.id}`}>{b.id}</Link> {b.name} {b.likes}
-                </div>
-            ))}
+            <BuildFilters
+                buildOrder={buildOrder}
+                setBuildOrder={setBuildOrder}
+            />
+            <BuildList>
+                {builds.map((b) => (
+                    <BuildCard key={b.id} build={b} skills={skills} />
+                ))}
+            </BuildList>
             <Outlet />
         </Root>
     )

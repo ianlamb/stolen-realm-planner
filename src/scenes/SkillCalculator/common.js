@@ -1,11 +1,19 @@
 import styled from '@emotion/styled'
 
-export const SkillTreeIcon = styled.div(({ theme, isActive }) => ({
+export const SkillTreeIcon = styled.div(({ theme, isActive, compact }) => ({
     position: 'relative',
-    width: theme.sizing.skillTreeIcon,
-    height: theme.sizing.skillTreeIcon,
-    maxWidth: theme.sizing.skillTreeIcon,
-    maxHeight: theme.sizing.skillTreeIcon,
+    width: compact
+        ? theme.sizing.skillTreeIcon * 0.75
+        : theme.sizing.skillTreeIcon,
+    height: compact
+        ? theme.sizing.skillTreeIcon * 0.75
+        : theme.sizing.skillTreeIcon,
+    maxWidth: compact
+        ? theme.sizing.skillTreeIcon * 0.75
+        : theme.sizing.skillTreeIcon,
+    maxHeight: compact
+        ? theme.sizing.skillTreeIcon * 0.75
+        : theme.sizing.skillTreeIcon,
     boxShadow: '0 0 3px 0 rgba(0, 0, 0, 0.3)',
     '&:before': {
         display: 'block',

@@ -5,16 +5,32 @@ import {
     collection,
     doc,
     query,
+    where,
+    orderBy,
     setDoc,
     updateDoc,
     arrayUnion,
     arrayRemove,
+    increment,
 } from 'firebase/firestore'
 
 import { db, auth } from '../lib/firebase'
 
-export const getBuilds = async () => {
-    const q = query(collection(db, 'builds'))
+export const getBuilds = async (order = 'popular') => {
+    let orderConstraint
+    switch (order) {
+        case 'new':
+            orderConstraint = orderBy('createdAt', 'desc')
+            break
+        case 'popular':
+        default:
+            orderConstraint = orderBy('likes', 'desc')
+    }
+    const q = query(
+        collection(db, 'builds'),
+        where('skillPointsRemaining', '==', 0),
+        orderConstraint
+    )
     const querySnapshot = await getDocs(q)
     return querySnapshot.docs?.map((doc) => ({
         id: doc.id,
@@ -39,6 +55,7 @@ export const createBuild = async (build) => {
     const data = {
         ...build,
         likedBy: [],
+        likes: 0,
         createdBy: auth.currentUser.uid,
         createdAt: new Date().toJSON(),
         updatedBy: auth.currentUser.uid,
@@ -78,6 +95,7 @@ export const likeBuild = async (id) => {
     try {
         const result = await updateDoc(docRef, {
             likedBy: arrayUnion(auth.currentUser.uid),
+            likes: increment(1),
         })
         console.log('Document updated: ', result)
         return result
@@ -92,6 +110,7 @@ export const unlikeBuild = async (id) => {
     try {
         const result = await updateDoc(docRef, {
             likedBy: arrayRemove(auth.currentUser.uid),
+            likes: increment(-1),
         })
         console.log('Document updated: ', result)
         return result

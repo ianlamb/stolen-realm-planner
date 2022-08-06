@@ -1,10 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 import { skillTrees } from '../../constants'
-import { getPointsSpentInTree } from './helpers'
-import { useDispatch, useAppState } from '../../store'
+import { getPointsSpentInTree, getFirstSkillTreeWithPoints } from './helpers'
+import { useAppState } from '../../store'
 import { Container } from '../../components'
 import {
     SkillTreeIcon,
@@ -67,7 +66,13 @@ export const SkillTreeNavItem = ({
 
 export const SkillTrees = () => {
     const { character, skills } = useAppState()
-    const [activeSkillTree, setActiveSkillTree] = React.useState('fire')
+    const defaultActiveSkillTree = getFirstSkillTreeWithPoints(
+        skills,
+        character.learnedSkills
+    )
+    const [activeSkillTree, setActiveSkillTree] = React.useState(
+        defaultActiveSkillTree
+    )
     const skillTree = skillTrees.find((x) => x.id === activeSkillTree)
 
     return (

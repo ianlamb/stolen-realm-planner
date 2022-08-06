@@ -1,12 +1,12 @@
 import React from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 import { getBuild } from '../../services/builds'
 import useQuery from '../../lib/useQuery'
 import { decodeBuildData, sanitizeLearnedSkills } from './helpers'
 import { useDispatch, useAppState } from '../../store'
-import { Container, Button } from '../../components'
+import { Container, Button, Spinner } from '../../components'
 import SkillTrees from './SkillTrees'
 import Character from './Character'
 import NameInput from './NameInput'
@@ -35,12 +35,13 @@ const Options = styled.div(({ theme }) => ({
 
 export const SkillCalculator = () => {
     const dispatch = useDispatch()
-    const { character, skills, buildDataBase64 } = useAppState()
+    const { character, skills, buildDataBase64, buildId } = useAppState()
     const navigate = useNavigate()
     const query = useQuery()
     const buildDataBase64FromUrl = query.get('build')
-    const { buildId } = useParams()
+    const { buildId: queryBuildId } = useParams()
     const [activeScreen, setActiveScreen] = React.useState(<SkillTrees />)
+    const [isLoading, setIsLoading] = React.useState(true)
 
     // on initial load, see if we have build data to import or load
     React.useEffect(() => {
@@ -67,19 +68,32 @@ export const SkillCalculator = () => {
                     partialLoadFailure,
                 },
             })
-        } else if (buildId) {
-            getBuild(buildId).then((build) => {
+        } else if (queryBuildId) {
+            getBuild(queryBuildId).then((build) => {
                 dispatch({
                     type: 'loadBuildData',
                     payload: {
                         character: build,
-                        buildId,
+                        buildId: queryBuildId,
                     },
                 })
             })
+        } else {
+            // nothing to load, fresh build
+            setIsLoading(false)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    React.useEffect(() => {
+        if (buildDataBase64 || buildId) {
+            setIsLoading(false)
+        }
+    }, [buildDataBase64, buildId])
+
+    if (isLoading) {
+        return <Spinner />
+    }
 
     return (
         <Root>

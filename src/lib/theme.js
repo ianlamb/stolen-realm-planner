@@ -26,6 +26,7 @@ export const theme = {
     },
     sizing: {
         appBarHeight: 64,
+        appFooterHeight: 32,
         containerMaxWidth: 1200,
         skillIcon: 56,
         skillTreeIcon: 78,
