@@ -1,4 +1,4 @@
-export const buildVersion = 'v0.18.8'
+export const buildVersion = 'v0.20.7'
 
 export const skillTrees = [
     {
