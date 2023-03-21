@@ -35,6 +35,8 @@ const AppContentRoot = styled.div(({ theme }) => ({
     }px)`,
     display: 'flex',
     flexDirection: 'column',
+    background: `url('background.jpg')`,
+    backgroundSize: 'cover',
 }))
 
 const AppBarRoot = styled.div(({ theme }) => ({
@@ -106,6 +108,7 @@ const TextBesideIcon = styled.div(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    whiteSpace: 'nowrap',
 }))
 
 const DiscordIcon = styled(DiscordIconRaw)(({ theme }) => ({

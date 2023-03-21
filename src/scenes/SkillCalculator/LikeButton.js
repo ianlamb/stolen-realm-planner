@@ -1,18 +1,40 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-import { Button, ErrorText } from '../../components'
+import { Button } from '../../components'
 import { useAppState, useDispatch } from '../../store'
 import { likeBuild, unlikeBuild } from '../../services/builds'
+import { ReactComponent as HeartEmptyIconRaw } from '../../icons/heart-empty.svg'
+import { ReactComponent as HeartFilledIconRaw } from '../../icons/heart-filled.svg'
 
 const Root = styled.div(({ theme }) => ({
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'right',
+    alignItems: 'flex-start',
     margin: theme.spacing(1),
 }))
 
-const StyledButton = styled(Button)(({ theme }) => ({
-    width: 70,
+const IconButton = styled(Button)(({ theme }) => ({
     position: 'relative',
-    left: -2,
+    background: 'none',
+    border: 'none',
+    padding: 0,
+    fill: theme.palette.text.default,
+    '&:hover': {
+        fill: theme.palette.text.error,
+    },
+}))
+
+const HeartEmptyIcon = styled(HeartEmptyIconRaw)(({ theme }) => ({
+    width: theme.sizing.heartIcon,
+    height: theme.sizing.heartIcon,
+}))
+
+const HeartFilledIcon = styled(HeartFilledIconRaw)(({ theme }) => ({
+    height: theme.sizing.heartIcon,
+    width: theme.sizing.heartIcon,
 }))
 
 export default function LikeButton({ buildId }) {
@@ -48,10 +70,13 @@ export default function LikeButton({ buildId }) {
 
     return (
         <Root>
-            <StyledButton type="button" onClick={toggleLike}>
-                {isLiked ? 'Unlike' : 'Like'}{' '}
-                {character.likes !== null ? `(${character.likes})` : null}
-            </StyledButton>
+            <IconButton
+                type="button"
+                onClick={toggleLike}
+                title={(isLiked ? 'Unlike' : 'Like') + ' This Build'}
+            >
+                {isLiked ? <HeartFilledIcon /> : <HeartEmptyIcon />}
+            </IconButton>
         </Root>
     )
 }

@@ -2,14 +2,36 @@ import styled from '@emotion/styled'
 
 export const Button = styled.button(({ theme }) => ({
     padding: theme.spacing(1),
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.semiTransparent,
     color: theme.palette.text.highlight,
     border: '2px solid rgba(0, 0, 0, 0.5)',
     appearance: 'none',
     outline: 'none',
     cursor: 'pointer',
+    '&:hover': {
+        borderColor: theme.palette.primary,
+    },
     '&:active': {
-        borderColor: 'black',
+        backgroundColor: 'transparent',
+    },
+    '&:disabled': {
+        color: theme.palette.text.subdued,
+        borderColor: theme.palette.text.subdued,
+    },
+}))
+
+export const SpecialButton = styled(Button)(({ theme }) => ({
+    backgroundColor: theme.palette.secondary,
+    color: theme.palette.text.default,
+    '&:hover': {
+        borderColor: theme.palette.text.default,
+    },
+    '&:active': {
+        backgroundColor: 'transparent',
+    },
+    '&:disabled': {
+        color: theme.palette.text.subdued,
+        borderColor: theme.palette.text.subdued,
     },
 }))
 
@@ -22,7 +44,7 @@ export const Label = styled.label(({ theme }) => ({
 export const Input = styled.input(({ theme, readOnly }) => ({
     minWidth: 100,
     padding: theme.spacing(1),
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.semiTransparent,
     color: readOnly ? theme.palette.text.subdued : theme.palette.text.default,
     border: '2px solid rgba(0, 0, 0, 0.5)',
     appearance: 'none',
@@ -35,7 +57,7 @@ export const Input = styled.input(({ theme, readOnly }) => ({
 export const Select = styled.select(({ theme }) => ({
     minWidth: 100,
     padding: theme.spacing(1) - 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.semiTransparent,
     color: theme.palette.text.default,
     border: '2px solid rgba(0, 0, 0, 0.5)',
     cursor: 'pointer',
@@ -45,7 +67,7 @@ export const Select = styled.select(({ theme }) => ({
 }))
 
 export const Option = styled.option(({ theme }) => ({
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.semiTransparent,
     color: 'black',
     cursor: 'pointer',
 }))

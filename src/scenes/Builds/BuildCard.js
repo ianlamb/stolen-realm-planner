@@ -16,7 +16,7 @@ const Root = styled(Container)(({ theme }) => ({
     flexDirection: 'row',
     position: 'relative',
     border: '2px solid rgba(0, 0, 0, 0.5)',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.semiTransparent,
     padding: theme.spacing(2),
     gap: theme.spacing(1),
     width: '100%',

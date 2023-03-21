@@ -12,11 +12,16 @@ import {
     arrayUnion,
     arrayRemove,
     increment,
+    startAfter,
+    limit,
 } from 'firebase/firestore'
 
 import { db, auth } from '../lib/firebase'
 
-export const getBuilds = async (order = 'popular') => {
+const pageSize = 10
+let lastVisibleBuild
+
+export const getBuilds = async (order = 'popular', next = false) => {
     let orderConstraint
     switch (order) {
         case 'new':
@@ -26,12 +31,27 @@ export const getBuilds = async (order = 'popular') => {
         default:
             orderConstraint = orderBy('likes', 'desc')
     }
-    const q = query(
+
+    const args = [
         collection(db, 'builds'),
-        where('skillPointsRemaining', '==', 0),
-        orderConstraint
-    )
+        // where('skillPointsRemaining', '==', 0),
+        orderConstraint,
+        limit(pageSize),
+    ]
+
+    if (next && lastVisibleBuild) {
+        args.push(startAfter(lastVisibleBuild))
+    }
+
+    const q = query(...args)
+
     const querySnapshot = await getDocs(q)
+    if (querySnapshot.docs?.length === 0) {
+        return []
+    }
+
+    lastVisibleBuild = querySnapshot.docs[querySnapshot.docs.length - 1]
+
     return querySnapshot.docs?.map((doc) => ({
         id: doc.id,
         ...doc.data(),

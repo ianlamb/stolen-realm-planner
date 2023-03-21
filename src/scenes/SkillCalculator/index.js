@@ -18,7 +18,7 @@ import LikeButton from './LikeButton'
 
 const Root = styled(Container)(({ theme }) => ({
     border: '2px solid rgba(0, 0, 0, 0.5)',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
 }))
 
 const Heading = styled.div(({ theme }) => ({
@@ -31,6 +31,7 @@ const Options = styled.div(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    flex: 1,
 }))
 
 export const SkillCalculator = () => {

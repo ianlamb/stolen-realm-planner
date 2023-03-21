@@ -4,14 +4,13 @@ import styled from '@emotion/styled'
 
 import { getBuilds } from '../../services/builds'
 import { useDispatch, useAppState } from '../../store'
-import { Container } from '../../components'
+import { Container, Button, Spinner } from '../../components'
 import { BuildCard } from './BuildCard'
 import BuildFilters from './BuildFilters'
-import { Spinner } from '../../components'
 
 const Root = styled(Container)(({ theme }) => ({
     border: '2px solid rgba(0, 0, 0, 0.5)',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     padding: theme.spacing(2),
 }))
 
@@ -21,9 +20,15 @@ const BuildList = styled(Container)(({ theme }) => ({
     gap: theme.spacing(1),
 }))
 
+const LoadMoreButton = styled(Button)(({ theme }) => ({
+    display: 'block',
+    margin: `${theme.spacing(2)}px auto 0`,
+}))
+
 export const Builds = () => {
     const dispatch = useDispatch()
     const { builds, skills, buildOrder, buildsLoaded } = useAppState()
+    const [hasMoreBuilds, setHasMoreBuilds] = React.useState(true)
 
     React.useEffect(() => {
         if (builds && builds.length) {
@@ -38,6 +43,16 @@ export const Builds = () => {
         dispatch({ type: 'setBuildOrder', payload: order })
         getBuilds(order).then((builds) => {
             dispatch({ type: 'setBuilds', payload: builds })
+        })
+    }
+
+    const loadMoreBuilds = () => {
+        getBuilds(buildOrder, true).then((moreBuilds) => {
+            if (moreBuilds.length === 0) {
+                setHasMoreBuilds(false)
+                return
+            }
+            dispatch({ type: 'setBuilds', payload: [...builds, ...moreBuilds] })
         })
     }
 
@@ -56,6 +71,9 @@ export const Builds = () => {
                     <BuildCard key={b.id} build={b} skills={skills} />
                 ))}
             </BuildList>
+            <LoadMoreButton onClick={loadMoreBuilds} disabled={!hasMoreBuilds}>
+                {hasMoreBuilds ? 'More Builds' : 'No More Builds :('}
+            </LoadMoreButton>
             <Outlet />
         </Root>
     )

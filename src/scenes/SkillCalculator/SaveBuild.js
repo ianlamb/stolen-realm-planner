@@ -2,15 +2,18 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
 
-import { Button, ErrorText } from '../../components'
+import { SpecialButton, ErrorText } from '../../components'
 import { useAppState, useDispatch } from '../../store'
 import { createBuild, updateBuild } from '../../services/builds'
 
 const Root = styled.div(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
     margin: theme.spacing(1),
 }))
 
-const SaveButton = styled(Button)(({ theme }) => ({
+const SaveButton = styled(SpecialButton)(({ theme }) => ({
     width: 70,
     position: 'relative',
     left: -2,

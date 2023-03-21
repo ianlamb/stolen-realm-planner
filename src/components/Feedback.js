@@ -5,7 +5,7 @@ import { ReactComponent as FeedbackIconRaw } from '../icons/feedback.svg'
 
 const Root = styled.div(({ theme }) => ({
     position: 'fixed',
-    bottom: 0,
+    bottom: theme.spacing(4),
     right: 0,
     margin: theme.spacing(2),
     backgroundColor: 'rgba(0, 0, 0, 0.5)',

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 
 export const Container = styled.div(({ theme }) => ({
+    width: '100%',
     maxWidth: theme.sizing.containerMaxWidth,
     margin: `0 auto`,
 }))

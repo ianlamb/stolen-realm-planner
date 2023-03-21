@@ -7,6 +7,7 @@ export const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`)
 export const theme = {
     palette: {
         primary: '#dbb884',
+        secondary: '#0082cf',
         skillBorder: 'rgba(85, 65, 57, 1)',
         text: {
             default: '#f9f9f9',
@@ -16,7 +17,8 @@ export const theme = {
         },
         background: {
             default: '#2c2724',
-            paper: 'rgba(255, 255, 255, 0.1)',
+            paper: '#2c2724',
+            semiTransparent: 'rgba(255, 255, 255, 0.1)',
             appBar: '#121110',
         },
     },
@@ -31,6 +33,7 @@ export const theme = {
         skillIcon: 56,
         skillTreeIcon: 78,
         iconBorderWidth: 3,
+        heartIcon: 24,
     },
     spacing: (amount) => amount * spacingMultiplier,
 }
