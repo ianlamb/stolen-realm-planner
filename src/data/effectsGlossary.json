@@ -1,6 +1,6 @@
 {
-  "Bleeding": "Target takes physical damage for each hex they move. Reduces Physical Resistance by 3% for each stack.",
-  "Poisoned": "Target takes shadow damage each turn. Reduces healing received by 1% for each stack.",
+  "Bleeding": "Target takes [1% Attack Power] physical damage for each hex they move. Reduces Physical Resistance by 5% for each stack. Can stack up to 10 times.",
+  "Poisoned": "Target takes [10% Spell Power] shadow damage each turn. Reduces healing received by 1% for each stack. Can stack up to 100 times.",
   "Crippled": "Movement costs doubled.",
   "Stealth": "Invisible. Attacking from Stealth has 100% critical hit chance.",
   "Disabled": "Cannot perform actions.",
