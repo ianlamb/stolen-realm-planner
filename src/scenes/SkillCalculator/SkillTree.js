@@ -308,7 +308,7 @@ export default function SkillTree({ id, title, wikiUrl }) {
                     scaledManaCost={calculateScaledManaCost(
                         skill.manaCost,
                         character.level
-                    )}
+                    ) + (skill.manaPerTurn == true ? " mana per turn" : "")}
                     pos={getSkillPosition(skill)}
                     toggleSkill={toggleSkill}
                     isLearned={isLearned(skill, character.learnedSkills)}
