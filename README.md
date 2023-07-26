@@ -23,6 +23,12 @@ The first iteration will be a skill calculator that allows users to play with an
 
 Standard CRA... `npm install && npm start` should get your started (tested on Windows & Mac).
 
+## Sync Data
+
+Data is stored in a [Google Sheet](https://docs.google.com/spreadsheets/d/1pGj7okL-BUizoC09SP4qoYR-hvP7gECHim7FC8WKzW4/edit?usp=sharing) then extracted as JSON via sheetdb.io and saved to `src/data/skills.json`.
+
+To sync the `skills.json` with new data from the sheet you can run `npm run sync-data` (this overwrites the file with whatever is in the sheet, so don't bother making any manual changes to the json as it will be lost).
+
 ## Deploy
 
 `npm run deploy` will build the app and deploy to GitHub Pages.
