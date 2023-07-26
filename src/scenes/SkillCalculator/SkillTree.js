@@ -1,10 +1,9 @@
 import React from 'react'
-import { keyframes } from '@emotion/react'
 import styled from '@emotion/styled'
 import { orderBy } from 'lodash-es'
 import Helmet from 'react-helmet'
 
-import { buildVersion } from '../../constants'
+import { lastUpdated } from '../../constants'
 import { useDispatch, useAppState } from '../../store'
 import {
     isLearned,
@@ -20,6 +19,7 @@ import { Link } from '../../components'
 const SPACING_OFFSET = 16
 const SKILL_OFFSET = 64
 
+// this is a little hacky but it's how I'm spacing the skills out arbitrarily to match the game UI
 const skillOffsetBumps = {
     // warrior
     fracture: 4,
@@ -77,15 +77,6 @@ const Root = styled.div(({ theme }) => ({
     height: 450,
     // overflowX: 'auto',
 }))
-
-const fadeIn = keyframes`
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-`
 
 const BackdropRoot = styled.div(({ theme, url, opacity }) => ({
     position: 'absolute',
@@ -308,7 +299,7 @@ export default function SkillTree({ id, title, wikiUrl }) {
                     scaledManaCost={calculateScaledManaCost(
                         skill.manaCost,
                         character.level
-                    ) + (skill.manaPerTurn == "true" ? " mana per turn" : "")}
+                    ) + (skill.manaPerTurn === "true" ? " mana per turn" : "")}
                     pos={getSkillPosition(skill)}
                     toggleSkill={toggleSkill}
                     isLearned={isLearned(skill, character.learnedSkills)}
@@ -370,10 +361,7 @@ export default function SkillTree({ id, title, wikiUrl }) {
                     <SectionTitle>Passive Skills</SectionTitle>
                     {mapSkills(passiveSkills)}
                     <BottomRightNote>
-                        Data reviewed as of client build: <b>{buildVersion}</b>
-                        <br />
-                        Damage calculations are still being tweaked for
-                        accuracy.
+                        Last updated on <b>{lastUpdated.toLocaleDateString()}</b>
                     </BottomRightNote>
                 </PassiveSkills>
             </TreeWrapper>

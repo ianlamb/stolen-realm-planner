@@ -1,9 +1,8 @@
 {
   "name": "stolen-realm-planner",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": true,
   "homepage": "https://ianlamb.github.io/stolen-realm-planner/",
-  "type": "module",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
