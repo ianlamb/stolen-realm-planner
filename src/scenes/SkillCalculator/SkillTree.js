@@ -29,7 +29,7 @@ const skillOffsetBumps = {
     'trackers-mark': 4,
     'long-shot': 1,
     'piercing-shot': 1,
-    'patient-hunter': 6,
+    'disengage': 6,
     // shadow
     'necromancer-1': 12,
     // thief
@@ -308,7 +308,7 @@ export default function SkillTree({ id, title, wikiUrl }) {
                     scaledManaCost={calculateScaledManaCost(
                         skill.manaCost,
                         character.level
-                    )}
+                    ) + (skill.manaPerTurn == "true" ? " mana per turn" : "")}
                     pos={getSkillPosition(skill)}
                     toggleSkill={toggleSkill}
                     isLearned={isLearned(skill, character.learnedSkills)}

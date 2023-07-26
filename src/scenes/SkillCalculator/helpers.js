@@ -120,7 +120,7 @@ export const calculateSkillPointsRemaining = (
 
 export const calculateScaledManaCost = (baseManaCost, characterLevel) => {
     return Math.round(
-        baseManaCost + baseManaCost * (0.1 * (characterLevel - 1))
+        parseInt(baseManaCost) + parseInt(baseManaCost) * (0.1 * (characterLevel - 1))
     )
 }
 
