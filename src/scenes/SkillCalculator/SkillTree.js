@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import { orderBy } from 'lodash-es'
 import Helmet from 'react-helmet'
 
-import { lastUpdated } from '../../constants'
+import { buildVersion, lastUpdated } from '../../constants'
 import { useDispatch, useAppState } from '../../store'
 import {
     isLearned,
@@ -362,6 +362,8 @@ export default function SkillTree({ id, title, wikiUrl }) {
                     {mapSkills(passiveSkills)}
                     <BottomRightNote>
                         Last updated on <b>{lastUpdated.toLocaleDateString()}</b>
+                        <br />
+                        Game client version <b>{buildVersion}</b>
                     </BottomRightNote>
                 </PassiveSkills>
             </TreeWrapper>

@@ -1,4 +1,4 @@
-export const buildVersion = 'v0.20.7'
+export const buildVersion = 'v0.22.0'
 export const lastUpdated = new Date('7/26/2023')
 
 export const skillTrees = [
