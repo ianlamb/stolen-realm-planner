@@ -227,6 +227,36 @@ const replaceDamageValue = (description, damageMod, character, key) => {
     )
 }
 
+const getDurationText = (duration) => {
+    return typeof duration === 'number'
+        ? `${duration} turn${duration > 1 ? 's' : ''}`
+        : duration
+}
+
+const getRangeText = (range) => {
+    switch (range) {
+        case -1:
+            return 'Special'
+        case 0:
+            return 'Self'
+        case 1:
+            return 'Melee'
+        default:
+            return range
+    }
+}
+
+const getRequiredWeaponText = (weaponType) => {
+    switch (weaponType) {
+        case 'melee':
+            return <HightlightText>Requires Melee Weapon</HightlightText>
+        case 'ranged':
+            return <><HightlightText>Requires Weapon Type:</HightlightText><br />Bow, 1H Gun, 2H Gun</>
+        default:
+            return null
+    }
+}
+
 export default function Skill({
     skill,
     shouldCalcDamage,
@@ -243,10 +273,10 @@ export default function Skill({
 }) {
     const { character } = useAppState()
 
-    const iconName = `${capitalize(skill.skillTree)} T${skill.tier},${
-        skill.skillNum
-    } ${skill.title} Icon`
+    const iconName = `${capitalize(skill.skillTree)} T${skill.tier},${skill.skillNum
+        } ${skill.title} Icon`
     const iconUrl = `skill-icons/${skill.skillTree}/${iconName}-min.png`
+    const requiredWeaponText = getRequiredWeaponText(skill.weaponType)
 
     let decoratedDescription = [skill.description]
     let glossaryItems = []
@@ -318,25 +348,6 @@ export default function Skill({
         )
     }
 
-    const getDurationText = (duration) => {
-        return typeof duration === 'number'
-            ? `${duration} turn${duration > 1 ? 's' : ''}`
-            : duration
-    }
-
-    const getRangeText = (range) => {
-        switch (range) {
-            case -1:
-                return 'Special'
-            case 0:
-                return 'Self'
-            case 1:
-                return 'Melee'
-            default:
-                return range
-        }
-    }
-
     const handleClick = (event) => {
         toggleSkill(skill)
     }
@@ -386,6 +397,10 @@ export default function Skill({
                                     </HightlightText>
                                 </Section>
                             )}
+                            {requiredWeaponText &&
+                                <Section>
+                                    {requiredWeaponText}
+                                </Section>}
                             {skill.type === 'active' && (
                                 <Section>
                                     {checkValue(skill.actionPointCost) && (
