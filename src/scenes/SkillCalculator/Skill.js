@@ -111,6 +111,19 @@ const SkillConnectorStraight = styled.div(({ theme }) => {
     }
 })
 
+const SkillConnectorStraightTwoTier = styled.div(({ theme }) => {
+    const height = theme.spacing(13)
+    return {
+        position: 'absolute',
+        width: 4,
+        height: height,
+        top: -height,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        backgroundColor: theme.palette.primary,
+    }
+})
+
 const SkillConnectorToLeft = styled.div(({ theme }) => {
     const height = theme.spacing(4)
     return {
@@ -227,6 +240,36 @@ const replaceDamageValue = (description, damageMod, character, key) => {
     )
 }
 
+const getDurationText = (duration) => {
+    return typeof duration === 'number'
+        ? `${duration} turn${duration > 1 ? 's' : ''}`
+        : duration
+}
+
+const getRangeText = (range) => {
+    switch (range) {
+        case -1:
+            return 'Special'
+        case 0:
+            return 'Self'
+        case 1:
+            return 'Melee'
+        default:
+            return range
+    }
+}
+
+const getRequiredWeaponText = (weaponType) => {
+    switch (weaponType) {
+        case 'melee':
+            return <HightlightText>Requires Melee Weapon</HightlightText>
+        case 'ranged':
+            return <><HightlightText>Requires Weapon Type:</HightlightText><br />Bow, 1H Gun, 2H Gun, Staff, Wand</>
+        default:
+            return null
+    }
+}
+
 export default function Skill({
     skill,
     shouldCalcDamage,
@@ -238,15 +281,16 @@ export default function Skill({
     learnability,
     replaces,
     isOnlyChild,
+    isOnlyChildTwoTier,
     isLeftSibling,
     isRightSibling,
 }) {
     const { character } = useAppState()
 
-    const iconName = `${capitalize(skill.skillTree)} T${skill.tier},${
-        skill.skillNum
+    const iconName = `${capitalize(skill.skillTree)} T${skill.tier},${skill.skillNum
     } ${skill.title} Icon`
     const iconUrl = `skill-icons/${skill.skillTree}/${iconName}-min.png`
+    const requiredWeaponText = getRequiredWeaponText(skill.weaponType)
 
     let decoratedDescription = [skill.description]
     let glossaryItems = []
@@ -318,25 +362,6 @@ export default function Skill({
         )
     }
 
-    const getDurationText = (duration) => {
-        return typeof duration === 'number'
-            ? `${duration} turn${duration > 1 ? 's' : ''}`
-            : duration
-    }
-
-    const getRangeText = (range) => {
-        switch (range) {
-            case -1:
-                return 'Special'
-            case 0:
-                return 'Self'
-            case 1:
-                return 'Melee'
-            default:
-                return range
-        }
-    }
-
     const handleClick = (event) => {
         toggleSkill(skill)
     }
@@ -386,6 +411,10 @@ export default function Skill({
                                     </HightlightText>
                                 </Section>
                             )}
+                            {requiredWeaponText &&
+                                <Section>
+                                    {requiredWeaponText}
+                                </Section>}
                             {skill.type === 'active' && (
                                 <Section>
                                     {checkValue(skill.actionPointCost) && (
@@ -455,6 +484,7 @@ export default function Skill({
                 </SkillIcon>
             </Tooltip>
             {isOnlyChild && <SkillConnectorStraight />}
+            {isOnlyChildTwoTier && <SkillConnectorStraightTwoTier />}
             {isLeftSibling && <SkillConnectorToRight />}
             {isRightSibling && <SkillConnectorToLeft />}
         </Root>

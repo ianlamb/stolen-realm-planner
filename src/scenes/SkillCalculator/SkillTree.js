@@ -25,16 +25,20 @@ const skillOffsetBumps = {
     fracture: 4,
     rage: 2,
     'life-cleave': 4,
+    'warriors-boon': -1,
+    'slam': -1,
     // ranger
     'trackers-mark': 4,
-    'long-shot': 1,
-    'piercing-shot': 1,
-    'disengage': 6,
+    'piercing-shot': 2,
     // shadow
     'necromancer-1': 12,
+    'raise-skeletal-mage': 6,
     // thief
-    'dagger-throw': 5,
-    escape: 2,
+    'dagger-throw': 4,
+    'cripple': 1,
+    'shadow-walk': 1,
+    'sleight-of-hand': 1,
+    escape: 1,
     'enduring-evasion': 4,
     // monk
     'front-kick': 2,
@@ -42,7 +46,18 @@ const skillOffsetBumps = {
     incapacitate: 2,
     'cyclone-kick': 6,
     'weapon-of-choice': 6,
+    'dashing-strikes': 2,
+    // nature
+    'the-good-bloom': 3,
+    'stun-spores': 3,
+    'rage-spores': 1,
+    'sleep-spores': -1
 }
+
+// this will increase the length of the connecting line to span two tiers
+const skillTwoTierConnected = [
+    'shapeshift-dire-werewolf'
+]
 
 const getSkillOffsets = (skills) => {
     let lastTier = 0
@@ -312,7 +327,8 @@ export default function SkillTree({ id, title, wikiUrl }) {
                         relevantSkills
                     )}
                     replaces={getReplacesSkill(skill, relevantSkills)}
-                    isOnlyChild={skill.requires && !skill.exclusiveWith}
+                    isOnlyChild={skill.requires && !skill.exclusiveWith && !skillTwoTierConnected.includes(skill.id)}
+                    isOnlyChildTwoTier={skill.requires && !skill.exclusiveWith && skillTwoTierConnected.includes(skill.id)}
                     isLeftSibling={isLeftSibling}
                     isRightSibling={isRightSibling}
                 />
