@@ -39,6 +39,7 @@
     "Damage Received": false,
     "Healing Received": false,
     "Critical Hit Damage": false,
+    "Critical Hit Damage And Healing": false,
     "Critical Hit Chance": false,
     "Movement Points": false,
     "Dodge Chance": false,
