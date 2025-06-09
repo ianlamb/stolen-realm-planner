@@ -44,6 +44,7 @@ const initialState = {
         thief: getSkills('thief'),
         monk: getSkills('monk'),
         nature: getSkills('nature'),
+        chaos: getSkills('chaos'),
     },
 }
 

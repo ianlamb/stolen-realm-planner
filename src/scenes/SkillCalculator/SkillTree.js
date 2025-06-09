@@ -20,6 +20,7 @@ const SPACING_OFFSET = 16
 const SKILL_OFFSET = 64
 
 // this is a little hacky but it's how I'm spacing the skills out arbitrarily to match the game UI
+// a value of 6 would push the skill (and the skills beside it) over one full column away from the center line
 const skillOffsetBumps = {
     // warrior
     fracture: 4,
@@ -51,7 +52,9 @@ const skillOffsetBumps = {
     'the-good-bloom': 3,
     'stun-spores': 3,
     'rage-spores': 1,
-    'sleep-spores': -1
+    'sleep-spores': -1,
+    // chaos
+    'disperse': 6,
 }
 
 // this will increase the length of the connecting line to span two tiers

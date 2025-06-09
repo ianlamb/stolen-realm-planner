@@ -60,5 +60,12 @@
     "Dire Werewolf": false,
     "Werewolf": false,
     "Damage Reduction": false,
-    "Evasion": false
+    "Evasion": false,
+    "Enemy": false,
+    "Ally": false,
+    "Object": false,
+    "Helping": false,
+    "Hurting": false,
+    "Free Action": false,
+    "Action": false
 }

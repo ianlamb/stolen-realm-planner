@@ -1,5 +1,5 @@
-export const buildVersion = 'v1.1.3'
-export const lastUpdated = new Date('3/12/2024')
+export const buildVersion = 'v1.2.2'
+export const lastUpdated = new Date('6/6/2025')
 
 export const skillTrees = [
     {
@@ -52,6 +52,11 @@ export const skillTrees = [
         title: 'Nature',
         wikiUrl: 'https://stolen-realm.fandom.com/wiki/Nature_Skill_Tree',
     },
+    {
+        id: 'chaos',
+        title: 'Chaos',
+        wikiUrl: 'https://stolen-realm.fandom.com/wiki/Chaos_Skill_Tree',
+    },
 ]
 
 export const orderedSkillTrees = [
@@ -65,6 +70,7 @@ export const orderedSkillTrees = [
     'thief',
     'monk',
     'nature',
+    'chaos',
 ]
 
 export const attributeGUIDMap = {
