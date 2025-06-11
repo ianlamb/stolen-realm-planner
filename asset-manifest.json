@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/stolen-realm-planner/static/css/main.c356dba8.css",
-    "main.js": "/stolen-realm-planner/static/js/main.4e765f5a.js",
+    "main.css": "/stolen-realm-planner/static/css/main.33272315.css",
+    "main.js": "/stolen-realm-planner/static/js/main.33746020.js",
     "static/js/787.d1a03492.chunk.js": "/stolen-realm-planner/static/js/787.d1a03492.chunk.js",
-    "static/media/MinionPro-Regular.svg": "/stolen-realm-planner/static/media/MinionPro-Regular.06b86e6a427a235e45f2.svg",
-    "static/media/TrajanPro-Regular.svg": "/stolen-realm-planner/static/media/TrajanPro-Regular.21ea5e31f7da53a600fa.svg",
+    "static/media/MinionPro-Regular.svg": "/stolen-realm-planner/static/media/MinionPro-Regular.41b357a42c91d3782e85.svg",
+    "static/media/TrajanPro-Regular.svg": "/stolen-realm-planner/static/media/TrajanPro-Regular.5c3edf16ad6f49a96803.svg",
     "static/media/TrajanPro-Regular.eot": "/stolen-realm-planner/static/media/TrajanPro-Regular.0513d3fda20757553fe1.eot",
     "static/media/TrajanPro-Regular.ttf": "/stolen-realm-planner/static/media/TrajanPro-Regular.83c6ad61c19cf242bd11.ttf",
     "static/media/MinionPro-Regular.eot": "/stolen-realm-planner/static/media/MinionPro-Regular.73af58a059c47a019670.eot",
@@ -13,16 +13,16 @@
     "static/media/TrajanPro-Regular.woff": "/stolen-realm-planner/static/media/TrajanPro-Regular.ee9ab9e536221c586ded.woff",
     "static/media/MinionPro-Regular.woff2": "/stolen-realm-planner/static/media/MinionPro-Regular.79b95c874c8e38f62319.woff2",
     "static/media/TrajanPro-Regular.woff2": "/stolen-realm-planner/static/media/TrajanPro-Regular.3a2e2aaa791abf5d2897.woff2",
-    "static/media/discord.svg": "/stolen-realm-planner/static/media/discord.1a26ce2803e41078ad0e5d950af9d812.svg",
+    "static/media/discord.svg": "/stolen-realm-planner/static/media/discord.1a0c3dc4dcc0b742fb4cadd8fd118649.svg",
     "static/media/feedback.svg": "/stolen-realm-planner/static/media/feedback.5bbaed0a02068418718f065597cd4958.svg",
     "index.html": "/stolen-realm-planner/index.html",
     "static/media/lock.svg": "/stolen-realm-planner/static/media/lock.8e4bc334db2fa91b34d0e00941ca56cd.svg",
-    "main.c356dba8.css.map": "/stolen-realm-planner/static/css/main.c356dba8.css.map",
-    "main.4e765f5a.js.map": "/stolen-realm-planner/static/js/main.4e765f5a.js.map",
+    "main.33272315.css.map": "/stolen-realm-planner/static/css/main.33272315.css.map",
+    "main.33746020.js.map": "/stolen-realm-planner/static/js/main.33746020.js.map",
     "787.d1a03492.chunk.js.map": "/stolen-realm-planner/static/js/787.d1a03492.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c356dba8.css",
-    "static/js/main.4e765f5a.js"
+    "static/css/main.33272315.css",
+    "static/js/main.33746020.js"
   ]
 }
