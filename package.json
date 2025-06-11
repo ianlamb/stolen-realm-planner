@@ -19,7 +19,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "copy404": "@powershell copy build/index.html build/404.html",
+    "copy404windows": "@powershell copy build/index.html build/404.html",
+    "copy404": "cp build/index.html build/404.html",
     "predeploy": "npm run build && npm run copy404",
     "deploy": "gh-pages -d build",
     "sync-data": "node scripts/sync-sheet-data.js",
@@ -49,7 +50,7 @@
   "devDependencies": {
     "chalk": "^5.3.0",
     "cross-env": "^7.0.3",
-    "gh-pages": "^3.2.3",
+    "gh-pages": "^6.3.0",
     "node-fetch": "^3.3.1"
   }
 }

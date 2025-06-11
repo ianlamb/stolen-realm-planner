@@ -1,6 +1,9 @@
 # Mac
 .DS_Store
 
+# Yarn
+.yarn
+
 # Logs
 logs
 *.log
