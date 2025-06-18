@@ -145,7 +145,7 @@ function AppBar() {
             <Nav>
                 <NavItem
                     to={{
-                        pathname: 'skill-calculator',
+                        pathname: 'calc',
                         search: location.search,
                     }}
                 >
@@ -171,10 +171,12 @@ function AppBar() {
 }
 
 function AppContent() {
-    const { search } = useLocation()
+    const { search, pathname } = useLocation()
     const dispatch = useDispatch()
     const { modal } = useAppState()
     const theme = useTheme()
+
+    const newPath = `/calc${pathname.replace('/stolen-realm-planner', '').replace('/skill-calculator', '')}`;
 
     const modalStyles = {
         overlay: {
@@ -204,7 +206,7 @@ function AppContent() {
         <AppContentRoot>
             <Routes>
                 <Route
-                    path="skill-calculator"
+                    path="calc"
                     element={<SkillCalculator skillTrees={skillTrees} />}
                 >
                     {skillTrees.map((skillTree) => (
@@ -221,10 +223,26 @@ function AppContent() {
                 </Route>
                 <Route path="character" element={<CharacterScreen />} />
                 <Route
+                    path="/stolen-realm-planner/*"
+                    element={
+                        <Navigate
+                            to={{ pathname: newPath, search }} replace
+                        />
+                    }
+                />
+                <Route
+                    path="/skill-calculator/*"
+                    element={
+                        <Navigate
+                            to={{ pathname: newPath, search }} replace
+                        />
+                    }
+                />
+                <Route
                     path="/"
                     element={
                         <Navigate
-                            to={{ pathname: 'skill-calculator', search }}
+                            to={{ pathname: 'calc', search }} replace
                         />
                     }
                 />
