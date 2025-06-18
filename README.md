@@ -1,5 +1,6 @@
 # Stolen Realm Planner
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/42d17f03-305c-4494-9f5e-01131035ef5d/deploy-status)](https://app.netlify.com/projects/stolenrealm/deploys)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 Character Planner for the game Stolen Realm
