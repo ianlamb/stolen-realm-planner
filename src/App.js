@@ -176,7 +176,7 @@ function AppContent() {
     const { modal } = useAppState()
     const theme = useTheme()
 
-    const newPath = `/calc${pathname.replace('/skill-calculator', '')}`;
+    const newPath = `/calc${pathname.replace('/stolen-realm-planner', '').replace('/skill-calculator', '')}`;
 
     const modalStyles = {
         overlay: {
@@ -222,6 +222,14 @@ function AppContent() {
                     />
                 </Route>
                 <Route path="character" element={<CharacterScreen />} />
+                <Route
+                    path="/stolen-realm-planner/*"
+                    element={
+                        <Navigate
+                            to={{ pathname: newPath, search }} replace
+                        />
+                    }
+                />
                 <Route
                     path="/skill-calculator/*"
                     element={
