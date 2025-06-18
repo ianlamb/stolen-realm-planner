@@ -10,18 +10,18 @@ The first iteration will be a skill calculator that allows users to play with an
 
 ## TODO
 
--   improve tooltips and work on mobile/touch experience
+- improve tooltips and work on mobile/touch experience
 
 ## Future Ideas
 
--   include skills in damage calculations
--   flesh out character stats more
--   character save import
--   items & equipment
+- include skills in damage calculations
+- flesh out character stats more
+- character save import
+- items & equipment
 
 ## Develop
 
-Standard CRA... `npm install && npm start` should get your started (tested on Windows & Mac).
+`npm install && npm start` should get your started (tested on Windows & Mac).
 
 ## Sync Data
 
@@ -31,4 +31,6 @@ To sync the `skills.json` with new data from the sheet you can run `npm run sync
 
 ## Deploy
 
-`npm run deploy` will build the app and deploy to GitHub Pages.
+~~`npm run deploy` will build the app and deploy to GitHub Pages.~~
+
+Any changes to `main` branch will trigger a deploy Netlify.

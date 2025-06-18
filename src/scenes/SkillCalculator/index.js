@@ -221,7 +221,7 @@ const sanitizeLearnedSkills = (learnedSkills, skills, characterLevel) => {
 
 export const SkillTreeNavItem = ({ skillTree, pointsSpent }) => {
     const { search } = useLocation()
-    const isActive = useMatch(`/skill-calculator/${skillTree.id}`)
+    const isActive = useMatch(`/calc/${skillTree.id}`)
     const iconUrl = `skill-tree-icons/${skillTree.id}-min.png`
     return (
         <NavItem key={skillTree.id}>
