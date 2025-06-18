@@ -22,6 +22,7 @@
     "copy404windows": "@powershell copy build/index.html build/404.html",
     "copy404": "cp build/index.html build/404.html",
     "predeploy": "npm run build && npm run copy404",
+    "deploy-gh": "gh-pages -d gh-pages",
     "sync-data": "node scripts/sync-sheet-data.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
